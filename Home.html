@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawsHeart - Pet Rescue & Adoption</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🐾 PawsHeart</div>
+            <ul class="nav-links">   
+                <li><a onclick="showSection('home')">Home</a></li>
+                <li><a onclick="showSection('pets')">Adopt</a></li>
+                <li><a onclick="showSection('lost-found')">Lost & Found</a></li>
+                <li><a onclick="showSection('tips')">Pet Care</a></li>
+                <li><a onclick="showSection('pet-store')">Pet Store</a></li>
+                <li><a onclick="showSection('adoption-form')">Apply</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Find Your Perfect Companion</h1>
+            <p>Help us give stray animals a loving home. Every adoption saves a life and makes room for another rescue.</p>
+            <a href="#" class="cta-button" onclick="showSection('pets')">Start Adopting</a>
+        </div>
+    </section>
+    <section id="pets" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Available Pets</h2>
+            <p class="section-subtitle">Meet our wonderful animals looking for their forever homes</p>
+            
+            <div class="pets-grid" id="pets-container">
+            </div>
+        </div>
+    </section>
+
+    <section id="adoption-form" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Adoption Application</h2>
+            <p class="section-subtitle">Help us find the perfect match for you and your new pet</p>
+            
+            <div class="form-container">
+                <form id="adoptionForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                        <div class="error" id="fullNameError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error" id="emailError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                        <div class="error" id="phoneError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address *</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                        <div class="error" id="addressError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="petType">Preferred Pet Type</label>
+                        <select id="petType" name="petType">
+                            <option value="">Select a pet type</option>
+                            <option value="dog">Dog</option>
+                            <option value="cat">Cat</option>
+                            <option value="rabbit">Rabbit</option>
+                            <option value="bird">Bird</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Previous Pet Experience</label>
+                        <textarea id="experience" name="experience" rows="3" placeholder="Tell us about your experience with pets..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="housing">Housing Situation</label>
+                        <select id="housing" name="housing">
+                            <option value="">Select housing type</option>
+                            <option value="house">House</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="condo">Condo</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="cta-button" style="width: 100%;">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="lost-found" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Lost & Found Pets</h2>
+            <p class="section-subtitle">Help reunite pets with their families</p>
+            
+            <div class="lost-found-container">
+                <div class="lost-found-section">
+                    <h3>🔍 Report Lost Pet</h3>
+                    <form id="lostPetForm">
+                        <div class="form-group">
+                            <label>Pet Name</label>
+                            <input type="text" id="lostPetName" placeholder="Enter pet's name">
+                        </div>
+                        <div class="form-group">
+                            <label>Pet Type</label>
+                            <select id="lostPetType">
+                                <option value="">Select type</option>
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                                <option value="rabbit">Rabbit</option>
+                                <option value="bird">Bird</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Breed</label>
+                            <input type="text" id="lostPetBreed" placeholder="Enter breed">
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <input type="text" id="lostPetColor" placeholder="Primary color">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Seen Location</label>
+                            <input type="text" id="lostPetLocation" placeholder="Enter location">
+                        </div>
+                        <button type="submit" class="adopt-btn">Report Lost Pet</button>
+                    </form>
+                </div>
+                
+                <div class="lost-found-section">
+                    <h3>🏠 Report Found Pet</h3>
+                    <form id="foundPetForm">
+                        <div class="form-group">
+                            <label>Pet Type</label>
+                            <select id="foundPetType">
+                                <option value="">Select type</option>
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                                <option value="rabbit">Rabbit</option>
+                                <option value="bird">Bird</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Breed (if known)</label>
+                            <input type="text" id="foundPetBreed" placeholder="Enter breed">
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <input type="text" id="foundPetColor" placeholder="Primary color">
+                        </div>
+                        <div class="form-group">
+                            <label>Found Location</label>
+                            <input type="text" id="foundPetLocation" placeholder="Where found">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Contact</label>
+                            <input type="text" id="foundPetContact" placeholder="Phone or email">
+                        </div>
+                        <button type="submit" class="adopt-btn">Report Found Pet</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="matchResults" class="match-results hidden">
+                <h4>🎉 Potential Matches Found!</h4>
+                <div id="matchList"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tips" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Pet Care Tips</h2>
+            <p class="section-subtitle">Everything you need to know to keep your pet happy and healthy</p>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">🥗</div>
+                    <h3 class="tip-title">Proper Nutrition</h3>
+                    <p>Feed your pet high-quality food appropriate for their age, size, and activity level. Always provide fresh water and avoid feeding human food that could be harmful.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🦮</div>
+                    <h3 class="tip-title">Regular Exercise</h3>
+                    <p>Keep your pet active with daily walks, playtime, and mental stimulation. Exercise needs vary by species and breed, so research what's best for your companion.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🏥</div>
+                    <h3 class="tip-title">Healthcare</h3>
+                    <p>Schedule regular vet checkups, keep vaccinations current, and maintain dental hygiene. Early detection of health issues can save your pet's life.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🧼</div>
+                    <h3 class="tip-title">Grooming</h3>
+                    <p>Regular grooming keeps your pet comfortable and healthy. Brush their coat, trim nails, clean ears, and bathe as needed based on their breed.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🏠</div>
+                    <h3 class="tip-title">Safe Environment</h3>
+                    <p>Pet-proof your home by removing toxic plants, securing chemicals, and providing a comfortable space. Consider microchipping for identification.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">❤️</div>
+                    <h3 class="tip-title">Love & Attention</h3>
+                    <p>Spend quality time with your pet through play, training, and bonding activities. Socialization and affection are crucial for their emotional wellbeing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pet-store" class="hidden">
+        <div class="container">
+            <h2 class="section-title">Pet Store</h2>
+            <p class="section-subtitle">Everything your furry friend needs - with proceeds supporting our rescue mission</p>
+            
+            <div class="pets-grid" id="products-container">
+                <div class="pet-card">
+                    <div class="pet-image" style="background: linear-gradient(45deg, #fbbf24, #f59e0b);">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">🥫</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3 class="pet-name">Premium Dog Food</h3>
+                        <div class="pet-details">High-Quality Nutrition • All Ages</div>
+                        <p class="pet-description">Nutritionally balanced premium dog food made with real meat and wholesome ingredients. Perfect for maintaining your dog's health and energy.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.3rem; font-weight: bold; color: var(--primary-blue);">₹4599</span>
+                            <span style="color: var(--warm-gray);">15lb bag</span>
+                        </div>
+                        <button class="adopt-btn">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="pet-card">
+                    <div class="pet-image" style="background: linear-gradient(45deg, #ec4899, #f472b6);">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">🎾</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3 class="pet-name">Interactive Toy Set</h3>
+                        <div class="pet-details">Mental Stimulation • All Pets</div>
+                        <p class="pet-description">Keep your pets entertained and mentally stimulated with this collection of interactive toys including puzzle feeders and chew toys.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.3rem; font-weight: bold; color: var(--primary-blue);">₹2999</span>
+                            <span style="color: var(--warm-gray);">5-piece set</span>
+                        </div>
+                        <button class="adopt-btn">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="pet-card">
+                    <div class="pet-image" style="background: linear-gradient(45deg, #8b5cf6, #a78bfa);">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">🛏️</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3 class="pet-name">Cozy Pet Bed</h3>
+                        <div class="pet-details">Ultra Comfortable • Washable</div>
+                        <p class="pet-description">Luxuriously soft and supportive pet bed with memory foam. Machine washable cover and non-slip bottom for safety.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.3rem; font-weight: bold; color: var(--primary-blue);">₹7999</span>
+                            <span style="color: var(--warm-gray);">Large size</span>
+                        </div>
+                        <button class="adopt-btn">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="pet-card">
+                    <div class="pet-image" style="background: linear-gradient(45deg, #10b981, #34d399);">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">🧴</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3 class="pet-name">Grooming Kit</h3>
+                        <div class="pet-details">Professional Quality • Complete Set</div>
+                        <p class="pet-description">Complete grooming kit with brushes, nail clippers, shampoo, and dental care items. Everything you need for at-home pet care.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.3rem; font-weight: bold; color: var(--primary-blue);">₹5999</span>
+                            <span style="color: var(--warm-gray);">8-piece kit</span>
+                        </div>
+                        <button class="adopt-btn">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="pet-card">
+                    <div class="pet-image" style="background: linear-gradient(45deg, #f59e0b, #fbbf24);">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">🦴</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3 class="pet-name">Natural Treats</h3>
+                        <div class="pet-details">Healthy & Delicious • Training Rewards</div>
+                        <p class="pet-description">All-natural, grain-free treats perfect for training or just showing your pet some love. Made with real ingredients your pet will crave.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.3rem; font-weight: bold; color: var(--primary-blue);">₹1999</span>
+                            <span style="color: var(--warm-gray);">2lb bag</span>
+                        </div>
+                        <button class="adopt-btn">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="pet-card">
+                    <div class="pet-image" style="background: linear-gradient(45deg, #06b6d4, #67e8f9);">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">🏥</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3 class="pet-name">Health Care Kit</h3>
+                        <div class="pet-details">Essential Supplies • Emergency Ready</div>
+                        <p class="pet-description">Be prepared for minor injuries and health monitoring with this comprehensive first aid and health care kit for pets.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span style="font-size: 1.3rem; font-weight: bold; color: var(--primary-blue);">₹3999</span>
+                            <span style="color: var(--warm-gray);">Complete kit</span>
+                        </div>
+                        <button class="adopt-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; background: var(--light-blue); padding: 2rem; border-radius: 20px;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 1rem;">💝 Your Purchase Helps Save Lives</h3>
+                <p style="color: var(--warm-gray); font-size: 1.1rem;">100% of profits from our pet store go directly to supporting our rescue operations, medical care for rescued animals, and finding them loving homes. Thank you for making a difference!</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>📧 info@pawsheart.org</p>
+                    <p>📞 (555) 123-PAWS</p>
+                    <p>📍 123 Rescue Lane, Pet City, PC 12345</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <p>Stay updated on our latest rescues and success stories</p>
+                    <p>🐕 @PawsHeartRescue</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Volunteer</h4>
+                    <p>Join our mission to save more lives</p>
+                    <p>Help with fostering, events, and more!</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Pet Store</h4>
+                    <p>🛒 Quality pet supplies & accessories</p>
+                    <p>🎾 Toys, food, beds & healthcare items</p>
+                    <p><a href="#" onclick="showSection('pet-store')" style="color: var(--accent-orange); text-decoration: none;">Shop Now →</a></p>
+                </div>
+            </div>
+            <p>&copy; 2025 PawsHeart Pet Rescue. Made with ❤️ for our furry friends.</p>
+        </div>
+    </footer>
+<script>
+
+const pets = [
+    {
+        id: 1,
+        name: "Buddy",
+        type: "dog",
+        breed: "Golden Retriever",
+        age: "3 years",
+        color: "Golden",
+        description: "Buddy is a friendly and energetic dog who loves playing fetch and going for long walks. He's great with children and other pets.",
+        emoji: "🐕"
+    },
+    {
+        id: 2,
+        name: "Luna",
+        type: "cat",
+        breed: "Siamese",
+        age: "2 years",
+        color: "White/Brown",
+        description: "Luna is an elegant and affectionate cat. She enjoys sunny windowsills and gentle head scratches. Perfect for a quiet home.",
+        emoji: "🐱"
+    },
+    {
+        id: 3,
+        name: "Max",
+        type: "dog",
+        breed: "Labrador Mix",
+        age: "5 years",
+        color: "Black",
+        description: "Max is a calm and loyal companion. He's house-trained, knows basic commands, and would make an excellent family dog.",
+        emoji: "🐕‍🦺"
+    },
+    {
+        id: 4,
+        name: "Whiskers",
+        type: "cat",
+        breed: "Persian",
+        age: "1 year",
+        color: "Gray",
+        description: "Whiskers is a playful kitten with a fluffy coat. She loves toys, climbing cat trees, and cuddling in warm spots.",
+        emoji: "🐈"
+    },
+    {
+        id: 5,
+        name: "Rocky",
+        type: "dog",
+        breed: "German Shepherd",
+        age: "4 years",
+        color: "Brown/Black",
+        description: "Rocky is intelligent and protective. He needs an experienced owner and would do best in a home without small children.",
+        emoji: "🐕"
+    },
+    {
+        id: 6,
+        name: "Mittens",
+        type: "cat",
+        breed: "Tabby",
+        age: "6 years",
+        color: "Orange",
+        description: "Mittens is a senior cat looking for a peaceful retirement home. She's gentle, quiet, and loves long naps in the sun.",
+        emoji: "🧡"
+    }
+];
+
+let lostPets = [];
+let foundPets = [];
+
+let shoppingCart = [];
+
+function showSection(sectionId) {
+    const sections = ['home', 'pets', 'adoption-form', 'lost-found', 'tips', 'pet-store'];
+    sections.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (id === sectionId) {
+                element.classList.remove('hidden');
+                if (id === 'pets') {
+                    displayPets();
+                }
+            } else {
+                element.classList.add('hidden');
+            }
+        }
+    });
+}
+
+function displayPets() {
+    const container = document.getElementById('pets-container');
+    container.innerHTML = '';
+    
+    pets.forEach(pet => {
+        const petCard = document.createElement('div');
+        petCard.className = 'pet-card';
+        petCard.innerHTML = `
+            <div class="pet-image" style="position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">${pet.emoji}</div>
+            </div>
+            <div class="pet-info">
+                <h3 class="pet-name">${pet.name}</h3>
+                <div class="pet-details">${pet.breed} • ${pet.age} • ${pet.color}</div>
+                <p class="pet-description">${pet.description}</p>
+                <button class="adopt-btn" onclick="selectPetForAdoption('${pet.name}')">Adopt ${pet.name}</button>
+            </div>
+        `;
+        container.appendChild(petCard);
+    });
+}
+
+function selectPetForAdoption(petName) {
+    showSection('adoption-form');
+    const petTypeField = document.getElementById('petType');
+    const selectedPet = pets.find(pet => pet.name === petName);
+    if (petTypeField && selectedPet) {
+        petTypeField.value = selectedPet.type;
+    }
+    setTimeout(() => {
+        alert(`You've selected ${petName} for adoption! Please fill out the form below.`);
+    }, 100);
+}
+
+function validateForm() {
+    let isValid = true;
+    const fields = ['fullName', 'email', 'phone', 'address'];
+    
+    fields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        const error = document.getElementById(fieldId + 'Error');
+        
+        if (!field.value.trim()) {
+            error.textContent = 'This field is required';
+            isValid = false;
+        } else {
+            error.textContent = '';
+            if (fieldId === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(field.value)) {
+                    error.textContent = 'Please enter a valid email address';
+                    isValid = false;
+                }
+            }
+            if (fieldId === 'phone') {
+                const phoneRegex = /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+                if (!phoneRegex.test(field.value)) {
+                    error.textContent = 'Please enter a valid phone number';
+                    isValid = false;
+                }
+            }
+        }
+    });
+    
+    return isValid;
+}
+function findMatches(newPet, searchArray) {
+    return searchArray.filter(pet => {
+        const typeMatch = pet.type.toLowerCase() === newPet.type.toLowerCase();
+        const breedMatch = pet.breed && newPet.breed && 
+            (pet.breed.toLowerCase().includes(newPet.breed.toLowerCase()) ||
+            newPet.breed.toLowerCase().includes(pet.breed.toLowerCase()));
+        const colorMatch = pet.color && newPet.color &&
+            (pet.color.toLowerCase().includes(newPet.color.toLowerCase()) ||
+            newPet.color.toLowerCase().includes(pet.color.toLowerCase()));
+        
+        return typeMatch && (breedMatch || colorMatch);
+    });
+}
+
+function displayMatches(matches, type) {
+    const matchResults = document.getElementById('matchResults');
+    const matchList = document.getElementById('matchList');
+    
+    if (matches.length > 0) {
+        matchResults.classList.remove('hidden');
+        matchList.innerHTML = matches.map(match => `
+            <div style="background: white; padding: 1rem; margin: 1rem 0; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <strong>${type === 'lost' ? 'Found' : 'Lost'} Pet Match:</strong><br>
+                <strong>Type:</strong> ${match.type}<br>
+                <strong>Breed:</strong> ${match.breed || 'Unknown'}<br>
+                <strong>Color:</strong> ${match.color}<br>
+                <strong>Location:</strong> ${match.location}<br>
+                ${match.contact ? `<strong>Contact:</strong> ${match.contact}<br>` : ''}
+                ${match.name ? `<strong>Name:</strong> ${match.name}<br>` : ''}
+                <button onclick="contactMatch('${match.id}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--primary-blue); color: white; border: none; border-radius: 5px; cursor: pointer;">Contact</button>
+            </div>
+        `).join('');
+    } else {
+        matchResults.classList.add('hidden');
+    }
+}
+
+function contactMatch(matchId) {
+    alert('Contact functionality would connect you with the person who reported this pet. In a real application, this would send an email or provide contact details.');
+}
+function addToCart(productName, price) {
+    const existingItem = shoppingCart.find(item => item.name === productName);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        shoppingCart.push({
+            name: productName,
+            price: price,
+            quantity: 1
+        });
+    }
+    
+    updateCartDisplay();
+    showCartNotification(productName);
+}
+
+function updateCartDisplay() {
+    const cartCount = shoppingCart.reduce((total, item) => total + item.quantity, 0);
+    console.log(`Cart has ${cartCount} items`);
+}
+
+function showCartNotification(productName) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success-green);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = `${productName} added to cart!`;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const adoptionForm = document.getElementById('adoptionForm');
+    if (adoptionForm) {
+        adoptionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                alert('Thank you for your adoption application! We will review it and contact you within 2-3 business days.');
+                adoptionForm.reset();
+                const errors = document.querySelectorAll('.error');
+                errors.forEach(error => error.textContent = '');
+            }
+        });
+    }
+    const lostPetForm = document.getElementById('lostPetForm');
+    if (lostPetForm) {
+        lostPetForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const lostPet = {
+                id: Date.now(),
+                name: document.getElementById('lostPetName').value,
+                type: document.getElementById('lostPetType').value,
+                breed: document.getElementById('lostPetBreed').value,
+                color: document.getElementById('lostPetColor').value,
+                location: document.getElementById('lostPetLocation').value
+            };
+            
+            if (lostPet.type && lostPet.color && lostPet.location) {
+                lostPets.push(lostPet);
+                const matches = findMatches(lostPet, foundPets);
+                displayMatches(matches, 'lost');
+                
+                alert('Your lost pet report has been submitted. We will notify you if any matches are found.');
+                lostPetForm.reset();
+            } else {
+                alert('Please fill in at least the pet type, color, and last seen location.');
+            }
+        });
+    }
+    const foundPetForm = document.getElementById('foundPetForm');
+    if (foundPetForm) {
+        foundPetForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const foundPet = {
+                id: Date.now(),
+                type: document.getElementById('foundPetType').value,
+                breed: document.getElementById('foundPetBreed').value,
+                color: document.getElementById('foundPetColor').value,
+                location: document.getElementById('foundPetLocation').value,
+                contact: document.getElementById('foundPetContact').value
+            };
+            
+            if (foundPet.type && foundPet.color && foundPet.location && foundPet.contact) {
+                foundPets.push(foundPet);
+                const matches = findMatches(foundPet, lostPets);
+                displayMatches(matches, 'found');
+                
+                alert('Your found pet report has been submitted. Thank you for helping reunite pets with their families!');
+                foundPetForm.reset();
+            } else {
+                alert('Please fill in all required fields including your contact information.');
+            }
+        });
+    }
+    const addToCartButtons = document.querySelectorAll('.adopt-btn');
+    addToCartButtons.forEach(button => {
+        if (button.textContent === 'Add to Cart') {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const petCard = this.closest('.pet-card');
+                const productName = petCard.querySelector('.pet-name').textContent;
+                const priceText = petCard.querySelector('span[style*="font-weight: bold"]');
+                const price = priceText ? parseFloat(priceText.textContent.replace('$', '')) : 0;
+                
+                addToCart(productName, price);
+            });
+        }
+    });
+});
+function smoothScroll(target) {
+    const element = document.getElementById(target);
+    if (element) {
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+function searchPets(query) {
+    const filteredPets = pets.filter(pet => 
+        pet.name.toLowerCase().includes(query.toLowerCase()) ||
+        pet.breed.toLowerCase().includes(query.toLowerCase()) ||
+        pet.type.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    displayFilteredPets(filteredPets);
+}
+
+function displayFilteredPets(filteredPets) {
+    const container = document.getElementById('pets-container');
+    container.innerHTML = '';
+    
+    if (filteredPets.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--warm-gray); font-size: 1.2rem;">No pets found matching your search.</p>';
+        return;
+    }
+    
+    filteredPets.forEach(pet => {
+        const petCard = document.createElement('div');
+        petCard.className = 'pet-card';
+        petCard.innerHTML = `
+            <div class="pet-image" style="position: relative;">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem;">${pet.emoji}</div>
+            </div>
+            <div class="pet-info">
+                <h3 class="pet-name">${pet.name}</h3>
+                <div class="pet-details">${pet.breed} • ${pet.age} • ${pet.color}</div>
+                <p class="pet-description">${pet.description}</p>
+                <button class="adopt-btn" onclick="selectPetForAdoption('${pet.name}')">Adopt ${pet.name}</button>
+            </div>
+        `;
+        container.appendChild(petCard);
+    });
+}
+function formatPhoneNumber(phone) {
+    const cleaned = phone.replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+    }
+    return phone;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    showSection('home');
+    setTimeout(() => {
+        lostPets.push({
+            id: 1,
+            name: "Charlie",
+            type: "dog",
+            breed: "Beagle",
+            color: "Brown and White",
+            location: "Downtown Park"
+        });
+        foundPets.push({
+            id: 1,
+            type: "cat",
+            breed: "Tabby",
+            color: "Orange",
+            location: "Main Street",
+            contact: "(555) 123-4567"
+        });
+    }, 1000);
+});
+
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('mobile-active');
+}
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+   
+</body>
+</html>

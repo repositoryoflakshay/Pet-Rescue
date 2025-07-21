@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawsHeart - Shopping Cart</title>
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🐾 PawsHeart</div>
+            <ul class="nav-links">   
+                <li><a onclick="goHome()">Home</a></li>
+                <li><a onclick="goToPetStore()">Pet Store</a></li>
+                <li><a onclick="goToAdopt()">Adopt</a></li>
+                <li><a onclick="goToLostFound()">Lost & Found</a></li>
+                <li><a onclick="goToTips()">Pet Care</a></li>
+            </ul>
+            <div class="cart-icon" onclick="refreshCart()">
+                🛒
+                <span class="cart-badge" id="cartBadge">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 class="section-title">Shopping Cart</h1>
+            <p class="section-subtitle">Review your items and proceed to checkout</p>
+
+            <div class="cart-container">
+                <div class="cart-header">
+                    <h3 id="cartTitle">Your Cart (0 items)</h3>
+                    <button class="clear-cart-btn" onclick="clearCart()" id="clearCartBtn" style="display: none;">
+                        🗑️ Clear Cart
+                    </button>
+                </div>
+
+                <div id="cartContent">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Loading your cart...
+                    </div>
+                </div>
+
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span id="shipping">Free</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span id="tax">₹0</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span id="total">₹0</span>
+                    </div>
+                </div>
+
+                <div class="checkout-section" id="checkoutSection" style="display: none;">
+                    <button class="checkout-btn" onclick="proceedToCheckout()">
+                        🛒 Proceed to Checkout
+                    </button>
+                    <a href="Home.html"> <button class="continue-shopping-btn" onclick="goToPetStore() ">
+                        ← Continue Shopping
+                    </button></a>
+                </div>
+
+                <div class="donation-notice">
+                    <h4>💝 Your Purchase Makes a Difference</h4>
+                    <p>100% of profits from your purchase go directly to supporting our rescue operations and helping more animals find loving homes!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sample products data (in a real app, this would come from your main site)
+        const products = [
+            {
+                id: 1,
+                name: "Premium Dog Food",
+                price: 4599,
+                description: "High-Quality Nutrition • All Ages",
+                emoji: "🥫",
+                gradient: "linear-gradient(45deg, #fbbf24, #f59e0b)"
+            },
+            {
+                id: 2,
+                name: "Interactive Toy Set",
+                price: 2999,
+                description: "Mental Stimulation • All Pets",
+                emoji: "🎾",
+                gradient: "linear-gradient(45deg, #ec4899, #f472b6)"
+            },
+            {
+                id: 3,
+                name: "Cozy Pet Bed",
+                price: 7999,
+                description: "Ultra Comfortable • Washable",
+                emoji: "🛏️",
+                gradient: "linear-gradient(45deg, #8b5cf6, #a78bfa)"
+            },
+            {
+                id: 4,
+                name: "Grooming Kit",
+                price: 5999,
+                description: "Professional Quality • Complete Set",
+                emoji: "🧴",
+                gradient: "linear-gradient(45deg, #10b981, #34d399)"
+            },
+            {
+                id: 5,
+                name: "Natural Treats",
+                price: 1999,
+                description: "Healthy & Delicious • Training Rewards",
+                emoji: "🦴",
+                gradient: "linear-gradient(45deg, #f59e0b, #fbbf24)"
+            },
+            {
+                id: 6,
+                name: "Health Care Kit",
+                price: 3999,
+                description: "Essential Supplies • Emergency Ready",
+                emoji: "🏥",
+                gradient: "linear-gradient(45deg, #06b6d4, #67e8f9)"
+            }
+        ];
+
+        let cart = [];
+
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading some items (in real app, this would load from localStorage or API)
+            setTimeout(() => {
+                // Add some sample items to cart for demonstration
+                addSampleItems();
+                renderCart();
+            }, 1500);
+        });
+
+        function addSampleItems() {
+            // Add some sample items for demonstration
+            cart = [
+                { productId: 1, quantity: 2 },
+                { productId: 3, quantity: 1 },
+                { productId: 5, quantity: 3 }
+            ];
+        }
+
+        function renderCart() {
+            const cartContent = document.getElementById('cartContent');
+            const cartTitle = document.getElementById('cartTitle');
+            const clearCartBtn = document.getElementById('clearCartBtn');
+            const cartSummary = document.getElementById('cartSummary');
+            const checkoutSection = document.getElementById('checkoutSection');
+
+            if (cart.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Your cart is empty</h3>
+                        <p>Looks like you haven't added any items to your cart yet.</p>
+                        <button class="continue-shopping-btn" onclick="goToPetStore()" style="margin-top: 1rem;">
+                            Start Shopping
+                        </button>
+                    </div>
+                `;
+                cartTitle.textContent = 'Your Cart (0 items)';
+                clearCartBtn.style.display = 'none';
+                cartSummary.style.display = 'none';
+                checkoutSection.style.display = 'none';
+            } else {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartTitle.textContent = `Your Cart (${totalItems} item${totalItems !== 1 ? 's' : ''})`;
+                clearCartBtn.style.display = 'block';
+
+                cartContent.innerHTML = `
+                    <div class="cart-items">
+                        ${cart.map(item => {
+                            const product = products.find(p => p.id === item.productId);
+                            return `
+                                <div class="cart-item">
+                                    <div class="item-image" style="background: ${product.gradient}">
+                                        ${product.emoji}
+                                    </div>
+                                    <div class="item-details">
+                                        <div class="item-name">${product.name}</div>
+                                        <div class="item-description">${product.description}</div>
+                                    </div>
+                                    <div class="item-price">₹${product.price.toLocaleString()}</div>
+                                    <div class="quantity-controls">
+                                        <button class="qty-btn" onclick="updateQuantity(${item.productId}, ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+                                        <div class="qty-display">${item.quantity}</div>
+                                        <button class="qty-btn" onclick="updateQuantity(${item.productId}, ${item.quantity + 1})">+</button>
+                                    </div>
+                                    <button class="remove-btn" onclick="removeItem(${item.productId})">🗑️</button>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+
+                calculateAndDisplaySummary();
+                cartSummary.style.display = 'block';
+                checkoutSection.style.display = 'block';
+            }
+
+            updateCartBadge();
+        }
+
+        function updateQuantity(productId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeItem(productId);
+                return;
+            }
+
+            const cartItem = cart.find(item => item.productId === productId);
+            if (cartItem) {
+                cartItem.quantity = newQuantity;
+                renderCart();
+                showNotification('Quantity updated!');
+            }
+        }
+
+        function removeItem(productId) {
+            cart = cart.filter(item => item.productId !== productId);
+            renderCart();
+            showNotification('Item removed from cart');
+        }
+
+        function clearCart() {
+            if (confirm('Are you sure you want to clear your entire cart?')) {
+                cart = [];
+                renderCart();
+                showNotification('Cart cleared');
+            }
+        }
+
+        function calculateAndDisplaySummary() {
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.productId);
+                subtotal += product.price * item.quantity;
+            });
+
+            const tax = Math.round(subtotal * 0.18); // 18% GST
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('tax').textContent = `₹${tax.toLocaleString()}`;
+            document.getElementById('total').textContent = `₹${total.toLocaleString()}`;
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = totalItems;
+        }
+
+        function proceedToCheckout() {
+            // In a real application, this would redirect to a checkout page
+            alert('🎉 Thank you for your purchase! In a real application, this would redirect you to our secure checkout process. Your contribution helps save more animal lives!');
+            
+            // Clear cart after "purchase"
+            cart = [];
+            renderCart();
+            showNotification('Thank you for your purchase!');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function refreshCart() {
+            renderCart();
+            showNotification('Cart refreshed!');
+        }
+
+        // Navigation functions (these would typically redirect to other pages)
+        function goHome() {
+            alert('Redirecting to Home page...');
+        }
+
+        function goToPetStore() {
+            alert('Redirecting to Pet Store...');
+            
+        }
+
+        function goToAdopt() {
+            alert('Redirecting to Pet Adoption page...');
+        }
+
+        function goToLostFound() {
+            alert('Redirecting to Lost & Found page...');
+        }
+
+        function goToTips() {
+            alert('Redirecting to Pet Care Tips...');
+        }
+
+        // Add item to cart function (would be called from pet store page)
+        function addToCart(productId, quantity = 1) {
+            const existingItem = cart.find(item => item.productId === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ productId, quantity });
+            }
+            
+            renderCart();
+            const product = products.find(p => p.id === productId);
+            showNotification(`${product.name} added to cart!`);
+        }
+    </script>
+</body>
+</html>
