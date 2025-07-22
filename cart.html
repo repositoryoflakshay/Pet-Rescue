@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PawsHeart - Shopping Cart</title>
     <link rel="stylesheet" href="cart.css">
 </head>
+
 <body>
     <header>
         <nav class="container">
             <div class="logo">🐾 PawsHeart</div>
-            <ul class="nav-links">   
+            <ul class="nav-links">
                 <li><a onclick="goHome()">Home</a></li>
                 <li><a onclick="goToPetStore()">Pet Store</a></li>
                 <li><a onclick="goToAdopt()">Adopt</a></li>
@@ -68,13 +70,14 @@
                         🛒 Proceed to Checkout
                     </button>
                     <a href="Home.html"> <button class="continue-shopping-btn" onclick="goToPetStore() ">
-                        ← Continue Shopping
-                    </button></a>
+                            ← Continue Shopping
+                                   </button></a>
                 </div>
 
                 <div class="donation-notice">
                     <h4>💝 Your Purchase Makes a Difference</h4>
-                    <p>100% of profits from your purchase go directly to supporting our rescue operations and helping more animals find loving homes!</p>
+                    <p>100% of profits from your purchase go directly to supporting our rescue operations and helping
+                        more animals find loving homes!</p>
                 </div>
             </div>
         </div>
@@ -136,7 +139,7 @@
         let cart = [];
 
         // Initialize cart on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Simulate loading some items (in real app, this would load from localStorage or API)
             setTimeout(() => {
                 // Add some sample items to cart for demonstration
@@ -184,8 +187,8 @@
                 cartContent.innerHTML = `
                     <div class="cart-items">
                         ${cart.map(item => {
-                            const product = products.find(p => p.id === item.productId);
-                            return `
+                    const product = products.find(p => p.id === item.productId);
+                    return `
                                 <div class="cart-item">
                                     <div class="item-image" style="background: ${product.gradient}">
                                         ${product.emoji}
@@ -203,7 +206,7 @@
                                     <button class="remove-btn" onclick="removeItem(${item.productId})">🗑️</button>
                                 </div>
                             `;
-                        }).join('')}
+                }).join('')}
                     </div>
                 `;
 
@@ -245,7 +248,7 @@
 
         function calculateAndDisplaySummary() {
             let subtotal = 0;
-            
+
             cart.forEach(item => {
                 const product = products.find(p => p.id === item.productId);
                 subtotal += product.price * item.quantity;
@@ -267,7 +270,7 @@
         function proceedToCheckout() {
             // In a real application, this would redirect to a checkout page
             alert('🎉 Thank you for your purchase! In a real application, this would redirect you to our secure checkout process. Your contribution helps save more animal lives!');
-            
+
             // Clear cart after "purchase"
             cart = [];
             renderCart();
@@ -278,12 +281,12 @@
             const notification = document.createElement('div');
             notification.className = 'notification';
             notification.textContent = message;
-            
+
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.remove();
-            }, 3000);
+            }, 1500);
         }
 
         function refreshCart() {
@@ -298,7 +301,7 @@
 
         function goToPetStore() {
             alert('Redirecting to Pet Store...');
-            
+
         }
 
         function goToAdopt() {
@@ -316,17 +319,18 @@
         // Add item to cart function (would be called from pet store page)
         function addToCart(productId, quantity = 1) {
             const existingItem = cart.find(item => item.productId === productId);
-            
+
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
                 cart.push({ productId, quantity });
             }
-            
+
             renderCart();
             const product = products.find(p => p.id === productId);
             showNotification(`${product.name} added to cart!`);
         }
     </script>
 </body>
+
 </html>
