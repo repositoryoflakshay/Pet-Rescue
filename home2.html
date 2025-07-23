@@ -385,8 +385,7 @@
     </div>
   
     <div class="bottom">
-      💝 Your Purchase Helps Save Lives<br>
-      100% of profits from our pet store go directly to supporting our rescue operations, medical care for rescued animals, and finding them loving homes. Thank you for making a difference!<br><br>
+    <br><br>
       © 2025 PawsHeart Pet Rescue. Made with ❤️.
     </div>
   </footer>
@@ -401,7 +400,6 @@
   
         const email = emailInput.value.trim();
   
-        // Basic email validation
         if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
           showAlert("❗Oops!", "Please enter a valid email address.", "warning");
           return;
@@ -426,7 +424,6 @@
       });
   
       function showAlert(title, message, type) {
-        // For now using browser alert (you can integrate SweetAlert2 for fancy modals)
         alert(`${title}\n\n${message}`);
       }
   

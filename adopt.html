@@ -1,405 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PawsHeart - Adopt</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
 
-      body {
-        font-family: "Poppins", sans-serif;
-        /* background: linear-gradient(to right, #e0f7fa, #e8f5e9); */
-        background-image: linear-gradient(
-          179.1deg,
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PawsHeart - Adopt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      /* background: linear-gradient(to right, #e0f7fa, #e8f5e9); */
+      background-image: linear-gradient(179.1deg,
           rgba(255, 250, 172, 1) 10.3%,
-          rgb(216, 238, 20) 148%
-        );
-        color: #333;
-      }
+          rgb(216, 238, 20) 148%);
+      color: #333;
+    }
 
-      nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 40px;
-        background-color: white;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-      }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-      .logo {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #6a1b9a;
-      }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #6a1b9a;
+    }
 
-      nav ul {
-        display: flex;
-        list-style: none;
-        gap: 30px;
-      }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
 
-      nav ul li a {
-        text-decoration: none;
-        color: #444;
-        font-weight: 500;
-        transition: color 0.3s;
-      }
+    nav ul li a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
 
-      nav ul li a:hover {
-        color: #6a1b9a;
-      }
+    nav ul li a:hover {
+      color: #6a1b9a;
+    }
 
-      section#adopt-section {
-        padding: 50px 20px;
-        text-align: center;
-      }
+    section#adopt-section {
+      padding: 50px 20px;
+      text-align: center;
+    }
 
-      section#adopt-section h2 {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-      }
+    section#adopt-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
 
-      section#adopt-section p {
-        font-size: 1.1rem;
-        margin-bottom: 40px;
-        color: #555;
-      }
+    section#adopt-section p {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      color: #555;
+    }
 
-      .pet-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        max-width: 1200px;
-        margin: auto;
-      }
+    .pet-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-      .pet-card {
-        background: white;
-        padding: 25px;
-        border-radius: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s ease;
-      }
+    .pet-card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
 
-      .pet-card:hover {
-        transform: translateY(-8px);
-      }
+    .pet-card:hover {
+      transform: translateY(-8px);
+    }
 
-      .pet-card div {
-        font-size: 3rem;
-        margin-bottom: 10px;
-      }
+    .pet-card div {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
 
-      .pet-card h3 {
-        font-size: 1.3rem;
-        margin-bottom: 8px;
-      }
+    .pet-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
 
-      .pet-card p {
-        font-size: 0.95rem;
-        color: #666;
-        margin-bottom: 15px;
-      }
+    .pet-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
 
-      .pet-card button {
-        background-color: #2962ff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-weight: bold;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
+    .pet-card button {
+      background-color: #2962ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-      .pet-card button:hover {
-        background-color: #0039cb;
-      }
-    </style>
-  </head>
+    .pet-card button:hover {
+      background-color: #0039cb;
+    }
+  </style>
+</head>
 
-  <body>
-    <nav>
-      <div class="logo">🐾 PawsHeart</div>
-      <ul>
-        <li><a href="home2.html">Home</a></li>
-        <li><a href="lost.html">Lost & Found</a></li>
-        <li><a href="#">Pet Care</a></li>
-        <li><a href="store.html">Pet Store</a></li>
-        <li><a href="apply.html">Apply</a></li>
-      </ul>
+<body>
+  <nav>
+    <div class="logo">🐾 PawsHeart</div>
+    <ul>
+      <li><a href="home2.html">Home</a></li>
+      <li><a href="lost.html">Lost & Found</a></li>
+      <li><a href="#">Pet Care</a></li>
+      <li><a href="store.html">Pet Store</a></li>
+      <li><a href="apply.html">Apply</a></li>
+    </ul>
 
-      <div
-        id="navbar-counter"
-        style="
+    <div id="navbar-counter" style="
           margin-left: 20px;
           font-size: 0.95rem;
           color: #6a1b9a;
           font-weight: bold;
-        "
-      >
-        🐾 Loading...
+        ">
+      🐾 Loading...
+    </div>
+  </nav>
+
+  <section id="adopt-section">
+    <h2>Available Pets</h2>
+    <p>Meet our wonderful animals looking for their forever homes</p>
+
+    <div class="pet-cards">
+      <div class="pet-card">
+        <div>🐕</div>
+        <h3>Buddy</h3>
+        <p><strong>Golden Retriever • 3 years • Golden</strong></p>
+        <p>
+          Friendly and energetic dog who loves playing fetch and long walks.
+        </p>
+        <button onclick="adoptPet('Buddy')">Adopt Buddy</button>
       </div>
-    </nav>
 
-    <section id="adopt-section">
-      <h2>Available Pets</h2>
-      <p>Meet our wonderful animals looking for their forever homes</p>
-
-      <div class="pet-cards">
-        <div class="pet-card">
-          <div>🐕</div>
-          <h3>Buddy</h3>
-          <p><strong>Golden Retriever • 3 years • Golden</strong></p>
-          <p>
-            Friendly and energetic dog who loves playing fetch and long walks.
-          </p>
-          <button onclick="adoptPet('Buddy')">Adopt Buddy</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐱</div>
-          <h3>Luna</h3>
-          <p><strong>Siamese • 2 years • White/Brown</strong></p>
-          <p>Elegant and affectionate cat who loves head scratches.</p>
-          <button onclick="adoptPet('Luna')">Adopt Luna</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐩</div>
-          <h3>Max</h3>
-          <p><strong>Labrador Mix • 5 years • Black</strong></p>
-          <p>Calm, loyal, and house-trained. Great for families.</p>
-          <button onclick="adoptPet('Max')">Adopt Max</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐶</div>
-          <h3>Bella</h3>
-          <p><strong>Beagle • 4 years • Tricolor</strong></p>
-          <p>Playful and loves to sniff around. Great with kids.</p>
-          <button onclick="adoptPet('Bella')">Adopt Bella</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐕‍🦺</div>
-          <h3>Rocky</h3>
-          <p><strong>German Shepherd • 3 years • Black/Tan</strong></p>
-          <p>Loyal and intelligent. Trained for obedience.</p>
-          <button onclick="adoptPet('Rocky')">Adopt Rocky</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐈</div>
-          <h3>Milo</h3>
-          <p><strong>Tabby • 1.5 years • Orange</strong></p>
-          <p>Curious and cuddly. Loves attention and naps.</p>
-          <button onclick="adoptPet('Milo')">Adopt Milo</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐕</div>
-          <h3>Charlie</h3>
-          <p><strong>Shih Tzu • 2 years • White</strong></p>
-          <p>Friendly lap dog, great for small homes.</p>
-          <button onclick="adoptPet('Charlie')">Adopt Charlie</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐈‍⬛</div>
-          <h3>Shadow</h3>
-          <p><strong>Persian • 3 years • Black</strong></p>
-          <p>Quiet and majestic. Prefers peaceful environments.</p>
-          <button onclick="adoptPet('Shadow')">Adopt Shadow</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐶</div>
-          <h3>Cooper</h3>
-          <p><strong>Husky • 4 years • Gray/White</strong></p>
-          <p>Energetic and talkative. Needs space to run.</p>
-          <button onclick="adoptPet('Cooper')">Adopt Cooper</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐱</div>
-          <h3>Cleo</h3>
-          <p><strong>Ragdoll • 1 year • Cream</strong></p>
-          <p>Sweet and social. Loves to be around people.</p>
-          <button onclick="adoptPet('Cleo')">Adopt Cleo</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐶</div>
-          <h3>Oscar</h3>
-          <p><strong>Boxer • 2.5 years • Brown</strong></p>
-          <p>Playful and strong. Needs regular exercise.</p>
-          <button onclick="adoptPet('Oscar')">Adopt Oscar</button>
-        </div>
-
-        <div class="pet-card">
-          <div>🐱</div>
-          <h3>Misty</h3>
-          <p><strong>British Shorthair • 2 years • Gray</strong></p>
-          <p>Chubby cheeks, low-maintenance, affectionate cat.</p>
-          <button onclick="adoptPet('Misty')">Adopt Misty</button>
-        </div>
+      <div class="pet-card">
+        <div>🐱</div>
+        <h3>Luna</h3>
+        <p><strong>Siamese • 2 years • White/Brown</strong></p>
+        <p>Elegant and affectionate cat who loves head scratches.</p>
+        <button onclick="adoptPet('Luna')">Adopt Luna</button>
       </div>
-    </section>
 
-    <footer
-      style="
+      <div class="pet-card">
+        <div>🐩</div>
+        <h3>Max</h3>
+        <p><strong>Labrador Mix • 5 years • Black</strong></p>
+        <p>Calm, loyal, and house-trained. Great for families.</p>
+        <button onclick="adoptPet('Max')">Adopt Max</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐶</div>
+        <h3>Bella</h3>
+        <p><strong>Beagle • 4 years • Tricolor</strong></p>
+        <p>Playful and loves to sniff around. Great with kids.</p>
+        <button onclick="adoptPet('Bella')">Adopt Bella</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐕‍🦺</div>
+        <h3>Rocky</h3>
+        <p><strong>German Shepherd • 3 years • Black/Tan</strong></p>
+        <p>Loyal and intelligent. Trained for obedience.</p>
+        <button onclick="adoptPet('Rocky')">Adopt Rocky</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐈</div>
+        <h3>Milo</h3>
+        <p><strong>Tabby • 1.5 years • Orange</strong></p>
+        <p>Curious and cuddly. Loves attention and naps.</p>
+        <button onclick="adoptPet('Milo')">Adopt Milo</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐕</div>
+        <h3>Charlie</h3>
+        <p><strong>Shih Tzu • 2 years • White</strong></p>
+        <p>Friendly lap dog, great for small homes.</p>
+        <button onclick="adoptPet('Charlie')">Adopt Charlie</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐈‍⬛</div>
+        <h3>Shadow</h3>
+        <p><strong>Persian • 3 years • Black</strong></p>
+        <p>Quiet and majestic. Prefers peaceful environments.</p>
+        <button onclick="adoptPet('Shadow')">Adopt Shadow</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐶</div>
+        <h3>Cooper</h3>
+        <p><strong>Husky • 4 years • Gray/White</strong></p>
+        <p>Energetic and talkative. Needs space to run.</p>
+        <button onclick="adoptPet('Cooper')">Adopt Cooper</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐱</div>
+        <h3>Cleo</h3>
+        <p><strong>Ragdoll • 1 year • Cream</strong></p>
+        <p>Sweet and social. Loves to be around people.</p>
+        <button onclick="adoptPet('Cleo')">Adopt Cleo</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐶</div>
+        <h3>Oscar</h3>
+        <p><strong>Boxer • 2.5 years • Brown</strong></p>
+        <p>Playful and strong. Needs regular exercise.</p>
+        <button onclick="adoptPet('Oscar')">Adopt Oscar</button>
+      </div>
+
+      <div class="pet-card">
+        <div>🐱</div>
+        <h3>Misty</h3>
+        <p><strong>British Shorthair • 2 years • Gray</strong></p>
+        <p>Chubby cheeks, low-maintenance, affectionate cat.</p>
+        <button onclick="adoptPet('Misty')">Adopt Misty</button>
+      </div>
+    </div>
+  </section>
+
+  <footer style="
         background: linear-gradient(to bottom, #ae8fe8, #9575cd);
         color: #f6f6f6;
         padding: 3rem 1rem 1rem;
         font-family: 'Poppins', sans-serif;
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
-      "
-    >
-      <div
-        style="
+      ">
+    <div style="
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
           gap: 2rem;
           max-width: 1200px;
           margin: auto;
-        "
-      >
-        <div>
-          <h2
-            style="
+        ">
+      <div>
+        <h2 style="
               font-size: 1.8rem;
               font-weight: bold;
               color: #f4eef8;
               margin-bottom: 1rem;
-            "
-          >
-            🐾 PawsHeart
-          </h2>
-          <p style="font-size: 0.95rem; color: #f7f7f7; line-height: 1.6">
-            Give love. Adopt a life. Help us make a difference one paw at a
-            time.
-          </p>
-        </div>
-
-        <div>
-          <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffffff">
-            Resources
-          </h3>
-          <ul style="list-style: none; padding: 0">
-            <li style="margin-bottom: 0.6rem">
-              <a href="adopt.html" style="color: #ffffff; text-decoration: none"
-                >How Adoption Works</a
-              >
-            </li>
-            <li style="margin-bottom: 0.6rem">
-              <a href="#" style="color: #ffffff; text-decoration: none"
-                >Adoption FAQs</a
-              >
-            </li>
-            <li style="margin-bottom: 0.6rem">
-              <a href="#" style="color: #ffffff; text-decoration: none"
-                >Pet Care Guide</a
-              >
-            </li>
-            <li style="margin-bottom: 0.6rem">
-              <a href="#" style="color: #ffffff; text-decoration: none"
-                >Post-Adoption Support</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffffff">
-            Connect
-          </h3>
-          <ul style="display: flex; gap: 10px; list-style: none; padding: 0">
-            <li>
-              <a href="#"
-                ><img
-                  src="https://cdn-icons-png.flaticon.com/512/145/145802.png"
-                  alt="Facebook"
-                  style="width: 28px; height: 28px"
-              /></a>
-            </li>
-            <li>
-              <a href="#"
-                ><img
-                  src="https://cdn-icons-png.flaticon.com/512/145/145812.png"
-                  alt="Instagram"
-                  style="width: 28px; height: 28px"
-              /></a>
-            </li>
-            <li>
-              <a href="#"
-                ><img
-                  src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                  alt="Twitter"
-                  style="width: 28px; height: 28px"
-              /></a>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffffff">
-            Contact Us
-          </h3>
-          <p>Email: adopt@pawsheart.org</p>
-          <p>Phone: +91-98765-43210</p>
-          <p>Delhi, India</p>
-        </div>
+            ">
+          🐾 PawsHeart
+        </h2>
+        <p style="font-size: 0.95rem; color: #f7f7f7; line-height: 1.6">
+          Give love. Adopt a life. Help us make a difference one paw at a
+          time.
+        </p>
       </div>
 
-      <div
-        style="
+      <div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffffff">
+          Resources
+        </h3>
+        <ul style="list-style: none; padding: 0">
+          <li style="margin-bottom: 0.6rem">
+            <a href="adopt.html" style="color: #ffffff; text-decoration: none">How Adoption Works</a>
+          </li>
+          <li style="margin-bottom: 0.6rem">
+            <a href="#" style="color: #ffffff; text-decoration: none">Adoption FAQs</a>
+          </li>
+          <li style="margin-bottom: 0.6rem">
+            <a href="#" style="color: #ffffff; text-decoration: none">Pet Care Guide</a>
+          </li>
+          <li style="margin-bottom: 0.6rem">
+            <a href="#" style="color: #ffffff; text-decoration: none">Post-Adoption Support</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffffff">
+          Connect
+        </h3>
+        <ul style="display: flex; gap: 10px; list-style: none; padding: 0">
+          <li>
+            <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" alt="Facebook"
+                style="width: 28px; height: 28px" /></a>
+          </li>
+          <li>
+            <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145812.png" alt="Instagram"
+                style="width: 28px; height: 28px" /></a>
+          </li>
+          <li>
+            <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="Twitter"
+                style="width: 28px; height: 28px" /></a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #ffffff">
+          Contact Us
+        </h3>
+        <p>Email: adopt@pawsheart.org</p>
+        <p>Phone: +91-98765-43210</p>
+        <p>Delhi, India</p>
+      </div>
+    </div>
+
+    <div style="
           text-align: center;
           padding-top: 1.5rem;
           border-top: 1px solid rgba(255, 255, 255, 0.3);
           color: #ffff;
           font-size: 0.9rem;
-        "
-      >
-        <p>&copy; 2025 PawsHeart. All rights reserved.</p>
-      </div>
-    </footer>
+        ">
+      <p>&copy; 2025 PawsHeart. All rights reserved.</p>
+    </div>
+  </footer>
 
-    <script>
-      function adoptPet(petName) {
-        alert(
-          `You've selected ${petName} for adoption! Please fill out the form below.`
-        );
-        window.location.href = "apply.html";
-      }
-    </script>
-    <script>
-      let count = 13452;
-      const mainCounter = document.getElementById("pet-counter");
-      const navbarCounter = document.getElementById("navbar-counter");
+  <script>
+    function adoptPet(petName) {
+      alert(
+        `You've selected ${petName} for adoption! Please fill out the form below.`
+      );
+      window.location.href = "apply.html";
+    }
+  </script>
+  <script>
+    let count = 13452;
+    const mainCounter = document.getElementById("pet-counter");
+    const navbarCounter = document.getElementById("navbar-counter");
 
-      function updateCounter() {
-        const display = `🐾 ${count.toLocaleString()} Pets Adopted`;
-        if (mainCounter) mainCounter.textContent = display;
-        if (navbarCounter) navbarCounter.textContent = display;
-        count += Math.floor(Math.random() * 3);
-      }
+    function updateCounter() {
+      const display = `🐾 ${count.toLocaleString()} Pets Adopted`;
+      if (mainCounter) mainCounter.textContent = display;
+      if (navbarCounter) navbarCounter.textContent = display;
+      count += Math.floor(Math.random() * 3);
+    }
 
-      updateCounter();
-      setInterval(updateCounter, 5000);
-    </script>
-  </body>
+    updateCounter();
+    setInterval(updateCounter, 5000);
+  </script>
+</body>
+
 </html>

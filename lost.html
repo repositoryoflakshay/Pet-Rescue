@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Lost & Found - PawsHeart</title>
@@ -17,8 +18,8 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       /* background: linear-gradient(to right, #e3f2fd, #f0f4f8); */
-      background-image: radial-gradient( circle farthest-corner at 3.7% 49.8%,  rgba(143,232,255,1) 21.9%, rgba(209,243,251,1) 52.9% );
-      
+      background-image: radial-gradient(circle farthest-corner at 3.7% 49.8%, rgba(143, 232, 255, 1) 21.9%, rgba(209, 243, 251, 1) 52.9%);
+
       margin: 0;
       padding: 0;
     }
@@ -194,46 +195,53 @@
     } */
 
     #matchResults {
-  background: linear-gradient(to bottom, #f0faff, #dbeeff);
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.6s ease-in-out;
-}
+      background: linear-gradient(to bottom, #f0faff, #dbeeff);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.6s ease-in-out;
+    }
 
-#matchResults h3 {
-  font-size: 1.8rem;
-  color: #1e88e5;
-  text-align: center;
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
+    #matchResults h3 {
+      font-size: 1.8rem;
+      color: #1e88e5;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
 
-.match-card h4 {
-  margin-top: 1rem;
-  color: #444;
-  font-size: 1.1rem;
-  border-bottom: 1px solid #1e88e5;
-  padding-bottom: 4px;
-}
+    .match-card h4 {
+      margin-top: 1rem;
+      color: #444;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #1e88e5;
+      padding-bottom: 4px;
+    }
 
-.match-card button {
-  background: #1e88e5;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
+    .match-card button {
+      background: #1e88e5;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-.match-card button:hover {
-  background: #1667c2;
-}
+    .match-card button:hover {
+      background: #1667c2;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
 
     @keyframes fadeIn {
@@ -241,92 +249,95 @@
         opacity: 0;
         transform: translateY(15px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(30, 30, 30, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
 
-.popup-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  animation: scaleFade 0.4s ease;
-}
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 30, 30, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
 
-.popup-content h3 {
-  margin-top: 0;
-  color: #1e88e5;
-}
+    .popup-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      animation: scaleFade 0.4s ease;
+    }
 
-.popup-content label {
-  font-weight: 600;
-  display: block;
-  margin-top: 1rem;
-}
+    .popup-content h3 {
+      margin-top: 0;
+      color: #1e88e5;
+    }
 
-.popup-content input,
-.popup-content textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
-}
+    .popup-content label {
+      font-weight: 600;
+      display: block;
+      margin-top: 1rem;
+    }
 
-.popup-content textarea {
-  height: 100px;
-}
+    .popup-content input,
+    .popup-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
 
-.popup-content button {
-  margin-top: 1rem;
-  padding: 10px 16px;
-  background: #1e88e5;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
+    .popup-content textarea {
+      height: 100px;
+    }
 
-.popup-content button:hover {
-  background: #1565c0;
-}
+    .popup-content button {
+      margin-top: 1rem;
+      padding: 10px 16px;
+      background: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-.close-btn {
-  position: absolute;
-  right: 20px;
-  top: 16px;
-  font-size: 24px;
-  cursor: pointer;
-}
+    .popup-content button:hover {
+      background: #1565c0;
+    }
 
-@keyframes scaleFade {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+    .close-btn {
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @keyframes scaleFade {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
     footer {
       background-color: #1e88e5;
@@ -344,6 +355,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -415,26 +427,27 @@
     </div>
   </div>
 
-<div id="matchResults" style="max-width: 900px; margin: 2rem auto; padding: 1rem; display: none;">
-  <h3>🎉 Potential Matches Found!</h3>
-  <input type="text" id="matchSearch" placeholder="Search by breed, color, location..." style="width: 100%; padding: 0.7rem; margin-bottom: 1.5rem; border-radius: 10px; border: 1px solid #ccc;">
-  <div id="matchCardsContainer"></div>
-</div>
-<div id="contactPopup" class="popup-overlay" style="display: none;">
-  <div class="popup-content">
-    <span class="close-btn" onclick="closeContactPopup()">&times;</span>
-    <h3>📩 Contact Reporter</h3>
-    <form id="contactForm">
-      <label>Your Name</label>
-      <input type="text" required placeholder="Enter your name" />
-      <label>Your Email</label>
-      <input type="email" required placeholder="Enter your email" />
-      <label>Message</label>
-      <textarea required placeholder="Write your message here..."></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+  <div id="matchResults" style="max-width: 900px; margin: 2rem auto; padding: 1rem; display: none;">
+    <h3>🎉 Potential Matches Found!</h3>
+    <input type="text" id="matchSearch" placeholder="Search by breed, color, location..."
+      style="width: 100%; padding: 0.7rem; margin-bottom: 1.5rem; border-radius: 10px; border: 1px solid #ccc;">
+    <div id="matchCardsContainer"></div>
   </div>
-</div>
+  <div id="contactPopup" class="popup-overlay" style="display: none;">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closeContactPopup()">&times;</span>
+      <h3>📩 Contact Reporter</h3>
+      <form id="contactForm">
+        <label>Your Name</label>
+        <input type="text" required placeholder="Enter your name" />
+        <label>Your Email</label>
+        <input type="email" required placeholder="Enter your email" />
+        <label>Message</label>
+        <textarea required placeholder="Write your message here..."></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
 
   <footer>
     <p>🐶🐱 Help reunite lost pets with their families through PawsHeart.</p>
@@ -444,7 +457,7 @@
   <script>
     const lostPets = [];
     const foundPets = [];
-  
+
     function findMatches(lostPet) {
       const matches = foundPets.filter(fp => {
         let count = 0;
@@ -453,34 +466,34 @@
         if (fp.color.toLowerCase() === lostPet.color.toLowerCase()) count++;
         return count >= 3;
       });
-  
+
       return matches.map(found => ({ lost: lostPet, found }));
     }
-  
+
     function displayMatches(matches) {
       const container = document.getElementById("matchResults");
       const cardContainer = document.getElementById("matchCardsContainer");
-  
+
       if (matches.length === 0) {
         container.style.display = "block";
         cardContainer.innerHTML = "<p>No close matches found yet.</p>";
         return;
       }
-  
+
       container.style.display = "block";
       cardContainer.innerHTML = "";
-  
+
       matches.forEach(pair => {
         const card = document.createElement("div");
         card.className = "match-card";
         card.setAttribute("data-search", `${pair.lost.breed} ${pair.lost.color} ${pair.lost.location} ${pair.found.breed} ${pair.found.color} ${pair.found.location}`.toLowerCase());
-  
+
         card.style.background = "#fff";
         card.style.padding = "1rem";
         card.style.borderRadius = "10px";
         card.style.boxShadow = "0 0 10px rgba(0,0,0,0.1)";
         card.style.marginBottom = "1.5rem";
-  
+
         card.innerHTML = `
           <h4>🐾 Lost Pet Info:</h4>
           <strong>Name:</strong> ${pair.lost.name || "N/A"}<br>
@@ -498,17 +511,17 @@
   
           <button>Contact Finder</button>
         `;
-  
+
         cardContainer.appendChild(card);
       });
-  
+
       container.scrollIntoView({ behavior: "smooth" });
     }
-  
+
     document.getElementById("lostForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const inputs = this.querySelectorAll("input, select");
-  
+
       const lostPet = {
         name: inputs[0].value.trim(),
         type: inputs[1].value,
@@ -516,20 +529,20 @@
         color: inputs[3].value.trim(),
         location: inputs[4].value.trim()
       };
-  
+
       lostPets.push(lostPet);
-  
+
       const matched = findMatches(lostPet);
       displayMatches(matched);
-  
+
       alert("Your lost pet report has been submitted. Our team will assist in locating your pet.");
       this.reset();
     });
-  
+
     document.getElementById("foundForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const inputs = this.querySelectorAll("input, select");
-  
+
       const foundPet = {
         type: inputs[0].value,
         breed: inputs[1].value.trim(),
@@ -537,17 +550,17 @@
         location: inputs[3].value.trim(),
         contact: inputs[4].value.trim()
       };
-  
+
       foundPets.push(foundPet);
-  
+
       alert("Your found pet report has been submitted. Thank you for helping reunite pets with their families!");
       this.reset();
     });
-  
+
     document.getElementById("matchSearch").addEventListener("input", function () {
       const query = this.value.toLowerCase();
       const cards = document.querySelectorAll("#matchCardsContainer .match-card");
-  
+
       cards.forEach(card => {
         const data = card.getAttribute("data-search");
         if (data.includes(query)) {
@@ -559,27 +572,27 @@
     });
 
     function openContactPopup() {
-    document.getElementById("contactPopup").style.display = "flex";
-  }
+      document.getElementById("contactPopup").style.display = "flex";
+    }
 
-  function closeContactPopup() {
-    document.getElementById("contactPopup").style.display = "none";
-  }
+    function closeContactPopup() {
+      document.getElementById("contactPopup").style.display = "none";
+    }
 
-  document.getElementById("contactForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    alert("Message sent successfully!");
-    closeContactPopup();
-  });
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Message sent successfully!");
+      closeContactPopup();
+    });
 
-  function createMatchCard(matchData) {
-    const card = document.createElement("div");
-    card.style.marginBottom = "1.5rem";
-    card.style.padding = "1rem";
-    card.style.background = "#fff";
-    card.style.borderRadius = "10px";
-    card.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
-    card.innerHTML = `
+    function createMatchCard(matchData) {
+      const card = document.createElement("div");
+      card.style.marginBottom = "1.5rem";
+      card.style.padding = "1rem";
+      card.style.background = "#fff";
+      card.style.borderRadius = "10px";
+      card.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
+      card.innerHTML = `
       <h4>${matchData.title}</h4>
       <div><strong>Type:</strong> ${matchData.type}</div>
       <div><strong>Breed:</strong> ${matchData.breed}</div>
@@ -587,9 +600,10 @@
       <div><strong>Location:</strong> ${matchData.location}</div>
       <button onclick="openContactPopup()">Contact</button>
     `;
-    return card;
-  }
+      return card;
+    }
   </script>
-  
+
 </body>
+
 </html>

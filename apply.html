@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pet Adoption Application</title>
   <style>
     body {
@@ -43,7 +44,9 @@
       position: relative;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 12px;
       margin-top: 4px;
@@ -124,12 +127,13 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Adoption Application</h1>
     <p>Help us find the perfect match for you and your new pet</p>
     <form id="adoptionForm">
-      
+
       <label for="name">Full Name *</label>
       <div class="input-wrapper">
         <input type="text" id="name" name="name" required>
@@ -288,7 +292,7 @@
       }
     });
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!validateName() || !validateEmail() || !validatePhone()) return;
 
@@ -310,4 +314,5 @@
     window.addEventListener('DOMContentLoaded', loadDraft);
   </script>
 </body>
+
 </html>
