@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart - PawsHeart</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #8360c3, #2ebf91);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .cart-header h2 {
+      font-size: 1.5em;
+      color: #222;
+    }
+
+    .clear-cart {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .cart-details {
+      flex-grow: 1;
+      padding-right: 15px;
+    }
+
+    .cart-details h3 {
+      margin: 0;
+      font-size: 1.2em;
+    }
+
+    .cart-details p {
+      margin: 4px 0;
+      color: #555;
+    }
+
+    .cart-price {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-controls button {
+      padding: 4px 10px;
+      font-size: 1em;
+      font-weight: bold;
+      background-color: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .qty-controls span {
+      font-size: 1.1em;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background-color: #e53935;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .summary {
+      background: #eef6ff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      font-size: 1.1em;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 1.3em;
+      border-top: 2px solid #ddd;
+      padding-top: 10px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .checkout-btn, .continue-btn {
+      padding: 14px 24px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .checkout-btn {
+      background-color: #009688;
+      color: white;
+    }
+
+    .continue-btn {
+      background-color: #2979ff;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      background: #ff6f00;
+      color: white;
+      font-weight: bold;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Shopping Cart</h1>
+  <p class="subtitle">Review your items and proceed to checkout</p>
+
+  <div class="cart-header">
+    <h2>Your Cart (<span id="cartCount">0</span> items)</h2>
+    <button class="clear-cart" onclick="clearCart()">🗑️ Clear Cart</button>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <div class="summary">
+    <div class="summary-row"><span>Subtotal:</span><span id="subtotal">₹0</span></div>
+    <div class="summary-row"><span>Shipping:</span><span>Free</span></div>
+    <div class="summary-row"><span>Tax (10%):</span><span id="tax">₹0</span></div>
+    <div class="summary-row total"><span>Total:</span><span id="total">₹0</span></div>
+  </div>
+
+  <div class="buttons">
+    <button class="continue-btn" onclick="window.location.href='store.html'">← Continue Shopping</button>
+    <button class="checkout-btn">🛒 Proceed to Checkout</button>
+  </div>
+
+  <div class="footer">
+    💝 Your Purchase Makes a Difference <br/>
+    100% of profits from your purchase go directly to supporting our rescue operations and helping more animals find loving homes!
+  </div>
+</div>
+
+<script>
+  function renderCart() {
+    const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const cartContainer = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const subtotalElem = document.getElementById("subtotal");
+    const taxElem = document.getElementById("tax");
+    const totalElem = document.getElementById("total");
+
+    cartContainer.innerHTML = "";
+    let subtotal = 0;
+
+    cart.forEach((item, index) => {
+      subtotal += item.price * item.quantity;
+
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
+        <div class="cart-details">
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+        </div>
+        <div class="qty-controls">
+          <button onclick="changeQty(${index}, -1)">−</button>
+          <span>${item.quantity}</span>
+          <button onclick="changeQty(${index}, 1)">+</button>
+        </div>
+        <div class="cart-price">₹${item.price * item.quantity}</div>
+        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+      `;
+      cartContainer.appendChild(itemDiv);
+    });
+
+    const tax = Math.round(subtotal * 0.10);
+    const total = subtotal + tax;
+
+    cartCount.innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+    subtotalElem.innerText = `₹${subtotal}`;
+    taxElem.innerText = `₹${tax}`;
+    totalElem.innerText = `₹${total}`;
+  }
+
+  function changeQty(index, delta) {
+    const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    if (cart[index].quantity + delta <= 0) return;
+    cart[index].quantity += delta;
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    renderCart();
+  }
+
+  function removeItem(index) {
+    const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    cart.splice(index, 1);
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    renderCart();
+  }
+
+  function clearCart() {
+    localStorage.removeItem("cartItems");
+    renderCart();
+  }
+
+  renderCart();
+</script>
+
+</body>
+</html>

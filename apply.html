@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pet Adoption Application</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #e7edf6;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      color: #6c757d;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 4px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    .success-icon {
+      position: absolute;
+      right: 10px;
+      top: 42%;
+      color: green;
+      font-size: 1.2em;
+      display: none;
+    }
+
+    .show-icon {
+      display: inline;
+    }
+
+    .submit-btn {
+      background-color: #d06b00;
+      color: white;
+      border: none;
+      padding: 15px;
+      width: 100%;
+      font-size: 1.1em;
+      margin-top: 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .submit-btn:hover:enabled {
+      background-color: #b65c00;
+    }
+
+    .reset-btn {
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 1em;
+      margin-top: 10px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reset-btn:hover {
+      background-color: #bbb;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85em;
+      margin-top: 4px;
+    }
+
+    .valid {
+      border-color: green;
+    }
+
+    .invalid {
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Adoption Application</h1>
+    <p>Help us find the perfect match for you and your new pet</p>
+    <form id="adoptionForm">
+      
+      <label for="name">Full Name *</label>
+      <div class="input-wrapper">
+        <input type="text" id="name" name="name" required>
+        <span class="success-icon" id="nameCheck">✓</span>
+      </div>
+      <div class="error" id="nameError"></div>
+
+      <label for="email">Email Address *</label>
+      <div class="input-wrapper">
+        <input type="email" id="email" name="email" required>
+        <span class="success-icon" id="emailCheck">✓</span>
+      </div>
+      <div class="error" id="emailError"></div>
+
+      <label for="phone">Phone Number *</label>
+      <div class="input-wrapper">
+        <input type="tel" id="phone" name="phone" required>
+        <span class="success-icon" id="phoneCheck">✓</span>
+      </div>
+      <div class="error" id="phoneError"></div>
+
+      <label for="address">Address *</label>
+      <textarea id="address" name="address" required></textarea>
+
+      <label for="petType">Preferred Pet Type</label>
+      <select id="petType" name="petType">
+        <option value="">Select a pet type</option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
+        <option value="rabbit">Rabbit</option>
+        <option value="bird">Bird</option>
+      </select>
+
+      <label for="experience">Previous Pet Experience</label>
+      <textarea id="experience" name="experience"></textarea>
+
+      <label for="housing">Housing Situation</label>
+      <select id="housing" name="housing">
+        <option value="">Select housing type</option>
+        <option value="apartment">Apartment</option>
+        <option value="house">House with yard</option>
+        <option value="farm">Farm</option>
+        <option value="other">Other</option>
+      </select>
+
+      <button class="submit-btn" type="submit" id="previewBtn" disabled>Preview Application</button>
+      <button class="reset-btn" type="button" id="resetBtn">Reset Form</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('adoptionForm');
+
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const addressInput = document.getElementById('address');
+    const petTypeInput = document.getElementById('petType');
+    const experienceInput = document.getElementById('experience');
+    const housingInput = document.getElementById('housing');
+
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const phoneError = document.getElementById('phoneError');
+
+    const nameCheck = document.getElementById('nameCheck');
+    const emailCheck = document.getElementById('emailCheck');
+    const phoneCheck = document.getElementById('phoneCheck');
+
+    const previewBtn = document.getElementById('previewBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const validateName = () => {
+      const name = nameInput.value.trim();
+      const isValid = /^[a-zA-Z\s]+$/.test(name);
+      nameInput.className = isValid ? 'valid' : 'invalid';
+      nameError.textContent = isValid ? '' : 'Only letters and spaces allowed';
+      nameCheck.classList.toggle('show-icon', isValid);
+      return isValid;
+    };
+
+    const validateEmail = () => {
+      const email = emailInput.value.trim();
+      const isValid = /^\S+@\S+\.\S+$/.test(email);
+      emailInput.className = isValid ? 'valid' : 'invalid';
+      emailError.textContent = isValid ? '' : 'Enter a valid email';
+      emailCheck.classList.toggle('show-icon', isValid);
+      return isValid;
+    };
+
+    const validatePhone = () => {
+      const phone = phoneInput.value.trim();
+      const isValid = /^\d{10}$/.test(phone);
+      phoneInput.className = isValid ? 'valid' : 'invalid';
+      phoneError.textContent = isValid ? '' : 'Enter a 10-digit number';
+      phoneCheck.classList.toggle('show-icon', isValid);
+      return isValid;
+    };
+
+    const checkFormValidity = () => {
+      const allValid = validateName() && validateEmail() && validatePhone();
+      previewBtn.disabled = !allValid;
+    };
+
+    const saveDraft = () => {
+      const draftData = {
+        name: nameInput.value,
+        email: emailInput.value,
+        phone: phoneInput.value,
+        address: addressInput.value,
+        petType: petTypeInput.value,
+        experience: experienceInput.value,
+        housing: housingInput.value
+      };
+      localStorage.setItem('draftApplication', JSON.stringify(draftData));
+    };
+
+    const loadDraft = () => {
+      const draft = localStorage.getItem('draftApplication');
+      if (!draft) return;
+      const data = JSON.parse(draft);
+      nameInput.value = data.name || '';
+      emailInput.value = data.email || '';
+      phoneInput.value = data.phone || '';
+      addressInput.value = data.address || '';
+      petTypeInput.value = data.petType || '';
+      experienceInput.value = data.experience || '';
+      housingInput.value = data.housing || '';
+      validateName();
+      validateEmail();
+      validatePhone();
+      checkFormValidity();
+    };
+
+    [nameInput, emailInput, phoneInput, addressInput, petTypeInput, experienceInput, housingInput].forEach(input => {
+      input.addEventListener('input', () => {
+        validateName();
+        validateEmail();
+        validatePhone();
+        checkFormValidity();
+        saveDraft();
+      });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      if (confirm("Are you sure you want to reset the form?")) {
+        form.reset();
+        localStorage.removeItem('draftApplication');
+        [nameInput, emailInput, phoneInput].forEach(input => {
+          input.className = '';
+        });
+        [nameCheck, emailCheck, phoneCheck].forEach(icon => {
+          icon.classList.remove('show-icon');
+        });
+        previewBtn.disabled = true;
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!validateName() || !validateEmail() || !validatePhone()) return;
+
+      const formData = {
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        address: addressInput.value.trim(),
+        petType: petTypeInput.value,
+        experience: experienceInput.value.trim(),
+        housing: housingInput.value
+      };
+
+      localStorage.setItem('adoptionApplication', JSON.stringify(formData));
+      localStorage.removeItem('draftApplication');
+      window.location.href = 'preview.html';
+    });
+
+    window.addEventListener('DOMContentLoaded', loadDraft);
+  </script>
+</body>
+</html>

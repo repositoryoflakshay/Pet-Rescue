@@ -21,7 +21,6 @@
       padding: 0;
     }
 
-    /* NAVBAR */
     header {
       background: #ffffff;
       padding: 1rem 2rem;
@@ -245,7 +244,6 @@
         transform: translateY(0);
       }
     }
-    /* Popup Modal */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -328,8 +326,6 @@
   }
 }
 
-
-    /* FOOTER */
     footer {
       background-color: #1e88e5;
       color: white;
@@ -348,7 +344,6 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <header>
     <div class="container1">
       <div class="logo">🐾 PawsHeart</div>
@@ -370,9 +365,7 @@
     </div>
   </header>
 
-  <!-- LOST & FOUND -->
   <div class="lost-found-container">
-    <!-- Lost Form -->
     <div class="lost-found-section">
       <h3>🔍 Report Lost Pet</h3>
       <form id="lostForm">
@@ -396,7 +389,6 @@
       </form>
     </div>
 
-    <!-- Found Form -->
     <div class="lost-found-section">
       <h3>🏠 Report Found Pet</h3>
       <form id="foundForm">
@@ -421,14 +413,11 @@
     </div>
   </div>
 
-  <!-- MATCH SECTION -->
-  <!-- MATCHED RESULTS SECTION -->
 <div id="matchResults" style="max-width: 900px; margin: 2rem auto; padding: 1rem; display: none;">
   <h3>🎉 Potential Matches Found!</h3>
   <input type="text" id="matchSearch" placeholder="Search by breed, color, location..." style="width: 100%; padding: 0.7rem; margin-bottom: 1.5rem; border-radius: 10px; border: 1px solid #ccc;">
   <div id="matchCardsContainer"></div>
 </div>
-<!-- CONTACT FORM POPUP -->
 <div id="contactPopup" class="popup-overlay" style="display: none;">
   <div class="popup-content">
     <span class="close-btn" onclick="closeContactPopup()">&times;</span>
@@ -445,8 +434,6 @@
   </div>
 </div>
 
-
-  <!-- FOOTER -->
   <footer>
     <p>🐶🐱 Help reunite lost pets with their families through PawsHeart.</p>
     <p>&copy; 2025 PawsHeart | All rights reserved.</p>
@@ -456,7 +443,6 @@
     const lostPets = [];
     const foundPets = [];
   
-    // Match logic: returns list of { lost, found } pair
     function findMatches(lostPet) {
       const matches = foundPets.filter(fp => {
         let count = 0;
@@ -469,7 +455,6 @@
       return matches.map(found => ({ lost: lostPet, found }));
     }
   
-    // Display matches
     function displayMatches(matches) {
       const container = document.getElementById("matchResults");
       const cardContainer = document.getElementById("matchCardsContainer");
@@ -515,11 +500,9 @@
         cardContainer.appendChild(card);
       });
   
-      // Smooth scroll
       container.scrollIntoView({ behavior: "smooth" });
     }
   
-    // LOST PET SUBMIT
     document.getElementById("lostForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const inputs = this.querySelectorAll("input, select");
@@ -541,7 +524,6 @@
       this.reset();
     });
   
-    // FOUND PET SUBMIT
     document.getElementById("foundForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const inputs = this.querySelectorAll("input, select");
@@ -560,7 +542,6 @@
       this.reset();
     });
   
-    // LIVE SEARCH FILTER
     document.getElementById("matchSearch").addEventListener("input", function () {
       const query = this.value.toLowerCase();
       const cards = document.querySelectorAll("#matchCardsContainer .match-card");
@@ -589,7 +570,6 @@
     closeContactPopup();
   });
 
-  // Add this function when generating match cards (example inside your matching loop)
   function createMatchCard(matchData) {
     const card = document.createElement("div");
     card.style.marginBottom = "1.5rem";

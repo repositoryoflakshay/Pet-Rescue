@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Preview Application</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f6fb;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.3em;
+      margin-bottom: 20px;
+    }
+
+    .data-field {
+      margin-bottom: 20px;
+    }
+
+    .data-field label {
+      font-weight: bold;
+      display: block;
+      color: #444;
+    }
+
+    .data-field div {
+      padding-top: 6px;
+      color: #333;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    button {
+      flex: 1;
+      padding: 15px;
+      font-size: 1em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-btn {
+      background-color: #d06b00;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #b65c00;
+    }
+
+    .clear-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .clear-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .submit-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+
+    .message {
+      text-align: center;
+      color: green;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Preview Your Application</h1>
+    <div id="applicationData"></div>
+
+    <div class="btn-group">
+      <button class="edit-btn" id="editBtn">Edit Application</button>
+      <button class="clear-btn" id="clearBtn">Clear Application</button>
+      <button class="submit-btn" id="submitBtn">Submit Application</button>
+    </div>
+
+    <div class="message" id="message" style="display: none;"></div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem('adoptionApplication'));
+    const container = document.getElementById('applicationData');
+
+    if (data) {
+      for (const key in data) {
+        const field = document.createElement('div');
+        field.className = 'data-field';
+
+        const label = document.createElement('label');
+        label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+
+        const value = document.createElement('div');
+        value.textContent = data[key] || 'N/A';
+
+        field.appendChild(label);
+        field.appendChild(value);
+        container.appendChild(field);
+      }
+    } else {
+      container.innerHTML = '<p>No application data found.</p>';
+    }
+
+    document.getElementById('editBtn').addEventListener('click', () => {
+      localStorage.setItem('editMode', 'true');
+      window.location.href = 'apply.html';
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      const confirmClear = confirm("Are you sure you want to clear your application? This action cannot be undone.");
+      if (confirmClear) {
+        localStorage.removeItem('adoptionApplication');
+        localStorage.removeItem('editMode');
+        document.getElementById('applicationData').innerHTML = '<p>No application data found.</p>';
+        document.getElementById('message').textContent = 'Application data cleared.';
+        document.getElementById('message').style.display = 'block';
+      }
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      if (data) {
+        document.getElementById('message').textContent = '🎉 Application submitted successfully!';
+        document.getElementById('message').style.display = 'block';
+      } else {
+        document.getElementById('message').textContent = 'No application data to submit.';
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
