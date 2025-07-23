@@ -158,6 +158,150 @@
       margin-top: 2rem;
       font-size: 0.9rem;
     }
+
+    footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 3rem 1rem 2rem;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-content h3 {
+    color: #f9c74f;
+    margin-bottom: 0.6rem;
+    font-size: 1.2rem;
+  }
+
+  .footer-content p {
+    font-size: 0.95rem;
+    margin: 0.3rem 0;
+    line-height: 1.4;
+  }
+
+  .hero-footer {
+    text-align: center;
+    background: #1abc9c;
+    color: white;
+    padding: 2rem 1rem;
+    border-radius: 12px;
+    margin: 2rem auto 2.5rem;
+    max-width: 900px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-footer h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-footer p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .hero-links a {
+    background: white;
+    color: #1abc9c;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .hero-links a:hover {
+    background: #16a085;
+    color: white;
+  }
+
+  .newsletter {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+  }
+
+  .newsletter h3 {
+    color: #f9c74f;
+    margin-bottom: 0.6rem;
+    font-size: 1.4rem;
+  }
+
+  .newsletter p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #bdc3c7;
+  }
+
+  .newsletter input[type="email"] {
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 25px;
+    max-width: 280px;
+    width: 80%;
+    margin-right: 0.5rem;
+    outline: none;
+  }
+
+  .newsletter button {
+    padding: 0.6rem 1.2rem;
+    background-color: #f9c74f;
+    color: #2c3e50;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .newsletter button:hover {
+    background-color: #e5b942;
+  }
+
+  .bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 600px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-links {
+      flex-direction: column;
+    }
+
+    .newsletter input[type="email"] {
+      margin: 0 0 0.6rem 0;
+      width: 100%;
+    }
+
+    .newsletter button {
+      width: 100%;
+    }
+  }
   </style>
 </head>
 <body>
@@ -195,7 +339,6 @@
     <a href="adopt.html"><button>Start Adopting</button></a>
   </section>
   
-
   <footer>
     <div class="footer-content">
       <div>
@@ -204,26 +347,43 @@
         <p>📞 (555) 123-PAWS</p>
         <p>📍 123 Rescue Lane, Pet City</p>
       </div>
-
       <div>
         <h3>Follow Us</h3>
         <p>🐾 @PawsHeartRescue</p>
         <p>📸 Instagram / Facebook / Twitter</p>
       </div>
-
       <div>
         <h3>Volunteer</h3>
         <p>Join our mission to save more lives</p>
         <p>Help with fostering, events, and more</p>
       </div>
-
       <div>
         <h3>Pet Store</h3>
         <p>🛍️ Quality food, toys, beds, and accessories</p>
         <p>🎁 All profits support rescue & adoption</p>
       </div>
     </div>
-
+  
+    <div class="hero-footer">
+      <h2>💪 Be a Hero for Animals 🐾</h2>
+      <p>Whether you adopt, shop, donate or volunteer — you're saving lives!</p>
+      <div class="hero-links">
+        <a href="adopt.html">Adopt</a>
+        <a href="volunteer.html">Volunteer</a>
+        <a href="donate.html">Donate</a>
+        <a href="store.html">Shop</a>
+      </div>
+    </div>
+  
+    <div class="newsletter">
+      <h3>📬 Subscribe to Our Newsletter</h3>
+      <p>Get the latest rescue stories, tips, and updates in your inbox.</p>
+      <form>
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  
     <div class="bottom">
       💝 Your Purchase Helps Save Lives<br>
       100% of profits from our pet store go directly to supporting our rescue operations, medical care for rescued animals, and finding them loving homes. Thank you for making a difference!<br><br>
@@ -232,24 +392,65 @@
   </footer>
 
   <script>
-    function updateCartPreview() {
-      let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      let cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-      document.getElementById("cart-count").innerText = cartCount;
-
-      let previewList = document.getElementById("cart-items-preview");
-      previewList.innerHTML = "";
-
-      let recentItems = cartItems.slice(-3).reverse();
-      for (let item of recentItems) {
-        let li = document.createElement("li");
-        li.textContent = `${item.name} × ${item.quantity}`;
-        previewList.appendChild(li);
+    document.addEventListener("DOMContentLoaded", () => {
+      const newsletterForm = document.querySelector(".newsletter form");
+      const emailInput = newsletterForm.querySelector("input[type='email']");
+  
+      newsletterForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+  
+        const email = emailInput.value.trim();
+  
+        // Basic email validation
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+          showAlert("❗Oops!", "Please enter a valid email address.", "warning");
+          return;
+        }
+  
+        let subscribers = JSON.parse(localStorage.getItem("newsletterSubscribers")) || [];
+  
+        if (!subscribers.includes(email)) {
+          subscribers.push(email);
+          localStorage.setItem("newsletterSubscribers", JSON.stringify(subscribers));
+  
+          showAlert(
+            "🎉 Welcome to the Pack!",
+            "Thank you for subscribing! 🐾\nYou’ll now be the first to know about lost pets, rescue alerts, and heartwarming adoption stories.",
+            "success"
+          );
+        } else {
+          showAlert("📬 You're Already Subscribed", "Looks like you're already part of our furry family!", "info");
+        }
+  
+        emailInput.value = "";
+      });
+  
+      function showAlert(title, message, type) {
+        // For now using browser alert (you can integrate SweetAlert2 for fancy modals)
+        alert(`${title}\n\n${message}`);
       }
-    }
-
-    document.addEventListener("DOMContentLoaded", updateCartPreview);
+  
+      function updateCartPreview() {
+        let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        let cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        document.getElementById("cart-count").innerText = cartCount;
+  
+        let previewList = document.getElementById("cart-items-preview");
+        if (!previewList) return;
+  
+        previewList.innerHTML = "";
+  
+        let recentItems = cartItems.slice(-3).reverse();
+        for (let item of recentItems) {
+          let li = document.createElement("li");
+          li.textContent = `${item.name} × ${item.quantity}`;
+          previewList.appendChild(li);
+        }
+      }
+  
+      updateCartPreview();
+    });
   </script>
-
+  
 </body>
 </html>
