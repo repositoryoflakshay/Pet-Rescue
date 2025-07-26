@@ -179,7 +179,7 @@
         <option value="other">Other</option>
       </select>
 
-      <button class="submit-btn" type="submit" id="previewBtn" disabled>Preview Application</button>
+      <a href="preview.html"><button class="submit-btn" type="submit" id="previewBtn" disabled>Preview Application</button></a>
       <button class="reset-btn" type="button" id="resetBtn">Reset Form</button>
     </form>
   </div>
@@ -318,7 +318,8 @@
         if (response.ok) {
           localStorage.setItem('adoptionApplication', JSON.stringify(formData));
           localStorage.removeItem('draftApplication');
-          window.location.href = 'preview.html';
+          window.location.href = '/public/preview.html';
+
         } else {
           alert("❌ Failed to submit application. Please try again.");
         }
