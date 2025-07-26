@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -93,6 +92,25 @@
       margin-top: 20px;
       font-weight: bold;
     }
+
+    #successOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
   </style>
 </head>
 
@@ -110,56 +128,72 @@
     <div class="message" id="message" style="display: none;"></div>
   </div>
 
+  <div id="successOverlay">
+    🌸 Application submitted successfully!
+  </div>
+
   <script>
-    const data = JSON.parse(localStorage.getItem('adoptionApplication'));
-    const container = document.getElementById('applicationData');
+    const data = JSON.parse(localStorage.getItem("adoptionApplication"));
+    const container = document.getElementById("applicationData");
 
     if (data) {
       for (const key in data) {
-        const field = document.createElement('div');
-        field.className = 'data-field';
+        const field = document.createElement("div");
+        field.className = "data-field";
 
-        const label = document.createElement('label');
+        const label = document.createElement("label");
         label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
 
-        const value = document.createElement('div');
-        value.textContent = data[key] || 'N/A';
+        const value = document.createElement("div");
+        value.textContent = data[key] || "N/A";
 
         field.appendChild(label);
         field.appendChild(value);
         container.appendChild(field);
       }
     } else {
-      container.innerHTML = '<p>No application data found.</p>';
+      container.innerHTML = "<p>No application data found.</p>";
     }
 
-    document.getElementById('editBtn').addEventListener('click', () => {
-      localStorage.setItem('editMode', 'true');
-      window.location.href = 'apply.html';
+    document.getElementById("editBtn").addEventListener("click", () => {
+      localStorage.setItem("editMode", "true");
+      window.location.href = "apply.html";
     });
 
-    document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById("clearBtn").addEventListener("click", () => {
       const confirmClear = confirm("Are you sure you want to clear your application? This action cannot be undone.");
       if (confirmClear) {
-        localStorage.removeItem('adoptionApplication');
-        localStorage.removeItem('editMode');
-        document.getElementById('applicationData').innerHTML = '<p>No application data found.</p>';
-        document.getElementById('message').textContent = 'Application data cleared.';
-        document.getElementById('message').style.display = 'block';
+        localStorage.removeItem("adoptionApplication");
+        localStorage.removeItem("editMode");
+        document.getElementById("applicationData").innerHTML = "<p>No application data found.</p>";
+        document.getElementById("message").textContent = "Application data cleared.";
+        document.getElementById("message").style.display = "block";
       }
     });
 
-    document.getElementById('submitBtn').addEventListener('click', () => {
+    document.getElementById("submitBtn").addEventListener("click", () => {
       if (data) {
-        document.getElementById('message').textContent = '🎉 Application submitted successfully!';
-        document.getElementById('message').style.display = 'block';
+        localStorage.removeItem("adoptionApplication");
+        localStorage.removeItem("editMode");
+
+        document.getElementById("applicationData").innerHTML = "<p>Application has been submitted.</p>";
+
+        const overlay = document.getElementById("successOverlay");
+        overlay.style.opacity = "1";
+        overlay.style.pointerEvents = "auto";
+
+        setTimeout(() => {
+          overlay.style.opacity = "0";
+          overlay.style.pointerEvents = "none";
+          window.location.href = "home2.html";
+        }, 2500);
       } else {
-        document.getElementById('message').textContent = 'No application data to submit.';
-        document.getElementById('message').style.color = 'red';
-        document.getElementById('message').style.display = 'block';
+        const msg = document.getElementById("message");
+        msg.textContent = "No application data to submit.";
+        msg.style.color = "red";
+        msg.style.display = "block";
       }
     });
   </script>
 </body>
-
 </html>
