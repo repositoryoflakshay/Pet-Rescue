@@ -1,146 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>PawsHeart – Sign Up</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+  <head>
+    <meta charset="UTF-8" />
+    <title>PawsHeart – Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap");
 
-    body {
-      margin: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(135deg, #d7e9f7, #f9d5ec);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .signup-container {
-      background: #fff;
-      padding: 2.5rem 2rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .signup-container h2 {
-      margin-bottom: 1rem;
-      color: #7b4db3;
-      font-size: 1.8rem;
-    }
-
-    .signup-container p {
-      color: #666;
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .signup-container input {
-      width: 90%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: 0.3s;
-    }
-
-    .signup-container input:focus {
-      border-color: #7b4db3;
-      outline: none;
-      box-shadow: 0 0 4px #caa8f5;
-    }
-
-    .signup-container button {
-      width: 80%;
-      padding: 0.75rem;
-      background: #7b4db3;
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .signup-container button:hover {
-      background: #683aa3;
-    }
-
-    .paw-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    .footer-note {
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      color: #999;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-<body>
-  <div class="signup-container">
-    <div class="paw-icon">🐾</div>
-    <h2>Create Account</h2>
-    <p>Join the PawsHeart community</p>
-    <input type="text" id="newUsername" placeholder="Choose a username" />
-    <input type="email" id="newEmail" placeholder="Enter your email address" />
-    <input type="password" id="newPassword" placeholder="Choose a password" />
-    <input type="password" id="confirmPassword" placeholder="Confirm password" />
-    <button onclick="handleSignup()">Sign Up</button>
-    <div class="footer-note">Already have an account? <a href="login.html">Login here</a></div>
-  </div>
-
-  <script>
-    function handleSignup() {
-      const username = document.getElementById("newUsername").value.trim();
-      const email = document.getElementById("newEmail").value.trim();
-      const password = document.getElementById("newPassword").value.trim();
-      const confirmPassword = document.getElementById("confirmPassword").value.trim();
-
-      if (!username || !email || !password || !confirmPassword) {
-        alert("❗ Please fill out all fields.");
-        return;
+      body {
+        margin: 0;
+        font-family: "Quicksand", sans-serif;
+        background: linear-gradient(135deg, #d7e9f7, #f9d5ec);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
       }
 
-      // Basic email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert("❗ Please enter a valid email address.");
-        return;
+      .signup-container {
+        background: #fff;
+        padding: 2.5rem 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
+        animation: fadeIn 1s ease-in-out;
       }
 
-      if (password !== confirmPassword) {
-        alert("❗ Passwords do not match.");
-        return;
+      .signup-container h2 {
+        margin-bottom: 1rem;
+        color: #7b4db3;
+        font-size: 1.8rem;
       }
 
-      let users = JSON.parse(localStorage.getItem("pawsheartUsers")) || [];
-
-      const userExists = users.some(u => u.username === username || u.email === email);
-      if (userExists) {
-        alert("❗ Username or email already exists. Try another.");
-        return;
+      .signup-container p {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
       }
 
-      users.push({ username, email, password });
-      localStorage.setItem("pawsheartUsers", JSON.stringify(users));
-      alert("✅ Signup successful! Please login.");
-      window.location.href = "login.html";
-    }
-  </script>
-</body>
+      .signup-container input {
+        width: 90%;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: 0.3s;
+      }
+
+      .signup-container input:focus {
+        border-color: #7b4db3;
+        outline: none;
+        box-shadow: 0 0 4px #caa8f5;
+      }
+
+      .signup-container button {
+        width: 80%;
+        padding: 0.75rem;
+        background: #7b4db3;
+        color: #fff;
+        border: none;
+        border-radius: 15px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      .signup-container button:hover {
+        background: #683aa3;
+      }
+
+      .paw-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .footer-note {
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        color: #999;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="paw-icon">🐾</div>
+      <h2>Create Account</h2>
+      <p>Join the PawsHeart community</p>
+      <input type="text" id="newUsername" placeholder="Choose a username" />
+      <input
+        type="email"
+        id="newEmail"
+        placeholder="Enter your email address"
+      />
+      <input type="password" id="newPassword" placeholder="Choose a password" />
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm password"
+      />
+      <button onclick="handleSignup()">Sign Up</button>
+      <div class="footer-note">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+
+    <script>
+      async function handleSignup() {
+        const username = document.getElementById("newUsername").value.trim();
+        const email = document.getElementById("newEmail").value.trim();
+        const password = document.getElementById("newPassword").value.trim();
+        const confirmPassword = document
+          .getElementById("confirmPassword")
+          .value.trim();
+
+        if (!username || !email || !password || !confirmPassword) {
+          alert("❗ Please fill out all fields.");
+          return;
+        }
+
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert("❗ Please enter a valid email address.");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("❗ Passwords do not match.");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:3000/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, email, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            alert("✅ Signup successful! Please login.");
+            window.location.href = "login.html";
+          } else {
+            alert(`❌ ${data.message || "Signup failed"}`);
+          }
+        } catch (err) {
+          console.error(err);
+          alert("⚠️ Signup failed. Server error.");
+        }
+      }
+    </script>
+  </body>
 </html>
