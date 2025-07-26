@@ -187,7 +187,6 @@ app.get("/", (req, res) => {
 //   res.json({ message: "✅ Default admin created" });
 // });
 
-// ---------------------- START SERVER ----------------------
 const PORT = 3000;
 app.listen(PORT, () =>
   console.log(`✅ Server running at http://localhost:${PORT}`)
