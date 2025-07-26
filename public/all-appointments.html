@@ -1,0 +1,112 @@
+<!-- checklist-overview.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post-Adoption Overview | PawsHeart</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(120deg, #ff6e7f, #bfe9ff);
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    h2 {
+      color: #264653;
+      padding-top: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background: #f9f9f9;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem;
+      border-left: 5px solid #2a9d8f;
+      border-radius: 4px;
+    }
+
+    footer {
+      background-color: #264653;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐾 PawsHeart Overview</h1>
+  </header>
+
+  <div class="container">
+    <h2>✅ Completed Checklist</h2>
+    <ul id="checklistDisplay"></ul>
+
+    <h2>📅 Your Appointments</h2>
+    <ul id="allApptList"></ul>
+  </div>
+
+  <footer>
+    <p>Thank you for giving a pet a second chance 🐶</p>
+  </footer>
+
+  <script>
+   window.addEventListener("DOMContentLoaded", () => {
+  const checklistItems = [
+    "Schedule initial vet visit",
+    "Pet-proof your home",
+    "Buy food, bowls, bed, toys",
+    "Set feeding & potty schedule",
+    "Start bonding & training"
+  ];
+
+  const checklistState = JSON.parse(localStorage.getItem("postChecklist") || "[]");
+  const checklistDisplay = document.getElementById("checklistDisplay");
+
+  checklistItems.forEach((item, i) => {
+    if (checklistState[i]) {
+      const li = document.createElement("li");
+      li.textContent = item;
+      checklistDisplay.appendChild(li);
+    }
+  });
+
+  const appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
+  const allApptList = document.getElementById("allApptList");
+
+  appointments.forEach(appt => {
+    const li = document.createElement("li");
+    if (typeof appt === "object") {
+      li.innerHTML = `<strong>${appt.date}</strong> at <strong>${appt.time}</strong> — ${appt.note}`;
+    } else {
+      li.textContent = appt; // fallback if old format
+    }
+    allApptList.appendChild(li);
+  });
+});
+  </script>
+</body>
+</html>

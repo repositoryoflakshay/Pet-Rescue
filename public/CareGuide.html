@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pet Care Guide - PawsHeart</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #e0f7fa;
+      color: #333;
+      animation: fadeIn 1s ease-in;
+    }
+
+    header {
+      background-color: #0288d1;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    nav {
+  background: linear-gradient(to right, #01579b, #0288d1);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  left: 0;
+  bottom: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #0288d1;
+      margin-bottom: 10px;
+    }
+
+    .checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: item;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f9fa;
+  border: 1px solid #cfd8dc;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.checklist li:hover {
+  background-color: #e1f5fe;
+}
+
+.checklist input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 10px;
+}
+
+.checklist li.checked {
+  text-decoration: line-through;
+  color: #888;
+  background-color: #e0e0e0;
+}
+
+.checklist .delete-btn {
+  background: transparent;
+  border: none;
+  color: #f44336;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.checklist .delete-btn:hover {
+  color: #d32f2f;
+}
+
+    .add-item {
+      display: flex;
+      margin-top: 15px;
+    }
+
+    .add-item input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+    }
+
+    .add-item button {
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .add-item button:hover {
+      background-color: #0277bd;
+    }
+
+    .export-btn {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .export-btn button {
+      padding: 10px 20px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.media-item {
+  flex: 1 1 45%;
+  aspect-ratio: 16 / 9; /* Keeps both elements proportional */
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.media-item iframe,
+.media-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+
+
+    .testimonial-slider {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f1f1f1;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial {
+      display: none;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .testimonial.active {
+      display: block;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .testimonial p {
+      margin: 0;
+    }
+
+    .testimonial strong {
+      display: block;
+      margin-top: 10px;
+      color: #0288d1;
+    }
+
+    .download-section, .donation-bar {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .download-section a {
+      background: #0288d1;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .download-section a:hover {
+      background-color: #0277bd;
+    }
+
+    .donation-bar .progress-container {
+      background: #eee;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 24px;
+      background-color: #4caf50;
+      width: 65%;
+      text-align: center;
+      color: white;
+      line-height: 24px;
+    }
+
+    footer {
+      margin-top: 40px;
+      background-color: #01579b;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    footer p {
+      margin: 8px 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .media {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐶 Pet Care Guide</h1>
+    <p>Your go-to checklist for a happy, healthy furry friend 🐾</p>
+  </header>
+
+  <nav>
+    <a href="/public/home2.html">Home</a>
+    <a href="/public/store.html">Store</a>
+    <a href="/public/donate2.html">Donate</a>
+    <a href="/public/adopt.html">Adopt</a>
+    <a href="/public/stats.html">Stats</a>
+    <a href="/public/volunteer.html">Volunteer</a>
+    <a href="/public/wishlist.html">Wishlist</a>
+    <a href="/public/cart2.html">Cart</a>
+  </nav>
+
+  <div class="container" id="checklist-section">
+    <h2>✔️ Daily Pet Care Checklist</h2>
+    <div id="checklist-section">
+        <ul class="checklist" id="checklist">
+          <li>
+            <label><input type="checkbox" /> Feed pets daily with balanced nutrition</label>
+            <button class="delete-btn" onclick="deleteChecklistItem(this)">✖</button>
+          </li>
+          <li>
+            <label><input type="checkbox" /> Schedule regular grooming sessions</label>
+            <button class="delete-btn" onclick="deleteChecklistItem(this)">✖</button>
+          </li>
+          <li>
+            <label><input type="checkbox" /> Walk or play with your pet daily</label>
+            <button class="delete-btn" onclick="deleteChecklistItem(this)">✖</button>
+          </li>
+          <li>
+            <label><input type="checkbox" /> Book annual vet appointments</label>
+            <button class="delete-btn" onclick="deleteChecklistItem(this)">✖</button>
+          </li>
+          <li>
+            <label><input type="checkbox" /> Keep harmful items out of reach</label>
+            <button class="delete-btn" onclick="deleteChecklistItem(this)">✖</button>
+          </li>
+        </ul>
+      
+        <p id="counter">✅ 0 of 5 tasks completed</p>
+      
+        <div class="add-item">
+          <input type="text" id="newItem" placeholder="Add a new task..." />
+          <button onclick="addChecklistItem()">➕ Add</button>
+        </div>
+      </div>
+      /public/
+
+    <div class="export-btn">
+      <button onclick="exportChecklist()">📤 Export Checklist as PDF</button>
+    </div>
+
+    <div class="media">
+        <div class="media-item">
+          <iframe src="https://www.youtube.com/embed/ESq3abN7s-U" title="Pet Care 101"></iframe>
+        </div>
+        <div class="media-item">
+          <img src="assets/istockphoto-1367150296-612x612.jpg" alt="Pet love" />
+        </div>
+      </div>
+      
+
+    <div class="testimonial-slider" id="testimonial-slider">
+      <div class="testimonial active">
+        <p>“PawsHeart helped me learn how to care for my new pup. Amazing tips!”</p>
+        <strong>– Ananya R.</strong>
+      </div>
+      <div class="testimonial">
+        <p>“Thanks to the checklist, I never miss a grooming session again!”</p>
+        <strong>– Rahul M.</strong>
+      </div>
+      <div class="testimonial">
+        <p>“Clean UI, great guidance, and love the PDF export feature!”</p>
+        <strong>– Priya S.</strong>
+      </div>
+    </div>
+
+    <div class="download-section">
+      <h2>📥 Downloadable Pet Care Guide</h2>
+      <a href="assets/pet-care-guide.pdf" download>Download PDF</a>
+    </div>
+
+    <div class="donation-bar">
+      <h2>💖 Sponsor a Pet</h2>
+      <p>Help us reach our goal to care for 100 rescues!</p>
+      <div class="progress-container">
+        <div class="progress">65% Sponsored</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>💝 100% of all proceeds help rescued animals get medical care, shelter, and loving homes.</p>
+    <p>🐾 Stay connected with PawsHeart & help us spread love!</p>
+    <p>📬 For support or questions, email us at support@pawsheart.org</p>
+    <p>© 2025 PawsHeart. All rights reserved.</p>
+  </footer>
+
+  <!-- html2pdf.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    // Checklist Load and Save
+    document.addEventListener("DOMContentLoaded", function () {
+      const checklist = document.getElementById("checklist");
+      const saved = JSON.parse(localStorage.getItem("petChecklist")) || [];
+
+      checklist.querySelectorAll("li").forEach((li, idx) => {
+        if (saved[idx]) {
+          li.querySelector("input").checked = true;
+          li.classList.add("checked");
+        }
+        li.querySelector("input").addEventListener("change", () => {
+          li.classList.toggle("checked");
+          saveChecklist();
+        });
+      });
+
+      rotateTestimonials();
+    });
+
+    function saveChecklist() {
+    const listItems = Array.from(document.querySelectorAll("#checklist li")).map((li) => {
+      return {
+        text: li.querySelector("label").innerText.trim(),
+        checked: li.querySelector("input").checked
+      };
+    });
+    localStorage.setItem("petChecklist", JSON.stringify(listItems));
+  }
+
+  // Load checklist state on DOM ready
+  document.addEventListener("DOMContentLoaded", function () {
+    const saved = JSON.parse(localStorage.getItem("petChecklist")) || [];
+    const checklist = document.getElementById("checklist");
+    checklist.innerHTML = "";
+
+    saved.forEach((item) => {
+      const li = createChecklistItem(item.text, item.checked);
+      checklist.appendChild(li);
+    });
+
+    updateCount();
+  });
+
+  // Create a new checklist <li> item
+  function createChecklistItem(text, isChecked = false) {
+    const li = document.createElement("li");
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = isChecked;
+    input.addEventListener("change", () => {
+      li.classList.toggle("checked", input.checked);
+      saveChecklist();
+      updateCount();
+    });
+
+    const label = document.createElement("label");
+    label.appendChild(input);
+    label.append(" " + text);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "✖";
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.onclick = function () {
+      deleteChecklistItem(deleteBtn);
+    };
+
+    li.appendChild(label);
+    li.appendChild(deleteBtn);
+    if (isChecked) li.classList.add("checked");
+
+    return li;
+  }
+
+  // Add new checklist item
+  function addChecklistItem() {
+    const input = document.getElementById("newItem");
+    const value = input.value.trim();
+    if (value === "") return;
+
+    const li = createChecklistItem(value, false);
+    document.getElementById("checklist").appendChild(li);
+    input.value = "";
+    saveChecklist();
+    updateCount();
+  }
+
+  // Delete checklist item
+  function deleteChecklistItem(btn) {
+    const li = btn.parentElement;
+    li.remove();
+    saveChecklist();
+    updateCount();
+  }
+
+  // Count completed and total items
+  function updateCount() {
+    const allItems = document.querySelectorAll("#checklist li");
+    const completed = document.querySelectorAll("#checklist li input:checked").length;
+    const counter = document.getElementById("counter");
+    counter.textContent = `✅ ${completed} of ${allItems.length} tasks completed`;
+
+    // Optional: celebrate when all tasks done
+    // if (allItems.length > 0 && completed === allItems.length) {
+    //   alert("🎉 All tasks completed! You're an awesome pet parent!");
+    // }
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Donation Page – PawsHeart</title>
+  <link rel="stylesheet" href="home.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+/* 🌤️ Global Background Gradient */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: linear-gradient(to right, #e0f7fa, #fffde7); /* Soft Sky & Cream */
+  color: #2c3e50;
+  scroll-behavior: smooth;
+}
+
+header, footer {
+  background-color: #00acc1; /* turquoise accent */
+  color: white;
+  padding: 1rem 2rem;
+  text-align: center;
+}
+.donate-header {
+  background: linear-gradient(to right, #a18cd1, #fbc2eb);
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 26px;
+}
+
+.logo-area h1 {
+  font-size: 18px;
+  margin: 0;
+  color: black;
+  font-weight: 700;
+}
+
+.tagline {
+  font-size: 12px;
+  color: black;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+.donate-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.donate-nav a {
+  color: black;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.donate-nav a:hover,
+.donate-nav a.active {
+  color: black;
+  font-weight: bold;
+}
+
+.donate-nav a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s;
+  margin-top: 4px;
+}
+
+.donate-nav a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .donate-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .donate-nav {
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+.hero {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 60px 20px;
+  text-align: center;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  margin-top: 100px;
+  color: #007c91;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #007c91;
+}
+
+.donation-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+}
+
+.donation-box {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  width: 250px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  animation: slideUp 0.8s ease;
+}
+
+.donation-box:hover {
+  transform: translateY(-5px);
+}
+
+.donation-box h2 {
+  color: #00acc1;
+}
+
+.donation-box button {
+  margin-top: 10px;
+  background: #00acc1;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.donation-box button:hover {
+  background: #008b9f;
+}
+
+.donation-form {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 40px 20px;
+  text-align: center;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.donation-form form {
+  max-width: 500px;
+  margin: auto;
+}
+
+.donation-form input,
+.donation-form select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.donation-form button {
+  background: #00acc1;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.donation-form button:hover {
+  background: #008b9f;
+}
+
+.impact {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+
+.impact .stat {
+  font-size: 1.4rem;
+  color: #00acc1;
+}
+
+.testimonials {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.testimonial-box {
+  max-width: 600px;
+  margin: auto;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+footer {
+  font-size: 0.9rem;
+}
+
+/* ✅ Thank You Overlay */
+.success-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.success-message {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.5s ease;
+}
+
+.success-message h2 {
+  color: #27ae60;
+  margin-bottom: 10px;
+}
+
+.success-message p {
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .donation-options,
+  .impact {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+  </style>
+</head>
+<body>
+  <header class="donate-header">
+        <div class="logo-area">
+          <div class="logo-icon">🐾</div>
+          <div>
+            <h1>PawsHeart</h1>
+            <p class="tagline">Donate & Support Rescued Animals</p>
+          </div>
+        </div>
+        <nav class="donate-nav">
+          <a href="/public/home2.html">Home</a>
+          <a href="/public/adopt.html">Adopt</a>
+          <a href="/public/care.html">Pet Care</a>
+          <a href="/public/lost.html">Lost</a>
+          <a href="/public/store.html" class="active">Pet Store</a>
+          <a href="/public/stats.html">📊 View Donation Stats</a>
+
+        </nav>
+      </header>
+      
+      
+
+  <section class="hero">
+    <h1>Help Us Help Them 🐶🐱</h1>
+    <p>100% of your donation goes to animal rescue, care, and adoption efforts.</p>
+  </section>
+
+  <section class="donation-options">
+    <div class="donation-box">
+      <h2>₹100</h2>
+      <p>One Meal for a Rescue Pet</p>
+      <button onclick="fillAmount(100)">Donate ₹100</button>
+    </div>
+    <div class="donation-box">
+      <h2>₹500</h2>
+      <p>Vaccination for One Pet</p>
+      <button onclick="fillAmount(500)">Donate ₹500</button>
+    </div>
+    <div class="donation-box">/public/
+      <h2>₹1000</h2>
+      <p>Full Medical Aid for a Rescue</p>
+      <button onclick="fillAmount(1000)">Donate ₹1000</button>
+    </div>
+  </section>
+   <!-- ✅ SUCCESS OVERLAY -->
+<div id="successOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); justify-content: center; align-items: center; z-index: 1000;">
+  <div class="success-message" style="text-align: center; padding: 30px;">
+    <h2>🎉 Thank You!</h2>
+    <p>Your donation has been recorded.<br>You're making a big difference 🐾</p>
+    <button onclick="downloadCertificate()" style="margin-top: 16px; padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      🎓 Download Donation Certificate
+    </button>
+    
+
+    <!-- ✅ Newsletter message + form embedded here -->
+    <p style="margin-top: 20px; font-weight: bold;">Subscribe to see the progress of your donation</p>
+    <div id="newsletterContainer">
+      <form id="newsletterForm" style="margin-top: 10px;">
+        <input
+          type="email"
+          id="newsletterEmail"
+          placeholder="Your email address"
+          style="padding: 10px 14px; border: none; border-radius: 6px; font-size: 14px; max-width: 240px;"
+          required
+        />
+        <button
+          type="submit"
+          style="padding: 10px 16px; background-color: #fff; color: #7b4db3; font-weight: bold; border: none; border-radius: 6px; margin-left: 8px; cursor: pointer;"
+        >
+          Subscribe
+        </button>
+      </form>
+      <p id="newsletterThanks" style="color: #444; font-weight: bold; margin-top: 10px;"></p>
+    </div>
+  </div>
+</div>
+
+  <section class="donation-form">
+    <h2>💝 Custom Donation</h2>
+    <form id="donationForm">
+      <input type="number" id="amount" placeholder="Enter donation amount (₹)" required>
+      <input type="text" id="donorName" placeholder="Your Name" required>
+      <input type="email" id="donorEmail" placeholder="Your Email" required>
+      <select id="donationPurpose">
+        <option value="Rescue">Animal Rescue</option>
+        <option value="Medical">Medical Aid</option>
+        <option value="Shelter">Shelter Support</option>
+        <option value="Adoption">Use for Adoption Events</option>
+        <option value="Food">Use for Food & Shelter</option>
+      </select>
+      
+      <button type="submit">Donate Now</button>
+    </form>
+  </section>
+
+  <section class="impact">
+    <div>
+      <div class="stat">💉 500+ Vaccinations</div>
+      <p>and counting!</p>
+    </div>
+    <div>
+      <div class="stat">🏠 1200+ Pets Adopted</div>
+      <p>into loving homes.</p>
+    </div>
+    <div>
+      <div class="stat">💖 95% Recovery Rate</div>
+      <p>thanks to donors like you.</p>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h2>What Donors Say 💬</h2>
+    <div class="testimonial-box">
+      "I’m proud to support PawsHeart. Every rupee counts, and I’ve seen the impact first-hand!" – <b>Riya S.</b>
+    </div>
+  </section>
+
+  <footer>
+    <footer style="background: linear-gradient(to right, #7b4db3, #9d6ae0); color: white; text-align: center; padding: 30px 15px; font-family: 'Segoe UI', sans-serif; font-size: 15px;">
+
+    <p style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">
+      💝 Your Donation Makes Miracles Happen – One Paw at a Time 🐶🐱
+    </p>
+  
+    <p style="max-width: 600px; margin: 0 auto 15px;">
+      Every contribution helps provide medical care, shelter, and love to animals in need. 100% of proceeds go to the rescue mission.
+    </p>
+  
+    <p style="margin-bottom: 10px;">
+      📬 Questions? <a href="mailto:support@pawsheart.org" style="color: #ffe; text-decoration: underline;">Email Us</a>
+    </p>
+  
+   
+
+
+<script>
+  function fillAmount(value) {
+    document.getElementById('amount').value = value;
+    document.getElementById('amount').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  document.getElementById("donationForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const amount = document.getElementById("amount").value;
+    const name = document.getElementById("donorName").value;
+    const email = document.getElementById("donorEmail").value;
+    const purpose = document.getElementById("donationPurpose").value;
+
+    const donation = {
+      amount,
+      name,
+      email,
+      purpose,
+      date: new Date().toLocaleString()
+    };
+
+    let donations = JSON.parse(localStorage.getItem("donations")) || [];
+    donations.push(donation);
+    localStorage.setItem("donations", JSON.stringify(donations));
+
+    // Show success overlay + newsletter form
+    document.getElementById("successOverlay").style.display = "flex";
+
+    // Auto-hide after 3 seconds and reset form
+    setTimeout(() => {
+      document.getElementById("successOverlay").style.display = "none";
+      document.getElementById("donationForm").reset();
+    }, 20000);
+  });
+
+  // Newsletter subscription handler
+  document.getElementById("newsletterForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const emailInput = document.getElementById("newsletterEmail");
+    const email = emailInput.value.trim().toLowerCase();
+    const thankYouMsg = document.getElementById("newsletterThanks");
+
+    if (!email || !email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    let subscribers = JSON.parse(localStorage.getItem("newsletterSubscribers")) || [];
+
+    if (!subscribers.includes(email)) {
+      subscribers.push(email);
+      localStorage.setItem("newsletterSubscribers", JSON.stringify(subscribers));
+      thankYouMsg.textContent = "✅ Thank you for subscribing! We'll keep you updated 🐾";
+    } else {
+      thankYouMsg.textContent = "📬 You're already subscribed!";
+    }
+
+    emailInput.value = "";
+  });
+  let latestDonation = {}; // Store latest donation for the certificate
+
+function fillAmount(value) {
+  document.getElementById('amount').value = value;
+  document.getElementById('amount').scrollIntoView({ behavior: 'smooth' });
+}
+
+document.getElementById("donationForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const donation = {
+    amount: document.getElementById("amount").value,
+    name: document.getElementById("donorName").value,
+    email: document.getElementById("donorEmail").value,
+    purpose: document.getElementById("donationPurpose").value,
+    date: new Date().toLocaleString()
+  };
+
+  latestDonation = donation; // Store for PDF use
+
+  let allDonations = JSON.parse(localStorage.getItem("donations")) || [];
+allDonations.push(newDonationObject);
+localStorage.setItem("donations", JSON.stringify(allDonations));
+
+
+  const overlay = document.getElementById("successOverlay");
+  overlay.style.display = "flex";
+
+  const newsletterPrompt = document.getElementById("newsletterPrompt");
+  const newsletterText = document.getElementById("newsletterText");
+  newsletterText.innerHTML = `Subscribe to get updates about the animal rescued by your donation of ₹${donation.amount} towards <strong>${donation.purpose}</strong>.`;
+  newsletterPrompt.style.display = "block";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+    newsletterPrompt.style.display = "none";
+    document.getElementById("donationForm").reset();
+  }, 20000);
+});
+
+function subscribeNewsletter(event) {
+  event.preventDefault();
+  const emailInput = document.getElementById("newsletterEmail");
+  const email = emailInput.value.trim();
+
+  if (email === "") {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  let subscribers = JSON.parse(localStorage.getItem("newsletterSubscribers")) || [];
+  if (!subscribers.includes(email)) {
+    subscribers.push(email);
+    localStorage.setItem("newsletterSubscribers", JSON.stringify(subscribers));
+    alert("✅ You're now subscribed to animal updates!");
+  } else {
+    alert("📩 You're already subscribed.");
+  }
+
+  emailInput.value = "";
+}
+
+// 📄 Generate Certificate
+function downloadCertificate() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(22);
+  doc.text("🎓 PawsHeart Donation Certificate", 20, 30);
+
+  doc.setFontSize(14);
+  doc.text(`This certifies that`, 20, 50);
+  doc.setFontSize(16);
+  doc.text(`${latestDonation.name}`, 20, 60);
+
+  doc.setFontSize(14);
+  doc.text(`has generously donated ₹${latestDonation.amount}`, 20, 75);
+  doc.text(`towards ${latestDonation.purpose} on ${latestDonation.date}`, 20, 85);
+  doc.text(`Your contribution helps us save and support animals in need.`, 20, 100);
+
+  doc.setFontSize(12);
+  doc.text("💖 Thank you for your kindness and support!", 20, 115);
+
+  doc.save(`PawsHeart_Certificate_${latestDonation.name}.pdf`);
+}
+
+</script>
+
+</body>
+</html>

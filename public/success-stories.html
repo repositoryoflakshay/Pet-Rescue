@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Success Stories – PawsHeart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #fff7ec;
+      color: #2e2e2e;
+    }
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: linear-gradient(135deg, #f9c74f, #f9844a);
+      color: #222;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-size: 2.0rem;
+    }
+    .carousel {
+      max-width: 700px;
+      margin: 2rem auto;
+      overflow: hidden;
+      position: relative;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 2rem;
+      text-align: center;
+    }
+    .carousel-item img {
+      max-height: 200px;
+      border-radius: 12px;
+    }
+    .story-form {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .story-form textarea, .story-form input {
+      width: 90%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .story-form button {
+      background: #f3722c;
+      color: white;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .bottom {
+      text-align: center;
+      padding: 1.5rem;
+      background: #f9c74f;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">🐾 Heartwarming Rescue Stories</header>
+
+  <div class="carousel" id="carousel">
+    <div class="carousel-inner" id="carouselInner"></div>
+  </div>
+
+  <!-- Story Submission -->
+  <div class="story-form">
+    <h3>🐾 Submit Your Story</h3>
+    <input type="text" id="userName" placeholder="Your Name" required />
+    <textarea id="userStory" placeholder="Share your adoption story..." required></textarea>
+    <input type="file" id="userImage" accept="image/*" />
+    <button onclick="submitStory()">Submit</button>
+  </div>
+
+  <!-- Real Stories Button -->
+  <div style="text-align:center; margin-top: 2rem;">
+    <a href="approved.html" style="text-decoration: none;">
+      <button style="
+        background: linear-gradient(135deg, #f9c74f, #f9844a);
+        color: #fff;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border: none;
+        margin-bottom: 20px;
+        border-radius: 50px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+      " onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 0 15px #f9844a';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.2)'">
+        ✨ Real Stories
+      </button>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <div class="bottom">
+    <p>“Every rescue story is a victory.” 🐾<br />
+      Follow us on ❤️ Instagram | 🐶 Facebook | 🐾 Twitter (coming soon)</p>
+    <br>
+    © 2025 PawsHeart Pet Rescue
+  </div>
+
+  <script>
+    const preloadedStories = [
+      { name: "Bruno", text: "From chains to cuddles – Bruno now sleeps on warm blankets instead of cold concrete.", img: "https://placedog.net/400/200?id=1" },
+      { name: "Zoe", text: "Little fighter – Zoe overcame mange and now lights up a family's home.", img: "https://placedog.net/400/200?id=2" },
+      { name: "Bella", text: "Deaf but not defeated – Bella now teaches children about kindness.", img: "https://placedog.net/400/200?id=3" },
+      { name: "Mochi", text: "Rescued from a drain, Mochi is now her human's yoga partner.", img: "https://placekitten.com/400/200" },
+      { name: "Max", text: "Once abused, Max now smiles and melts hearts in his neighborhood.", img: "https://placedog.net/400/200?id=4" }
+    ];
+
+    let currentSlide = 0;
+
+    function renderCarousel() {
+      const stories = JSON.parse(localStorage.getItem("approvedStories") || "[]");
+      const allStories = [...preloadedStories, ...stories];
+      const inner = document.getElementById("carouselInner");
+      inner.innerHTML = allStories.map((story, index) => `
+        <div class="carousel-item" style="opacity:0; animation:fadeIn 1s ease ${index * 0.3}s forwards;">
+          <img src="${story.img}" alt="${story.name}" />
+          <h3>${story.name}</h3>
+          <p>${story.text}</p>
+        </div>
+      `).join('');
+    }
+
+    function nextSlide() {
+      const items = document.querySelectorAll(".carousel-item");
+      currentSlide = (currentSlide + 1) % items.length;
+      document.getElementById("carouselInner").style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    setInterval(nextSlide, 5000);
+
+    function submitStory() {
+      const name = document.getElementById("userName").value.trim();
+      const text = document.getElementById("userStory").value.trim();
+      const imgInput = document.getElementById("userImage");
+      if (!name || !text) return alert("Please fill all fields.");
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = reader.result;
+        const pending = JSON.parse(localStorage.getItem("pendingStories") || "[]");
+        pending.push({ name, text, img });
+        localStorage.setItem("pendingStories", JSON.stringify(pending));
+        alert("Story submitted for approval!");
+        document.getElementById("userName").value = "";
+        document.getElementById("userStory").value = "";
+        imgInput.value = "";
+      };
+      if (imgInput.files[0]) {
+        reader.readAsDataURL(imgInput.files[0]);
+      } else {
+        reader.onload();
+      }
+    }
+
+    window.onload = () => renderCarousel();
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+    const ADMIN_FLAG = "isAdmin"; // Admin session check
+
+  function renderCarousel() {
+    const stories = JSON.parse(localStorage.getItem("approvedStories") || "[]");
+    const allStories = [...preloadedStories, ...stories];
+    const inner = document.getElementById("carouselInner");
+    inner.innerHTML = allStories.map((story, index) => `
+      <div class="carousel-item" style="opacity:0; animation:fadeIn 1s ease ${index * 0.3}s forwards;">
+        <img src="${story.img}" alt="${story.name}" />
+        <h3>${story.name}</h3>
+        <p>${story.text}</p>
+      </div>
+    `).join('');
+  }
+
+  function nextSlide() {
+    const items = document.querySelectorAll(".carousel-item");
+    currentSlide = (currentSlide + 1) % items.length;
+    document.getElementById("carouselInner").style.transform = `translateX(-${currentSlide * 100}%)`;
+  }
+  setInterval(nextSlide, 5000);
+
+  function submitStory() {
+    const name = document.getElementById("userName").value.trim();
+    const text = document.getElementById("userStory").value.trim();
+    const imgInput = document.getElementById("userImage");
+    if (!name || !text) return alert("Please fill all fields.");
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = reader.result;
+      const pending = JSON.parse(localStorage.getItem("pendingStories") || "[]");
+      pending.push({ name, text, img });
+      localStorage.setItem("pendingStories", JSON.stringify(pending));
+      alert("Story submitted for approval!");
+      document.getElementById("userName").value = "";
+      document.getElementById("userStory").value = "";
+      imgInput.value = "";
+    };
+    if (imgInput.files[0]) {
+      reader.readAsDataURL(imgInput.files[0]);
+    } else {
+      reader.onload();
+    }
+  }
+
+  function renderAdminPanel() {
+    const pending = JSON.parse(localStorage.getItem("pendingStories") || "[]");
+    const container = document.getElementById("adminList");
+    container.innerHTML = pending.map((story, idx) => `
+      <div style="margin-bottom:1rem;">
+        <img src="${story.img}" style="width:100%; max-height:150px;" />
+        <h4>${story.name}</h4>
+        <p>${story.text}</p>
+        <button onclick="approveStory(${idx})">Approve</button>
+        <button onclick="rejectStory(${idx})" style="background:#ccc; margin-left:0.5rem;">Reject</button>
+      </div>
+    `).join('');
+  }
+
+  function approveStory(index) {
+    const pending = JSON.parse(localStorage.getItem("pendingStories") || "[]");
+    const approved = JSON.parse(localStorage.getItem("approvedStories") || "[]");
+    approved.push(pending[index]);
+    pending.splice(index, 1);
+    localStorage.setItem("pendingStories", JSON.stringify(pending));
+    localStorage.setItem("approvedStories", JSON.stringify(approved));
+    renderCarousel();
+    renderAdminPanel();
+  }
+
+  function rejectStory(index) {
+    const pending = JSON.parse(localStorage.getItem("pendingStories") || "[]");
+    pending.splice(index, 1);
+    localStorage.setItem("pendingStories", JSON.stringify(pending));
+    renderAdminPanel();
+  }
+
+  function logoutAdmin() {
+    localStorage.removeItem(ADMIN_FLAG);
+    location.reload();
+  }
+
+  window.onload = () => {
+    renderCarousel();
+    if (localStorage.getItem(ADMIN_FLAG) === "true") {
+      document.querySelector(".admin-panel").style.display = "block";
+      renderAdminPanel();
+    }
+  };
+  </script>
+</body>
+</html>

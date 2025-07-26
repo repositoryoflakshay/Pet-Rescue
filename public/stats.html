@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donation Statistics - PawsHeart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 30px 0 10px;
+      color: #2c3e50;
+    }
+
+    .stats-summary {
+      text-align: center;
+      margin: 10px 0 30px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    canvas {
+      max-height: 220px;
+    }
+
+    .btn-export {
+      display: block;
+      margin: 10px auto 30px;
+      padding: 10px 20px;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-export:hover {
+      background: #125ea8;
+    }
+
+    .impact-section {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .impact-section h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    .impact-highlights {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .impact-box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .impact-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .impact-box i {
+      font-size: 40px;
+      margin-bottom: 15px;
+      color: #ff6f61;
+    }
+
+    .impact-box p {
+      font-size: 16px;
+      color: #333;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    footer p {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #ffd700;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .impact-box {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📊 PawsHeart Donation Insights</h1>
+  <div class="stats-summary" id="summarySection">
+    🏅 <strong>Top Donor:</strong> (coming soon) |
+    📈 <strong>Growth:</strong> (auto-calculating...) |
+    💡 <strong>Tip:</strong> Hover over bars for details
+  </div>
+  <div style="max-width: 900px; margin: 0 auto 20px; padding: 10px;">
+    <h2 style="text-align:center; color: #2c3e50;">🔍 Filter Donations</h2>
+    <form id="filterForm" style="margin-top: 20px;">
+      <label>Purpose:
+        <select id="filterPurpose">
+          <option value="all">All</option>
+          <option value="Rescue">Rescue</option>
+          <option value="Medical">Medical</option>
+          <option value="Shelter">Shelter</option>
+          <option value="Food">Food</option>
+        </select>
+      </label>
+      <label>From:
+        <input type="date" id="filterFromDate">
+      </label>
+      <label>To:
+        <input type="date" id="filterToDate">
+      </label>
+      <button type="submit">Apply Filter</button>
+    </form>
+    
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Total ₹ Donated per Purpose</h2>
+      <canvas id="amountChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>Number of Donations per Purpose</h2>
+      <canvas id="countChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>Monthly Donation Amounts</h2>
+      <canvas id="monthlyChart"></canvas>
+    </div>
+  </div>
+
+  <button class="btn-export" onclick="exportCharts()">📤 Export All Charts</button>
+  <div style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+    <h2 style="text-align:center; color:#2c3e50;">🏆 Top Donors</h2>
+    <ul id="leaderboard" style="list-style:none; padding-left:0; text-align:center; color:#444;"></ul>
+
+    <h3 style="text-align:center; color:#2c3e50; margin-top: 20px;">
+      💰 Average Donation per Donor:
+      <span id="avgDonation" style="color:#4caf50; font-weight: bold;"></span>
+    </h3>
+  </div>
+
+  <!-- Impact Section -->
+  <div class="impact-section">
+    <h2>💖 Your Donations Create Real Impact</h2>
+    <div class="impact-highlights">
+      <div class="impact-box">
+        <i>🐾</i>
+        <p><strong>150+ Animals Rescued</strong><br>in the past 6 months</p>
+      </div>
+      <div class="impact-box">
+        <i>🏡</i>
+        <p><strong>80+ Forever Homes</strong><br>found through our adoption program</p>
+      </div>
+      <div class="impact-box">
+        <i>🍲</i>
+        <p><strong>2,500+ Meals Provided</strong><br>through shelter support</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>💝 <strong>Your donations help save lives at PawsHeart.</strong></p>
+    <p>100% of contributions go directly to rescue, medical care, and shelter operations.</p>
+    <p>
+      <a href="/public/home2.html">Home</a> |
+      <a href="/public/store.html">Store</a> |
+      <a href="/public/adopt.html">Adopt</a> |
+      <a href="/public/donate2.html">Donate</a>
+    </p>
+  </footer>
+
+  <script>
+    const donations = JSON.parse(localStorage.getItem("donations")) || [];
+  
+    const ctx1 = document.getElementById("amountChart").getContext("2d");
+    const ctx2 = document.getElementById("countChart").getContext("2d");
+    const ctx3 = document.getElementById("monthlyChart").getContext("2d");
+  
+    let amountChart, countChart, monthlyChart;
+  
+    function processDonations(data) {
+      const purposeTotals = { Rescue: 0, Adoption: 0, Medical: 0, Shelter: 0, Food: 0 };
+      const purposeCounts = { Rescue: 0, Adoption: 0, Medical: 0, Shelter: 0, Food: 0 };
+      const monthlyTotals = {};
+      const donorMap = {};
+  
+      data.forEach(d => {
+        const purpose = d.purpose?.trim();
+        const amount = parseFloat(d.amount);
+        const name = d.name?.trim() || "Anonymous";
+  
+        if (purposeTotals[purpose] !== undefined) {
+          purposeTotals[purpose] += amount;
+          purposeCounts[purpose]++;
+        }
+  
+        const date = new Date(d.date || d.timestamp || Date.now());
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        if (!monthlyTotals[monthKey]) monthlyTotals[monthKey] = 0;
+        monthlyTotals[monthKey] += amount;
+  
+        if (!donorMap[name]) donorMap[name] = 0;
+        donorMap[name] += amount;
+      });
+  
+      return { purposeTotals, purposeCounts, monthlyTotals, donorMap };
+    }
+  
+    function renderCharts(data) {
+      const { purposeTotals, purposeCounts, monthlyTotals } = processDonations(data);
+      const purposeLabels = Object.keys(purposeTotals);
+      const sortedMonths = Object.keys(monthlyTotals).sort();
+      const monthLabels = sortedMonths.map(m => {
+        const [y, mo] = m.split("-");
+        return `${new Date(`${y}-${mo}-01`).toLocaleString('default', { month: 'short', year: 'numeric' })}`;
+      });
+  
+      if (amountChart) amountChart.destroy();
+      if (countChart) countChart.destroy();
+      if (monthlyChart) monthlyChart.destroy();
+  
+      amountChart = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: purposeLabels,
+          datasets: [{
+            label: "₹ Total",
+            data: Object.values(purposeTotals),
+            backgroundColor: "#4caf50"
+          }]
+        },
+        options: { indexAxis: 'y', responsive: true, scales: { x: { beginAtZero: true } } }
+      });
+  
+      countChart = new Chart(ctx2, {
+        type: "bar",
+        data: {
+          labels: purposeLabels,
+          datasets: [{
+            label: "Donations",
+            data: Object.values(purposeCounts),
+            backgroundColor: "#2196f3"
+          }]
+        },
+        options: { indexAxis: 'y', responsive: true, scales: { x: { beginAtZero: true } } }
+      });
+  
+      monthlyChart = new Chart(ctx3, {
+        type: "bar",
+        data: {
+          labels: monthLabels,
+          datasets: [{
+            label: "₹ by Month",
+            data: sortedMonths.map(m => monthlyTotals[m]),
+            backgroundColor: "#ff9800"
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+  
+    function getTopDonors(data, limit = 5) {
+      const totals = {};
+      data.forEach(({ name, amount }) => {
+        if (!totals[name]) totals[name] = 0;
+        totals[name] += parseFloat(amount);
+      });
+      return Object.entries(totals).sort((a, b) => b[1] - a[1]).slice(0, limit);
+    }
+  
+    function getAverageDonationPerDonor(data) {
+      const donorSet = new Set(data.map(d => d.name));
+      const total = data.reduce((sum, d) => sum + parseFloat(d.amount), 0);
+      return (total / donorSet.size || 0).toFixed(2);
+    }
+  
+    function filterDonations({ purpose = null, fromDate = null, toDate = null }) {
+      return donations.filter(d => {
+        const matchPurpose = purpose ? d.purpose === purpose : true;
+        const date = new Date(d.date);
+        const matchFrom = fromDate ? date >= new Date(fromDate) : true;
+        const matchTo = toDate ? date <= new Date(toDate) : true;
+        return matchPurpose && matchFrom && matchTo;
+      });
+    }
+  
+    function updateLeaderboardAndAverage(data) {
+      const leaderboard = getTopDonors(data);
+      const leaderboardEl = document.getElementById("leaderboard");
+      leaderboardEl.innerHTML = "";
+      leaderboard.forEach(([name, amount]) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${name}</strong>: ₹${amount.toFixed(2)}`;
+        leaderboardEl.appendChild(li);
+      });
+  
+      const avgDonation = getAverageDonationPerDonor(data);
+      document.getElementById("avgDonation").textContent = `₹${avgDonation}`;
+    }
+  
+    function updateSummary(data) {
+      const { monthlyTotals, donorMap } = processDonations(data);
+      const topDonor = Object.entries(donorMap).sort((a, b) => b[1] - a[1])[0]?.[0] || "None";
+      const thisMonthKey = new Date().toISOString().slice(0, 7);
+      const lastMonthKey = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().slice(0, 7);
+      const growth = monthlyTotals[thisMonthKey] && monthlyTotals[lastMonthKey]
+        ? (((monthlyTotals[thisMonthKey] - monthlyTotals[lastMonthKey]) / monthlyTotals[lastMonthKey]) * 100).toFixed(1)
+        : "0";
+  
+      document.getElementById("summarySection").innerHTML = `
+        🏅 <strong>Top Donor:</strong> ${topDonor} |
+        📈 <strong>Growth:</strong> ${growth}% since last month |
+        💡 <strong>Tip:</strong> Hover over bars for details`;
+    }
+  
+    // 📤 Export all charts
+    function exportCharts() {
+      [amountChart, countChart, monthlyChart].forEach(chart => {
+        const link = document.createElement("a");
+        link.download = chart.canvas.id + ".png";
+        link.href = chart.toBase64Image();
+        link.click();
+      });
+    }
+  
+    // ⬇️ Filter form listener
+    document.getElementById("filterForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const purpose = document.getElementById("filterPurpose").value;
+      const fromDate = document.getElementById("filterFromDate").value;
+      const toDate = document.getElementById("filterToDate").value;
+  
+      const filtered = filterDonations({ purpose, fromDate, toDate });
+  
+      alert(`🔎 Found ${filtered.length} donation(s) matching your filters.`);
+  
+      renderCharts(filtered);
+      updateLeaderboardAndAverage(filtered);
+      updateSummary(filtered);
+    });
+  
+    // 🔁 Auto-refresh on new donations
+    let lastLength = donations.length;
+    setInterval(() => {
+      const fresh = JSON.parse(localStorage.getItem("donations")) || [];
+      if (fresh.length !== lastLength) location.reload();
+    }, 2000);
+  
+    // Initial chart and data load
+    renderCharts(donations);
+    updateLeaderboardAndAverage(donations);
+    updateSummary(donations);
+  </script>
+  
+</body>
+
+</html>

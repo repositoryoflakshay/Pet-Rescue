@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Volunteer Dashboard – PawsHeart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(120deg, #f9f9f9, #e6f7ff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 1.8em;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #fff3f0;
+      padding: 10px;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #444;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff6f61;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      animation: fadeIn 1s ease;
+      overflow-x: auto;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .btn-export {
+      display: block;
+      margin: 10px auto 20px;
+      background-color: #ff6f61;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .btn-export:hover {
+      background-color: #e55448;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background-color: #f4f4f4;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+<header>🐾 Volunteer Dashboard</header>
+
+<nav>
+  <a href="/public/home2.html">Home</a>
+  <a href="/public/adopt.html">Adopt</a>
+  <a href="/public/donate2.html">Donate</a>
+  <a href="/public/store.html">Store</a>
+  <a href="/public/volunteer.html">Volunteer</a>
+</nav>
+
+<div class="container">
+  <h2>Volunteer Submissions</h2>
+  <button class="btn-export" onclick="exportToCSV()">📥 Export as CSV</button>
+  <table id="volunteerTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone No.</th>
+        <th>Roles</th>
+        <th>Message</th>
+        <th>Uploaded File</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  💝 Dedicated Volunteers Make This Possible – Thank you from PawsHeart!
+</footer>
+
+<script>
+  const submissions = JSON.parse(localStorage.getItem("volunteerSubmissions")) || [];
+
+  const tbody = document.querySelector("#volunteerTable tbody");
+  submissions.forEach(entry => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${entry.name}</td>
+      <td>${entry.email}</td>
+      <td>${entry.roles.join(', ')}</td>
+      <td>${entry.message || "—"}</td>
+      <td>${entry.fileName || "—"}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  function exportToCSV() {
+    if (submissions.length === 0) return alert("No data to export!");
+
+    const headers = ["Name", "Email", "Roles", "Message", "Uploaded File"];
+    const rows = submissions.map(entry => [
+      `"${entry.name}"`,
+      `"${entry.email}"`,
+      `"${entry.roles.join(', ')}"`,
+      `"${entry.message || ''}"`,
+      `"${entry.fileName || ''}"`
+    ]);
+
+    const csvContent = [headers, ...rows].map(row => row.join(",")).join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", "pawsheart_volunteers.csv");
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PawsHeart - Pet Rescue & Adoption</title>
+  <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">🐾 PawsHeart</div>
+      <nav>
+        <ul>
+          <li><a href="/public/home2.html">Home</a></li>
+          <li><a href="/public/adopt.html">Adopt</a></li>
+          <li><a href="/public/lost.html">Lost & Found</a></li>
+          <li><a href="/public/care.html">Pet Care</a></li>
+          <li><a href="/public/store.html">Pet Store</a></li>
+          <li><a href="/public/apply.html">Apply</a></li>
+          <li><a href="/public/success-stories.html" id="successLink" style="display: none;">Success Stories</a></li>
+          <li><a href="/public/dashboard.html" id="dashboardLink" style="display: none;">Dashboard</a></li>
+        </ul>
+      </nav>
+  
+      <div class="cart-icon">
+        <a href="/public/cart2.html" style="font-size: 1.3rem; text-decoration: none; color: black;">🛒</a>
+        <span id="cart-count">0</span>
+        <div class="cart-preview">
+          <h4>Recent Items:</h4>
+          <ul id="cart-items-preview"></ul>
+        </div>
+      </div>
+  
+      <a href="login.html" style="text-decoration: none;">
+        <button>🔒 Login</button>
+      </a>
+      
+      
+    </div>
+  </header>
+  
+  <div id="successOverlay">🎉 Welcome Admin! See the progress of your site.</div>
+  <section class="hero" style="min-height: 70vh; display: flex; flex-direction: column; justify-content: center;">
+    <h1>Find Your Perfect Companion
+    </h1>
+    <p>Help us give stray animals a loving home. Every adoption saves a life and makes room for another rescue </p>
+    <a href="adopt.html"><button>Start Adopting</button></a>
+  </section>
+  <div id="loginModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div
+      style="background:#fff; padding:2rem; border-radius:12px; max-width:350px; width:90%; position:relative; box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+      <h2 style="margin-top:0; text-align:center; color:#7b4db3;">Admin Login</h2>
+      <input type="text" id="adminUsername" placeholder="Username"
+        style="width:100%; padding:0.6rem; margin:0.5rem 0; border:1px solid #ccc; border-radius:6px;" />
+      <input type="password" id="adminPassword" placeholder="Password"
+        style="width:100%; padding:0.6rem; margin-bottom:1rem; border:1px solid #ccc; border-radius:6px;" />
+      <button onclick="adminLogin()"
+        style="width:100%; padding:0.7rem; background:#7b4db3; color:#fff; border:none; border-radius:8px; cursor:pointer;">Login</button>
+      <button onclick="document.getElementById('loginModal').style.display='none'"
+        style="margin-top:0.8rem; width:100%; background:transparent; color:#333; border:none; text-decoration:underline;">Cancel</button>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="footer-content">
+      <div>
+        <h3>Contact Us</h3>
+        <p>📧 info@pawsheart.org</p>
+        <p>📞 (555) 123-PAWS</p>
+        <p>📍 123 Rescue Lane, Pet City</p>
+      </div>
+      <div>
+        <h3>Follow Us</h3>
+        <p>🐾 @PawsHeartRescue</p>
+        <p>📸 Instagram / Facebook / Twitter</p>
+      </div>
+      <div>
+        <h3>Volunteer</h3>
+        <p>Join our mission to save more lives</p>
+        <p>Help with fostering, events, and more</p>
+      </div>
+      <div>
+        <h3>Pet Store</h3>
+        <p>🛍️ Quality food, toys, beds, and accessories</p>
+        <p>🎁 All profits support rescue & adoption</p>
+      </div>
+    </div>
+
+    <div class="hero-footer">
+      <h2>💪 Be a Hero for Animals 🐾</h2>
+      <p>Whether you adopt, shop, donate or volunteer — you're saving lives!</p>
+      <div class="hero-links">
+        <a href="/public/adopt.html">Adopt</a>
+        <a href="/public/volunteer.html">Volunteer</a>
+        <a href="/public/donate2.html">Donate</a>
+        <a href="/public/store.html">Shop</a>
+      </div>
+    </div>
+
+    <div class="newsletter">
+      <h3>📬 Subscribe to Our Newsletter</h3>
+      <p>Get the latest rescue stories, tips, and updates in your inbox.</p>
+      <form>
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+
+
+    <div class="bottom">
+      <p>
+        <a href="/public/FAQ.html" style="color: inherit; text-decoration: none;">❓ Adoption FAQs</a> |
+        <a href="/public/success-stories.html" style="color: inherit; text-decoration: none;">🐕 Success Stories</a> |
+        <a href="/public/volunteer.html" style="color: inherit; text-decoration: none;">🙌 Volunteer Impact</a> |
+        <a href="store.html#bestsellers" style="color: inherit; text-decoration: none;">🌟 Bestsellers</a> |
+        <a href="certificate.html" style="color: inherit; text-decoration: none;">📄 Donation Certificate</a> |
+        <a href="stats.html" style="color: inherit; text-decoration: none;">📊 Track Donations</a>
+      </p>
+      <br><br>
+      © 2025 PawsHeart Pet Rescue. Made with ❤️.
+    </div>
+
+
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // === Newsletter Form Logic ===
+      const newsletterForm = document.querySelector(".newsletter form");
+      const emailInput = newsletterForm.querySelector("input[type='email']");
+  
+      newsletterForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+          alert("❗Oops!\n\nPlease enter a valid email address.");
+          return;
+        }
+  
+        let subscribers = JSON.parse(localStorage.getItem("newsletterSubscribers")) || [];
+        if (!subscribers.includes(email)) {
+          subscribers.push(email);
+          localStorage.setItem("newsletterSubscribers", JSON.stringify(subscribers));
+          alert("🎉 Welcome to the Pack!\n\nThank you for subscribing! 🐾\nYou’ll now be the first to know about lost pets, rescue alerts, and heartwarming adoption stories.");
+        } else {
+          alert("📬 You're Already Subscribed\n\nLooks like you're already part of our furry family!");
+        }
+  
+        emailInput.value = "";
+      });
+  
+      // === Cart Preview Update ===
+      function updateCartPreview() {
+        let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        let cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        document.getElementById("cart-count").innerText = cartCount;
+  
+        let previewList = document.getElementById("cart-items-preview");
+        if (!previewList) return;
+        previewList.innerHTML = "";
+  
+        let recentItems = cartItems.slice(-3).reverse();
+        for (let item of recentItems) {
+          let li = document.createElement("li");
+          li.textContent = `${item.name} × ${item.quantity}`;
+          previewList.appendChild(li);
+        }
+      }
+  
+      updateCartPreview();
+  
+      // === Admin UI Update ===
+      function updateAdminUI() {
+        const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
+        const username = localStorage.getItem("adminUsername");
+        const loginBtn = document.getElementById("loginBtn");
+  
+        const dashboardLink = document.getElementById("dashboardLink");
+        const successLink = document.getElementById("successLink");
+  
+        if (!loginBtn) return;
+  
+        if (isAdmin) {
+          loginBtn.innerHTML = `<button>👤 ${username}</button>`;
+          loginBtn.onclick = (e) => {
+            e.preventDefault();
+            if (confirm("Do you want to logout?")) {
+              localStorage.removeItem("isAdminLoggedIn");
+              localStorage.removeItem("adminUsername");
+              sessionStorage.removeItem("adminOverlayShown");
+              location.reload();
+            }
+          };
+          if (dashboardLink) dashboardLink.style.display = "list-item";
+          if (successLink) successLink.style.display = "list-item";
+        } else {
+          loginBtn.innerHTML = `<button>🔒 Login</button>`;
+          loginBtn.onclick = null;
+          if (dashboardLink) dashboardLink.style.display = "none";
+          if (successLink) successLink.style.display = "none";
+        }
+      }
+  
+      updateAdminUI();
+    });
+  </script>
+  
+</body>
+
+</html>

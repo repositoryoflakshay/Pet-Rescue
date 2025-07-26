@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Adoption FAQs – PawsHeart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #00bcd4;
+      --dark: #004d60;
+      --light-bg: #f2fbfc;
+      --accent: #ffca28;
+      --text: #333;
+      --faq-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+      line-height: 1.6;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      animation: slideDown 1s ease-out;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2.7rem;
+      margin-bottom: 0.4rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .faq-container {
+      max-width: 960px;
+      margin: 50px auto;
+      padding: 20px;
+      background: var(--faq-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeUp 1s ease-in;
+    }
+
+    .faq-item {
+      margin-bottom: 16px;
+      border-radius: 8px;
+      border: 1px solid #cdeff3;
+      transition: all 0.3s ease;
+      background: #f9feff;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .faq-question {
+      padding: 18px 20px;
+      background: #e0f7fa;
+      color: var(--dark);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1.1rem;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      right: 20px;
+      font-size: 1.6rem;
+      color: var(--primary);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-question::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      background: #f0fbfd;
+      color: var(--text);
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 20px;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding: 16px 20px;
+    }
+
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 0.95rem;
+      margin-top: 60px;
+      border-top: 4px solid var(--accent);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      .faq-question {
+        font-size: 1rem;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐾 Adoption FAQs – PawsHeart</h1>
+    <p>Your questions, answered with love 💙</p>
+  </header>
+
+  <section class="faq-container" id="faq">
+    <div class="faq-item">
+      <div class="faq-question">1. How do I start the adoption process?</div>
+      <div class="faq-answer">Visit our Adopt page, browse available pets, and click “Apply to Adopt.”</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">2. Are there any fees for adoption?</div>
+      <div class="faq-answer">Yes, adoption fees range between ₹500 to ₹2000, supporting vet care and sheltering.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">3. What’s included in the adoption fee?</div>
+      <div class="faq-answer">Vaccinations, microchip, vet check-up, sterilization, and a starter kit.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">4. Can I adopt if I rent my home?</div>
+      <div class="faq-answer">Yes! We just ask for landlord consent before finalizing the adoption.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">5. Can I adopt if I already have pets?</div>
+      <div class="faq-answer">Yes! We do compatibility checks and recommend gradual introductions.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">6. What if I change my mind after adopting?</div>
+      <div class="faq-answer">We offer a return policy and support to help you through it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">7. Do you have puppies and kittens?</div>
+      <div class="faq-answer">Yes, but older pets also deserve loving homes — they’re amazing companions.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">8. How long does the process take?</div>
+      <div class="faq-answer">Typically 3–5 days, including screening and home checks.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">9. Can I adopt if I live in another state?</div>
+      <div class="faq-answer">Yes, though transportation and local regulations may apply.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">10. Are all pets vaccinated and sterilized?</div>
+      <div class="faq-answer">Yes, each pet undergoes full medical evaluation before adoption.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">11. What types of animals can I adopt?</div>
+      <div class="faq-answer">Dogs, cats, rabbits, and occasionally birds or farm rescues.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">12. Is there a trial or foster period?</div>
+      <div class="faq-answer">Yes! We offer a 7-day trial or foster period to ensure a good match.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">13. Can I adopt multiple pets?</div>
+      <div class="faq-answer">Yes, if your home and lifestyle support it — we’ll help guide you.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">14. What documents are needed?</div>
+      <div class="faq-answer">Govt ID proof, address proof, and an adoption agreement.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">15. Do you allow international adoptions?</div>
+      <div class="faq-answer">Not currently, but we’re working on expansion opportunities.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">16. What support do I get post-adoption?</div>
+      <div class="faq-answer">Training help, health advice, and 24/7 support for every adopted pet.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">17. How do I contact you?</div>
+      <div class="faq-answer">Email support@pawsheart.org or visit our Contact Us page 💌</div>
+    </div>
+  </section>
+
+  <footer>
+    💖 Every adoption is a love story in the making. Thank you for opening your heart and home. – Team PawsHeart
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

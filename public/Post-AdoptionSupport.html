@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PawsHeart | Post-Adoption Care</title>
+  <style>
+    :root {
+      --primary: #2a9d8f;
+      --accent: #e9c46a;
+      --light: #f0f4f8;
+      --dark: #264653;
+      --white: #fff;
+    }
+
+    header {
+      background: linear-gradient(120deg, #ff6e7f, #bfe9ff);
+      color: var(--white);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    header h1.logo {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    nav.nav-animated a {
+      color: var(--white);
+      text-decoration: none;
+      margin: 0 0.75rem;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav.nav-animated a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav.nav-animated a:hover::after {
+      width: 100%;
+    }
+
+    nav.nav-animated a:hover {
+      color: var(--dark);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 2rem;
+      animation: fadeIn 0.8s ease;
+    }
+
+    h2 {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
+    }
+
+    ul.checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.checklist li {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      background: #f7f9fc;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    ul.checklist li input[type="checkbox"] {
+      margin-right: 1rem;
+      transform: scale(1.4);
+    }
+
+    .journal, .tracker {
+      margin-top: 2rem;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #f4d35e;
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .carousel div {
+      min-width: 250px;
+      background: var(--light);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+      background: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .progress-bar-fill {
+      height: 20px;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    #apptNote{
+      width: 95%;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      resize: vertical;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      background: var(--dark);
+      color: var(--white);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .overlay-content {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 class="logo">🐾 PawsHeart</h1>
+    <nav class="nav-animated">
+      <a href="/public/home2.html">Home</a>
+      <a href="/public/adopt.html">Adopt</a>
+      <a href="/public/care.html">Pet Care</a>
+      <a href="/public/Post-AdoptionSupport.html">Post-Adoption</a>
+      <a href="/public/volunteer.html">Volunteer</a>
+    </nav>
+  </header>
+
+<div class="container">
+  <h2>🐾 Post-Adoption Checklist</h2>
+  <ul class="checklist" id="postChecklist">
+    <li><input type="checkbox"/>Schedule initial vet visit</li>
+    <li><input type="checkbox"/>Pet-proof your home</li>
+    <li><input type="checkbox"/>Buy food, bowls, bed, toys</li>
+    <li><input type="checkbox"/>Set feeding & potty schedule</li>
+    <li><input type="checkbox"/>Start bonding & training</li>
+  </ul>
+  <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+  
+
+  <h2>📓 Pet Journal</h2>
+  <textarea id="journalNote" placeholder="Write about your pet’s first day, progress, or fun moments..."></textarea>
+  <button class="btn" onclick="saveJournal()">Save Note</button>
+
+  <h2>💡 Care Tips</h2>
+  <div class="carousel">
+    <div>🐶 Establish routines early.</div>
+    <div>🛏 Give your pet space to relax.</div>
+    <div>📞 Keep vet contacts saved.</div>
+    <div>🦴 Use positive reinforcement.</div>
+    <div>🧽 Keep up grooming habits.</div>
+  </div>
+
+  <h2 class="tracker">📆 Appointment Tracker</h2>
+  <input type="date" id="apptDate" />
+  <input type="time" id="apptTime" />
+  <input type="text" id="apptNote" placeholder="Reason for Appointment: Like visit, grooming, training...etc" />
+  <button class="btn" onclick="addAppt()">Submit Appointment</button>
+
+  
+  <div id="success-overlay" class="overlay">
+    <div class="overlay-content">
+      <h2>Appointment Scheduled ✅</h2>
+      <p id="appointment-details"></p>
+      <a href="all-appointments.html" class="btn">View All Appointments</a>
+      <button onclick="closeOverlay()">Close</button>
+    </div>
+  </div>
+  
+
+
+<footer>
+  <p>💖 Thank you for giving a pet a second chance. Stay connected with us!</p>
+  <p>PawsHeart.org | Support | Contact | Privacy Policy</p>
+</footer>
+
+<script>
+  const checklist = document.getElementById("postChecklist");
+  const progressFill = document.getElementById("progressFill");
+  const apptList = document.getElementById("apptList");
+
+  // Update checklist progress bar
+  function updateProgress() {
+    const total = checklist.querySelectorAll("input[type='checkbox']").length;
+    const checked = checklist.querySelectorAll("input[type='checkbox']:checked").length;
+    const percent = total === 0 ? 0 : Math.floor((checked / total) * 100);
+    progressFill.style.width = percent + "%";
+    document.getElementById("taskProgressText").textContent = `✅ ${checked} of ${total} tasks completed`;
+  }
+
+  // Save checklist to localStorage
+  checklist.addEventListener("change", () => {
+    const states = [];
+    checklist.querySelectorAll("input[type='checkbox']").forEach(c => states.push(c.checked));
+    localStorage.setItem("postChecklist", JSON.stringify(states));
+    updateProgress();
+  });
+
+  // Load checklist from localStorage
+  function loadChecklist() {
+    const saved = JSON.parse(localStorage.getItem("postChecklist") || "[]");
+    checklist.querySelectorAll("input[type='checkbox']").forEach((c, i) => {
+      c.checked = saved[i] || false;
+    });
+    updateProgress();
+  }
+
+  // Save note
+  function saveJournal() {
+    const note = document.getElementById("journalNote").value;
+    localStorage.setItem("petJournal", note);
+    alert("Note saved!");
+  }
+
+  // Load note
+  function loadJournal() {
+    const note = localStorage.getItem("petJournal");
+    if (note) document.getElementById("journalNote").value = note;
+  }
+
+  // Add Appointment and show overlay
+  function addAppt() {
+    const date = document.getElementById("apptDate").value;
+    const time = document.getElementById("apptTime").value;
+    const note = document.getElementById("apptNote").value;
+    const overlay = document.getElementById("success-overlay");
+    const details = document.getElementById("appointment-details");
+
+    if (date && time && note) {
+      const appt = `${date} at ${time} - ${note}`;
+      let appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
+      appointments.push(appt);
+      localStorage.setItem("appointments", JSON.stringify(appointments));
+
+      details.innerHTML = `📅 <strong>${date}</strong> at <strong>${time}</strong> for <strong>${note}</strong>.`;
+      overlay.style.display = "flex";
+
+      // Reset input fields after submission
+      document.getElementById("apptDate").value = "";
+      document.getElementById("apptTime").value = "";
+      document.getElementById("apptNote").value = "";
+    } else {
+      alert("Please fill in date, time, and appointment note.");
+    }
+  }
+
+  function closeOverlay() {
+    document.getElementById("success-overlay").style.display = "none";
+  }
+
+ // DOM Ready actions
+window.addEventListener("DOMContentLoaded", () => {
+  localStorage.removeItem("postChecklist"); // Clear saved checklist state
+  updateProgress(); // Ensure progress bar resets to 0
+  loadJournal(); // Still load journal
+});
+
+</script>
+
+
+</body>
+</html>

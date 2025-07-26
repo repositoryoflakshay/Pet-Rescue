@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How Adoption Works - PawsHeart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+
+      color: #2c3e50;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    header {
+      background-color: #ff6f61;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .why-adopt {
+      background: #fff4f2;
+      border-left: 5px solid #ff6f61;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .why-adopt h2 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+      color: #d94a38;
+    }
+
+    .why-adopt p {
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .step {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .step:hover {
+      transform: translateY(-5px);
+    }
+
+    .step h2 {
+      margin-bottom: 10px;
+      font-size: 1.4em;
+      color: #ff6f61;
+    }
+
+    .step p {
+      font-size: 1em;
+      line-height: 1.6;
+    }
+
+    .step span {
+      font-size: 2rem;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    .quotes {
+      background: #fff;
+      margin-top: 40px;
+      padding: 40px 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .quotes h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-size: 1.8em;
+    }
+
+    .quote {
+      margin-bottom: 20px;
+      font-style: italic;
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .quote::before {
+      content: "“";
+      position: absolute;
+      left: 0;
+      top: -5px;
+      font-size: 2em;
+      color: #ff6f61;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 0.95em;
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin: 8px 0;
+    }
+
+    @media (max-width: 768px) {
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🐾 How Adoption Works at PawsHeart</h1>
+    <p>Your journey to saving a life starts here.</p>
+  </header>
+
+  <section>
+    <div class="why-adopt">
+      <h2>🐾 Why Adopt from PawsHeart?</h2>
+      <p>
+        Every animal deserves a second chance at life. When you adopt from PawsHeart, you’re not just getting a pet —
+        you're giving love, safety, and hope to a soul that truly needs it. Our adoption process is designed to make
+        sure each rescue finds the perfect forever home. Plus, 100% of our proceeds go to helping more animals in need.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span>📄</span>
+        <h2>1. Submit Application</h2>
+        <p>Fill out our easy online application so we can match you with your perfect pet.</p>
+      </div>
+      <div class="step">
+        <span>🕵️‍♀️</span>
+        <h2>2. Home Visit & Screening</h2>
+        <p>We ensure every pet goes to a safe and loving home through a quick screening process.</p>
+      </div>
+      <div class="step">
+        <span>🤝</span>
+        <h2>3. Meet & Greet</h2>
+        <p>You get to meet the animal in person (or virtually) before making the final decision.</p>
+      </div>
+      <div class="step">
+        <span>🏡</span>
+        <h2>4. Welcome Home</h2>
+        <p>Once approved, you’ll take your new furry friend home to begin a new chapter!</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="quotes">
+    <h3>💬 What Our Adopters Say</h3>
+    <div class="quote">"Adopting Bruno through PawsHeart changed my life. He's the sweetest rescue pup ever!" – Aditi S.</div>
+    <div class="quote">"I adopted two kittens and the entire process was seamless and full of support." – Rahul P.</div>
+    <div class="quote">"I felt truly guided throughout the adoption. Highly recommend this to every animal lover!" – Nisha V.</div>
+    <div class="quote">"Thanks to PawsHeart, Max now has a forever home — and I have a best friend." – Mehul K.</div>
+    <div class="quote">"The team was super kind and informative. Adopted a beautiful bunny!" – Isha M.</div>
+    <div class="quote">"I love how they check for responsible adopters. Feels like family!" – Shreya D.</div>
+  </section>
+
+  <footer>
+    <p>💖 PawsHeart – Where Rescue Meets Love</p>
+    <p>Every adoption supports our mission to save more lives. Thank you for choosing adoption!</p>
+    <p>📬 Contact us: support@pawsheart.org | 📍 Based in India</p>
+    <p>🐶🐱🐰 #AdoptDontShop</p>
+  </footer>
+
+</body>
+</html>
