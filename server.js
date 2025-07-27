@@ -26,6 +26,17 @@ mongoose
 
 // ---------------------- SCHEMAS ----------------------
 
+
+const donationSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  amount: Number,
+  purpose: String,
+  date: String
+});
+const Donation = mongoose.model("Donation", donationSchema);
+
+
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -214,6 +225,28 @@ app.get("/applications", async (req, res) => {
   });
   res.json(applications);
 });
+
+app.post("/api/donations", async (req, res) => {
+  try {
+    const { name, email, amount, purpose, date } = req.body;
+
+    const newDonation = new Donation({
+      name,
+      email,
+      amount,
+      purpose,
+      date
+    });
+
+    await newDonation.save();
+
+    res.status(201).json({ message: "Donation saved successfully", donation: newDonation });
+  } catch (err) {
+    console.error("Error saving donation:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 // Redirect root to homepage
 app.get("/", (req, res) => {
