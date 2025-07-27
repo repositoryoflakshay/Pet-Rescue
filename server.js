@@ -247,6 +247,28 @@ app.post("/api/donations", async (req, res) => {
   }
 });
 
+app.post('/api/newsletter', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const Newsletter = mongoose.model('Newsletter', new mongoose.Schema({ email: String }));
+    const existing = await Newsletter.findOne({ email });
+
+    if (existing) {
+      return res.status(200).json({ message: "Already subscribed." });
+    }
+
+    const newSubscriber = new Newsletter({ email });
+    await newSubscriber.save();
+
+    res.status(201).json({ message: "Subscription successful." });
+  } catch (err) {
+    console.error("❌ Newsletter subscription error:", err);
+    res.status(500).json({ error: "Subscription failed." });
+  }
+});
+
+
 
 // Redirect root to homepage
 app.get("/", (req, res) => {
