@@ -3,10 +3,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const path = require("path");
-
 const app = express();
 app.use(express.json());
 app.use(cors());
+const multer = require("multer");
+
+const storage = multer.memoryStorage(); // or use diskStorage for real uploads
+const upload = multer({ storage });
+
 
 // Serve static files (HTML, CSS, JS) from "public" folder
 app.use("/public", express.static(path.join(__dirname, "public")));
@@ -54,6 +58,19 @@ const storySchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 const Story = mongoose.model("Story", storySchema);
+
+const volunteerSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone: String,
+  roles: [String],
+  message: String,
+  fileName: String,
+  submittedAt: { type: Date, default: Date.now }
+});
+
+const Volunteer = mongoose.model("Volunteer", volunteerSchema);
+
 
 // ---------------------- ROUTES ----------------------
 
@@ -109,6 +126,38 @@ app.delete("/rejectStory/:id", async (req, res) => {
     res.status(500).json({ message: "Error deleting story" });
   }
 });
+
+app.post("/submitVolunteer", upload.single("file"), async (req, res) => {
+  try {
+    const { name, email, phone, message, roles } = req.body;
+
+    const volunteer = new Volunteer({
+      name,
+      email,
+      phone,
+      roles: Array.isArray(roles) ? roles : [roles], // in case it's a single value
+      message,
+      fileName: req.file?.originalname || "N/A",
+    });
+
+    await volunteer.save();
+    res.status(201).json({ message: "Volunteer application submitted successfully" });
+  } catch (err) {
+    console.error("Error saving volunteer application:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/getVolunteers", async (req, res) => {
+  try {
+    const volunteers = await Volunteer.find();
+    res.json(volunteers);
+  } catch (err) {
+    console.error("Error fetching volunteers:", err);
+    res.status(500).json({ message: "Error retrieving data" });
+  }
+});
+
 
 // Signup
 app.post("/signup", async (req, res) => {

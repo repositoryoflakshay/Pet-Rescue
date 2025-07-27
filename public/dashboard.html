@@ -146,50 +146,62 @@
 </footer>
 
 <script>
-  const submissions = JSON.parse(localStorage.getItem("volunteerSubmissions")) || [];
+  async function loadVolunteers() {
+    try {
+      const res = await fetch("http://localhost:3000/getVolunteers"); // Update to your backend URL if deployed
+      const submissions = await res.json();
 
-  const tbody = document.querySelector("#volunteerTable tbody");
-  submissions.forEach(entry => {
-    const tr = document.createElement("tr");
+      const tbody = document.querySelector("#volunteerTable tbody");
+      tbody.innerHTML = ""; // Clear old rows
 
-    tr.innerHTML = `
-      <td>${entry.name}</td>
-      <td>${entry.email}</td>
-      <td>${entry.roles.join(', ')}</td>
-      <td>${entry.message || "—"}</td>
-      <td>${entry.fileName || "—"}</td>
-    `;
+      submissions.forEach(entry => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${entry.name}</td>
+          <td>${entry.email}</td>
+          <td>${entry.phone}</td>
+          <td>${Array.isArray(entry.roles) ? entry.roles.join(', ') : entry.roles}</td>
+          <td>${entry.message || "—"}</td>
+          <td>${entry.fileName || "—"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
 
-    tbody.appendChild(tr);
-  });
+      window.currentSubmissions = submissions; // For export
+    } catch (err) {
+      console.error("Failed to load volunteers:", err);
+    }
+  }
 
   function exportToCSV() {
+    const submissions = window.currentSubmissions || [];
     if (submissions.length === 0) return alert("No data to export!");
 
-    const headers = ["Name", "Email", "Roles", "Message", "Uploaded File"];
+    const headers = ["Name", "Email", "Phone", "Roles", "Message", "Uploaded File"];
     const rows = submissions.map(entry => [
       `"${entry.name}"`,
       `"${entry.email}"`,
-      `"${entry.roles.join(', ')}"`,
+      `"${entry.phone}"`,
+      `"${Array.isArray(entry.roles) ? entry.roles.join(', ') : entry.roles}"`,
       `"${entry.message || ''}"`,
       `"${entry.fileName || ''}"`
     ]);
 
     const csvContent = [headers, ...rows].map(row => row.join(",")).join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
 
     link.setAttribute("href", url);
-    link.setAttribute("download", "pawsheart_volunteers.csv");
-    link.style.display = "none";
-
+    link.setAttribute("download", "volunteers.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   }
+
+  loadVolunteers();
 </script>
+
 
 </body>
 </html>

@@ -76,7 +76,7 @@
       }
 
     input, select, textarea {
-      width: 9/public/0%;
+      width: 90%;
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -154,8 +154,8 @@
         <label for="email">Email Address *</label>
         <input type="email" id="email" required />
 
-        <label for="email">Phone No. *</label>
-        <input type="email" id="email" required />
+        <label for="Phone">Phone No. *</label>
+        <input type="tel" id="Phone" required />
 
         <label>Preferred Roles *</label>
         <div class="checkbox-group">
@@ -203,42 +203,57 @@
         .getElementById("volunteerForm")
         .addEventListener("submit", function (e) {
           e.preventDefault();
-
+    
           const email = document.getElementById("email").value.trim();
           if (!email.includes("@") || !email.includes(".")) {
             alert("Please enter a valid email address.");
             return;
           }
-
+    
+          const Phone = document.getElementById("Phone").value.trim();
+          if (!/^\d{10}$/.test(Phone)) {
+            alert("Please enter a valid 10-digit phone number.");
+            return;
+          }
+    
           const formData = {
-            name: document.getElementById("name").value,
+            name: document.getElementById("name").value.trim(),
             email,
+            phone: Phone,
             roles: Array.from(
               document.querySelectorAll("input[name='role']:checked")
             ).map((cb) => cb.value),
-            message: document.getElementById("message").value,
+            message: document.getElementById("message").value.trim(),
             fileName:
               document.getElementById("resume").files[0]?.name ||
               "No file uploaded",
           };
-
-          let submissions =
-            JSON.parse(localStorage.getItem("volunteerSubmissions")) || [];
-          submissions.push(formData);
-          localStorage.setItem(
-            "volunteerSubmissions",
-            JSON.stringify(submissions)
-          );
-
-          document.getElementById("volunteerForm").reset();
-          document.getElementById("successMessage").style.display = "block";
+    
+          fetch("http://localhost:3000/submitVolunteer", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data.message);
+              document.getElementById("volunteerForm").reset();
+              document.getElementById("successMessage").style.display = "block";
+            })
+            .catch((err) => {
+              alert("Error submitting application. Please try again.");
+              console.error("Submission error:", err);
+            });
         });
-
-      // Show dashboard only if admin is logged in
+    
+      // Show dashboard link if admin is logged in
       const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
       if (isAdmin) {
         document.getElementById("dashboardLink").style.display = "inline";
       }
     </script>
+    
   </body>
 </html>
