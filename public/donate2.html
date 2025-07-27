@@ -424,11 +424,14 @@ footer {
 
 
 <script>
+  let latestDonation = {}; // Used for certificate generation
+
   function fillAmount(value) {
-    document.getElementById('amount').value = value;
-    document.getElementById('amount').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("amount").value = value;
+    document.getElementById("amount").scrollIntoView({ behavior: "smooth" });
   }
 
+  // 📤 Handle donation submission
   document.getElementById("donationForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -436,30 +439,40 @@ footer {
     const name = document.getElementById("donorName").value;
     const email = document.getElementById("donorEmail").value;
     const purpose = document.getElementById("donationPurpose").value;
+    const date = new Date().toLocaleString();
 
-    const donation = {
-      amount,
-      name,
-      email,
-      purpose,
-      date: new Date().toLocaleString()
-    };
+    const donation = { amount, name, email, purpose, date };
+    latestDonation = donation;
 
-    let donations = JSON.parse(localStorage.getItem("donations")) || [];
-    donations.push(donation);
-    localStorage.setItem("donations", JSON.stringify(donations));
+    // 🧠 Store locally
+    let allDonations = JSON.parse(localStorage.getItem("donations")) || [];
+    allDonations.push(donation);
+    localStorage.setItem("donations", JSON.stringify(allDonations));
 
-    // Show success overlay + newsletter form
+    // 🔥 Send to backend
+    fetch("http://localhost:3000/api/donations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(donation)
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to store donation in DB");
+        console.log("✅ Donation saved to MongoDB");
+      })
+      .catch((err) => {
+        console.error("❌ Backend donation error:", err);
+      });
+
+    // 🎉 Show overlay
     document.getElementById("successOverlay").style.display = "flex";
 
-    // Auto-hide after 3 seconds and reset form
     setTimeout(() => {
       document.getElementById("successOverlay").style.display = "none";
       document.getElementById("donationForm").reset();
     }, 20000);
   });
 
-  // Newsletter subscription handler
+  // 💌 Handle newsletter subscription
   document.getElementById("newsletterForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -484,93 +497,32 @@ footer {
 
     emailInput.value = "";
   });
-  let latestDonation = {}; // Store latest donation for the certificate
 
-function fillAmount(value) {
-  document.getElementById('amount').value = value;
-  document.getElementById('amount').scrollIntoView({ behavior: 'smooth' });
-}
+  // 📄 Generate Certificate PDF
+  function downloadCertificate() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-document.getElementById("donationForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+    doc.setFontSize(22);
+    doc.text("🎓 PawsHeart Donation Certificate", 20, 30);
 
-  const donation = {
-    amount: document.getElementById("amount").value,
-    name: document.getElementById("donorName").value,
-    email: document.getElementById("donorEmail").value,
-    purpose: document.getElementById("donationPurpose").value,
-    date: new Date().toLocaleString()
-  };
+    doc.setFontSize(14);
+    doc.text(`This certifies that`, 20, 50);
+    doc.setFontSize(16);
+    doc.text(`${latestDonation.name}`, 20, 60);
 
-  latestDonation = donation; // Store for PDF use
+    doc.setFontSize(14);
+    doc.text(`has generously donated ₹${latestDonation.amount}`, 20, 75);
+    doc.text(`towards ${latestDonation.purpose} on ${latestDonation.date}`, 20, 85);
+    doc.text(`Your contribution helps us save and support animals in need.`, 20, 100);
 
-  let allDonations = JSON.parse(localStorage.getItem("donations")) || [];
-allDonations.push(newDonationObject);
-localStorage.setItem("donations", JSON.stringify(allDonations));
+    doc.setFontSize(12);
+    doc.text("💖 Thank you for your kindness and support!", 20, 115);
 
-
-  const overlay = document.getElementById("successOverlay");
-  overlay.style.display = "flex";
-
-  const newsletterPrompt = document.getElementById("newsletterPrompt");
-  const newsletterText = document.getElementById("newsletterText");
-  newsletterText.innerHTML = `Subscribe to get updates about the animal rescued by your donation of ₹${donation.amount} towards <strong>${donation.purpose}</strong>.`;
-  newsletterPrompt.style.display = "block";
-
-  setTimeout(() => {
-    overlay.style.display = "none";
-    newsletterPrompt.style.display = "none";
-    document.getElementById("donationForm").reset();
-  }, 20000);
-});
-
-function subscribeNewsletter(event) {
-  event.preventDefault();
-  const emailInput = document.getElementById("newsletterEmail");
-  const email = emailInput.value.trim();
-
-  if (email === "") {
-    alert("Please enter a valid email address.");
-    return;
+    doc.save(`PawsHeart_Certificate_${latestDonation.name}.pdf`);
   }
-
-  let subscribers = JSON.parse(localStorage.getItem("newsletterSubscribers")) || [];
-  if (!subscribers.includes(email)) {
-    subscribers.push(email);
-    localStorage.setItem("newsletterSubscribers", JSON.stringify(subscribers));
-    alert("✅ You're now subscribed to animal updates!");
-  } else {
-    alert("📩 You're already subscribed.");
-  }
-
-  emailInput.value = "";
-}
-
-// 📄 Generate Certificate
-function downloadCertificate() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  doc.setFontSize(22);
-  doc.text("🎓 PawsHeart Donation Certificate", 20, 30);
-
-  doc.setFontSize(14);
-  doc.text(`This certifies that`, 20, 50);
-  doc.setFontSize(16);
-  doc.text(`${latestDonation.name}`, 20, 60);
-
-  doc.setFontSize(14);
-  doc.text(`has generously donated ₹${latestDonation.amount}`, 20, 75);
-  doc.text(`towards ${latestDonation.purpose} on ${latestDonation.date}`, 20, 85);
-  doc.text(`Your contribution helps us save and support animals in need.`, 20, 100);
-
-  doc.setFontSize(12);
-  doc.text("💖 Thank you for your kindness and support!", 20, 115);
-
-  doc.save(`PawsHeart_Certificate_${latestDonation.name}.pdf`);
-}
-
 </script>
+
 
 </body>
 </html>

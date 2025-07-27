@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PawsHeart Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+   * {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  animation: fadeIn 0.5s ease-in;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 20px;
+  animation: slideDown 0.6s ease-in-out;
+}
+
+.filter {
+  margin: 30px auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease;
+}
+
+.filter input,
+.filter select,
+.filter button {
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.filter input:hover,
+.filter select:hover,
+.filter button:hover {
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.filter button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.filter button:hover {
+  background-color: #2980b9;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  animation: fadeInUp 1s ease;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+th {
+  background-color: #2ecc71;
+  color: white;
+  font-weight: 600;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #27ae60;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  z-index: 9999;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.5s ease forwards;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  } to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+</style>
+</head>
+<body>
+  <h1>🐾 PawsHeart Admin Dashboard</h1>
+
+  <h2>📊 Donations</h2>
+  <div class="filter">
+    <input type="date" id="dateFilter" />
+    <select id="purposeFilter">
+      <option value="">All Purposes</option>
+      <option value="Medical Aid">Medical Aid</option>
+      <option value="Rescue">Rescue</option>
+      <option value="Shelter Support">Shelter Support</option>
+    </select>
+    <button onclick="filterDonations()">Apply Filter</button>
+  </div>
+
+  <table id="donationTable">
+    <thead>
+      <tr>
+        <th>Donor Name</th>
+        <th>Email</th>
+        <th>Amount</th>
+        <th>Purpose</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated dynamically -->
+    </tbody>
+  </table>
+
+  <h2>📬 Newsletter Subscribers</h2>
+  <table id="subscriberTable">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Subscribed At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated dynamically -->
+    </tbody>
+  </table>
+
+  <!-- ✅ Toast Notification -->
+  <div id="toast">✅ New donation received!</div>
+
+  <script>
+    let allDonations = [];
+    let lastDonationCount = 0;
+
+    async function fetchAdminData(auto = false) {
+      try {
+        const res = await fetch("http://localhost:3000/admin/data");
+        const data = await res.json();
+
+        if (!auto || data.donations.length !== lastDonationCount) {
+          if (auto && data.donations.length > lastDonationCount) {
+            showToast("✅ New donation received!");
+          }
+
+          allDonations = data.donations;
+          lastDonationCount = data.donations.length;
+          renderDonations(allDonations);
+          renderSubscribers(data.subscribers);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    }
+
+    function renderDonations(donations) {
+      const tbody = document.querySelector("#donationTable tbody");
+      tbody.innerHTML = donations.map(d =>
+        `<tr>
+          <td>${d.name}</td>
+          <td>${d.email}</td>
+          <td>₹${d.amount}</td>
+          <td>${d.purpose}</td>
+          <td>${d.date}</td>
+        </tr>`
+      ).join('');
+    }
+
+    function renderSubscribers(subscribers) {
+      const tbody = document.querySelector("#subscriberTable tbody");
+      tbody.innerHTML = subscribers.map(s =>
+        `<tr>
+          <td>${s.email}</td>
+          <td>${new Date(s.subscribedAt).toLocaleString()}</td>
+        </tr>`
+      ).join('');
+    }
+
+    function filterDonations() {
+      const purpose = document.getElementById("purposeFilter").value;
+      const dateAfter = document.getElementById("dateFilter").value;
+
+      const filtered = allDonations.filter(d => {
+        const dateMatch = dateAfter ? new Date(d.date) >= new Date(dateAfter) : true;
+        const purposeMatch = purpose ? d.purpose === purpose : true;
+        return dateMatch && purposeMatch;
+      });
+
+      renderDonations(filtered);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => toast.style.display = "none", 4000);
+    }
+
+    // Initial load
+    fetchAdminData();
+
+    // Auto-refresh every 10 seconds
+    setInterval(() => fetchAdminData(true), 10000);
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+const adminInfo = JSON.parse(localStorage.getItem("adminInfo") || "{}");
+
+if (isAdmin) {
+  console.log("Logged in Admin:", adminInfo.name);
+  document.getElementById("adminWelcome").innerText = `Hello, ${adminInfo.name}`;
+}
+localStorage.removeItem("isAdmin");
+localStorage.removeItem("adminInfo");
+location.reload();
+
+  </script>
+</body>
+</html>

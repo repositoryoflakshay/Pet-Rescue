@@ -24,7 +24,7 @@
           <li><a href="/public/dashboard.html" id="dashboardLink" style="display: none;">Dashboard</a></li>
         </ul>
       </nav>
-  
+
       <div class="cart-icon">
         <a href="/public/cart2.html" style="font-size: 1.3rem; text-decoration: none; color: black;">🛒</a>
         <span id="cart-count">0</span>
@@ -32,16 +32,19 @@
           <h4>Recent Items:</h4>
           <ul id="cart-items-preview"></ul>
         </div>
+      </div><!-- LOGIN DROPDOWN PLACEHOLDER -->
+      <div class="dropdown" id="loginDropdown" style="position: relative; display: inline-block;">
+        <a href="login.html" id="loginBtn" style="text-decoration: none;">🔒 Login</a>
+        <div class="dropdown-content" id="loginDropdownContent"
+          style="display: none; position: absolute; background-color: white; min-width: 120px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 999; border-radius: 6px;">
+          <a href="#" id="logoutBtn" style="padding: 8px 12px; display: block; color: #333; text-decoration: none;">🚪
+            Logout</a>
+        </div>
       </div>
-  
-      <a href="login.html" style="text-decoration: none;">
-        <button>🔒 Login</button>
-      </a>
-      
-      
+
     </div>
   </header>
-  
+
   <div id="successOverlay">🎉 Welcome Admin! See the progress of your site.</div>
   <section class="hero" style="min-height: 70vh; display: flex; flex-direction: column; justify-content: center;">
     <h1>Find Your Perfect Companion
@@ -133,7 +136,7 @@
       // === Newsletter Form Logic ===
       const newsletterForm = document.querySelector(".newsletter form");
       const emailInput = newsletterForm.querySelector("input[type='email']");
-  
+
       newsletterForm.addEventListener("submit", function (e) {
         e.preventDefault();
         const email = emailInput.value.trim();
@@ -141,7 +144,7 @@
           alert("❗Oops!\n\nPlease enter a valid email address.");
           return;
         }
-  
+
         let subscribers = JSON.parse(localStorage.getItem("newsletterSubscribers")) || [];
         if (!subscribers.includes(email)) {
           subscribers.push(email);
@@ -150,20 +153,20 @@
         } else {
           alert("📬 You're Already Subscribed\n\nLooks like you're already part of our furry family!");
         }
-  
+
         emailInput.value = "";
       });
-  
+
       // === Cart Preview Update ===
       function updateCartPreview() {
         let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
         let cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
         document.getElementById("cart-count").innerText = cartCount;
-  
+
         let previewList = document.getElementById("cart-items-preview");
         if (!previewList) return;
         previewList.innerHTML = "";
-  
+
         let recentItems = cartItems.slice(-3).reverse();
         for (let item of recentItems) {
           let li = document.createElement("li");
@@ -171,45 +174,115 @@
           previewList.appendChild(li);
         }
       }
-  
+
       updateCartPreview();
-  
+
       // === Admin UI Update ===
       function updateAdminUI() {
-        const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
-        const username = localStorage.getItem("adminUsername");
-        const loginBtn = document.getElementById("loginBtn");
-  
-        const dashboardLink = document.getElementById("dashboardLink");
-        const successLink = document.getElementById("successLink");
-  
-        if (!loginBtn) return;
-  
-        if (isAdmin) {
-          loginBtn.innerHTML = `<button>👤 ${username}</button>`;
-          loginBtn.onclick = (e) => {
-            e.preventDefault();
-            if (confirm("Do you want to logout?")) {
-              localStorage.removeItem("isAdminLoggedIn");
-              localStorage.removeItem("adminUsername");
-              sessionStorage.removeItem("adminOverlayShown");
-              location.reload();
-            }
-          };
-          if (dashboardLink) dashboardLink.style.display = "list-item";
-          if (successLink) successLink.style.display = "list-item";
-        } else {
-          loginBtn.innerHTML = `<button>🔒 Login</button>`;
-          loginBtn.onclick = null;
-          if (dashboardLink) dashboardLink.style.display = "none";
-          if (successLink) successLink.style.display = "none";
-        }
-      }
-  
+  const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
+  const user = localStorage.getItem("loggedInUser");
+  const admin = localStorage.getItem("adminUsername");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginDropdown = document.getElementById("loginDropdown");
+  const loginDropdownContent = document.getElementById("loginDropdownContent");
+  const dashboardLink = document.getElementById("dashboardLink");
+  const successLink = document.getElementById("successLink");
+
+  if (!loginBtn || !logoutBtn || !loginDropdown || !loginDropdownContent) return;
+
+  // Admin Logged In
+  if (isAdmin && admin) {
+    loginBtn.innerText = `🛡️ ${admin}`;
+    loginBtn.href = "#";
+    loginDropdownContent.style.display = "block";
+
+    logoutBtn.onclick = (e) => {
+      e.preventDefault();
+      localStorage.removeItem("isAdminLoggedIn");
+      localStorage.removeItem("adminUsername");
+      sessionStorage.removeItem("adminOverlayShown");
+      location.reload();
+    };
+
+    loginDropdownContent.style.display = "none";
+    loginBtn.onmouseenter = () => loginDropdownContent.style.display = "block";
+    loginDropdown.onmouseleave = () => loginDropdownContent.style.display = "none";
+
+    dashboardLink.style.display = "list-item";
+    successLink.style.display = "list-item";
+  }
+
+  // User Logged In
+  else if (user) {
+    loginBtn.innerText = `👤 ${user}`;
+    loginBtn.href = "#";
+    loginDropdownContent.style.display = "block";
+
+    logoutBtn.onclick = (e) => {
+      e.preventDefault();
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    };
+
+    loginDropdownContent.style.display = "none";
+    loginBtn.onmouseenter = () => loginDropdownContent.style.display = "block";
+    loginDropdown.onmouseleave = () => loginDropdownContent.style.display = "none";
+
+    dashboardLink.style.display = "none";
+    successLink.style.display = "none";
+  }
+
+  // Not Logged In
+  else {
+    loginBtn.innerText = "🔒 Login";
+    loginBtn.href = "login.html";
+    loginDropdownContent.style.display = "none";
+    loginBtn.onmouseenter = null;
+    loginDropdown.onmouseleave = null;
+    logoutBtn.onclick = null;
+
+    dashboardLink.style.display = "none";
+    successLink.style.display = "none";
+  }
+}
+
+
+
       updateAdminUI();
     });
+    document.getElementById("adminLoginForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
+
+    try {
+      const res = await fetch("http://localhost:3000/adminLogin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.admin) {
+        localStorage.setItem("isAdmin", "true");
+        localStorage.setItem("adminInfo", JSON.stringify(data.admin));
+
+        alert(`✅ Welcome, ${data.admin.name}`);
+        location.reload(); // or redirect to admin panel
+      } else {
+        alert("❌ " + data.message);
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Server connection failed.");
+    }
+  });
   </script>
-  
+
 </body>
 
 </html>
