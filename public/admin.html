@@ -256,14 +256,14 @@ tr:last-child td {
       const toast = document.getElementById("toast");
       toast.textContent = message;
       toast.style.display = "block";
-      setTimeout(() => toast.style.display = "none", 4000);
+      setTimeout(() => toast.style.display = "none", 5000);
     }
 
     // Initial load
     fetchAdminData();
 
     // Auto-refresh every 10 seconds
-    setInterval(() => fetchAdminData(true), 10000);
+    setInterval(() => fetchAdminData(true), 30000);
     const isAdmin = localStorage.getItem("isAdmin") === "true";
 const adminInfo = JSON.parse(localStorage.getItem("adminInfo") || "{}");
 
