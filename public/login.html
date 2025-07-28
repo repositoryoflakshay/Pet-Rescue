@@ -216,8 +216,7 @@
             return;
           }
 
-          localStorage.setItem("loggedInUser", data.username);
-          localStorage.setItem("isAdminLoggedIn", data.role === "admin");
+          localStorage.setItem("user", JSON.stringify(data));
 
           showLoginOverlayAndRedirect(data.role === "admin");
         } catch (err) {

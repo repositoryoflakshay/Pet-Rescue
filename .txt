@@ -1,1 +1,5 @@
 stats in donate2.html also seen when the admin gets logged in only he can see that
+
+Show match count at the top
+
+Add sorting by location/type

@@ -24,6 +24,10 @@ mongoose
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
+  const LostPet = require('./models/lostPet');
+const FoundPet = require('./models/FoundPet');
+
+
 // ---------------------- SCHEMAS ----------------------
 
 
@@ -36,6 +40,25 @@ const donationSchema = new mongoose.Schema({
 });
 const Donation = mongoose.model("Donation", donationSchema);
 
+// Lost Pet Schema
+const lostPetSchema = new mongoose.Schema({
+  name: String,
+  type: String,
+  breed: String,
+  color: String,
+  location: String,
+  reportedAt: { type: Date, default: Date.now },
+});
+
+// Found Pet Schema
+const foundPetSchema = new mongoose.Schema({
+  type: String,
+  breed: String,
+  color: String,
+  location: String,
+  contact: String,
+  reportedAt: { type: Date, default: Date.now },
+});
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -182,7 +205,7 @@ app.post("/signup", async (req, res) => {
   res.status(201).json({ message: "Signup successful" });
 });
 
-// Login
+//login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
@@ -196,9 +219,9 @@ app.post("/login", async (req, res) => {
     message: "Login successful",
     role: user.role,
     username: user.username,
+    email: user.email
   });
 });
-
 // Submit Adoption Application
 app.post("/submitApplication", async (req, res) => {
   try {
@@ -265,6 +288,57 @@ app.post('/api/newsletter', async (req, res) => {
   } catch (err) {
     console.error("❌ Newsletter subscription error:", err);
     res.status(500).json({ error: "Subscription failed." });
+  }
+});
+
+// Submit Lost Pet
+app.post("/api/lostPets", async (req, res) => {
+  try {
+    const newLostPet = new LostPet(req.body);
+    await newLostPet.save();
+    res.json({ message: "Lost pet reported successfully" });
+  } catch (err) {
+    console.error("Error saving lost pet:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// ✅ Admin check route (for frontend visibility logic)
+app.get("/api/checkAdmin/:email", async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await User.findOne({ email });
+    if (user && user.role === "admin") {
+      return res.json({ isAdmin: true });
+    } else {
+      return res.json({ isAdmin: false });
+    }
+  } catch (err) {
+    console.error("Error checking admin:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Submit Found Pet
+
+app.post("/api/foundPets", async (req, res) => {
+  try {
+    const foundPet = new FoundPet(req.body);
+    await foundPet.save();
+    res.status(201).json({ message: "Found pet reported" });
+  } catch (err) {
+    console.error("Error saving found pet:", err);
+    res.status(500).json({ message: "Failed to report found pet" });
+  }
+});
+// Fetch All Found Pets (used for matching)
+app.get("/api/foundPets", async (req, res) => {
+  try {
+    const foundPets = await FoundPet.find();
+    res.json(foundPets);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch found pets" });
   }
 });
 

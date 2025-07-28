@@ -323,55 +323,66 @@
       <h3>🔍 Report Lost Pet</h3>
       <form id="lostForm">
         <label>Pet Name</label>
-        <input type="text" required placeholder="Enter pet name" />
+        <input name="name" type="text" required placeholder="Enter pet name" />
+      
         <label>Pet Type</label>
-        <select required>
+        <select name="type" required>
           <option disabled selected>Select type</option>
           <option>Dog</option>
           <option>Cat</option>
           <option>Bird</option>
           <option>Other</option>
         </select>
+      
         <label>Breed</label>
-        <input type="text" placeholder="Enter breed" />
+        <input name="breed" type="text" placeholder="Enter breed" />
+      
         <label>Color</label>
-        <input type="text" placeholder="Enter color" />
+        <input name="color" type="text" placeholder="Enter color" />
+      
         <label>Last Seen Location</label>
-        <input type="text" required placeholder="Enter last seen location" />
+        <input name="location" type="text" required placeholder="Enter last seen location" />
+      
         <button type="submit">Report Lost Pet</button>
       </form>
+      
     </div>
 
     <div class="lost-found-section">
       <h3>🏠 Report Found Pet</h3>
       <form id="foundForm">
         <label>Pet Type</label>
-        <select required>
+        <select name="type" required>
           <option disabled selected>Select type</option>
           <option>Dog</option>
           <option>Cat</option>
           <option>Bird</option>
           <option>Other</option>
         </select>
+      
         <label>Breed (if known)</label>
-        <input type="text" placeholder="Enter breed" />
+        <input name="breed" type="text" placeholder="Enter breed" />
+      
         <label>Color</label>
-        <input type="text" placeholder="Enter color" />
+        <input name="color" type="text" placeholder="Enter color" />
+      
         <label>Found Location</label>
-        <input type="text" required placeholder="Enter found location" />
+        <input name="location" type="text" required placeholder="Enter found location" />
+      
         <label>Your Contact</label>
-        <input type="text" required placeholder="Enter your contact" />
+        <input name="contact" type="text" required placeholder="Enter your contact" />
+      
         <button type="submit">Report Found Pet</button>
       </form>
+      
     </div>
   </div>
 
-  <div id="matchResults" style="max-width: 900px; margin: 2rem auto; padding: 1rem; display: none;">
-    <h3>🎉 Potential Matches Found!</h3>
-    <input type="text" id="matchSearch" placeholder="Search by breed, color, location..."
-      style="width: 100%; padding: 0.7rem; margin-bottom: 1.5rem; border-radius: 10px; border: 1px solid #ccc;">
+  <div id="matchResults" style="display: none; margin-top: 2rem;">
+    <h3>🔍 Possible Matches:</h3>
     <div id="matchCardsContainer"></div>
   </div>
+  
   <div id="contactPopup" class="popup-overlay" style="display: none;">
     <div class="popup-content">
       <span class="close-btn" onclick="closeContactPopup()">&times;</span>
@@ -394,10 +405,27 @@
   </footer>
 
   <script>
-    const lostPets = [];
-    const foundPets = [];
-
-    function findMatches(lostPet) {
+    // Fetch and match lost pets with a new found pet
+    async function findMatchesFromFound(foundPet) {
+      const response = await fetch('/api/lostPets');
+      const lostPets = await response.json();
+  
+      const matches = lostPets.filter(lp => {
+        let count = 0;
+        if (lp.type.toLowerCase() === foundPet.type.toLowerCase()) count++;
+        if (lp.breed.toLowerCase() === foundPet.breed.toLowerCase()) count++;
+        if (lp.color.toLowerCase() === foundPet.color.toLowerCase()) count++;
+        return count >= 3;
+      });
+  
+      return matches.map(lost => ({ lost, found: foundPet }));
+    }
+  
+    // Fetch and match found pets with a new lost pet
+    async function findMatchesFromLost(lostPet) {
+      const response = await fetch('/api/foundPets');
+      const foundPets = await response.json();
+  
       const matches = foundPets.filter(fp => {
         let count = 0;
         if (fp.type.toLowerCase() === lostPet.type.toLowerCase()) count++;
@@ -405,34 +433,31 @@
         if (fp.color.toLowerCase() === lostPet.color.toLowerCase()) count++;
         return count >= 3;
       });
-
+  
       return matches.map(found => ({ lost: lostPet, found }));
     }
-
+  
+    // Display matched pet pairs
     function displayMatches(matches) {
       const container = document.getElementById("matchResults");
       const cardContainer = document.getElementById("matchCardsContainer");
-
-      if (matches.length === 0) {
-        container.style.display = "block";
-        cardContainer.innerHTML = "<p>No close matches found yet.</p>";
-        return;
-      }
-
+  
       container.style.display = "block";
-      cardContainer.innerHTML = "";
-
+      cardContainer.innerHTML = matches.length === 0
+        ? "<p>No close matches found yet.</p>"
+        : "";
+  
       matches.forEach(pair => {
         const card = document.createElement("div");
         card.className = "match-card";
-        card.setAttribute("data-search", `${pair.lost.breed} ${pair.lost.color} ${pair.lost.location} ${pair.found.breed} ${pair.found.color} ${pair.found.location}`.toLowerCase());
-
-        card.style.background = "#fff";
-        card.style.padding = "1rem";
-        card.style.borderRadius = "10px";
-        card.style.boxShadow = "0 0 10px rgba(0,0,0,0.1)";
-        card.style.marginBottom = "1.5rem";
-
+        card.style.cssText = `
+          background: #fff;
+          padding: 1rem;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          margin-bottom: 1.5rem;
+        `;
+  
         card.innerHTML = `
           <h4>🐾 Lost Pet Info:</h4>
           <strong>Name:</strong> ${pair.lost.name || "N/A"}<br>
@@ -448,101 +473,84 @@
           <strong>Location:</strong> ${pair.found.location}<br>
           <strong>Contact:</strong> ${pair.found.contact}<br><br>
   
-          <button>Contact Finder</button>
+          <button onclick="alert('Contact ${pair.found.contact} to coordinate reunion.')">Contact Finder</button>
         `;
-
+  
         cardContainer.appendChild(card);
       });
-
+  
       container.scrollIntoView({ behavior: "smooth" });
     }
-
-    document.getElementById("lostForm").addEventListener("submit", function (e) {
+  
+    // LOST PET FORM SUBMISSION
+    document.getElementById("lostForm")?.addEventListener("submit", async function (e) {
       e.preventDefault();
       const inputs = this.querySelectorAll("input, select");
-
+  
       const lostPet = {
         name: inputs[0].value.trim(),
-        type: inputs[1].value,
+        type: inputs[1].value.trim(),
         breed: inputs[2].value.trim(),
         color: inputs[3].value.trim(),
         location: inputs[4].value.trim()
       };
-
-      lostPets.push(lostPet);
-
-      const matched = findMatches(lostPet);
-      displayMatches(matched);
-
-      alert("Your lost pet report has been submitted. Our team will assist in locating your pet.");
-      this.reset();
+  
+      try {
+        await fetch('/api/lostPets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(lostPet)
+        });
+  
+        const matches = await findMatchesFromLost(lostPet);
+        displayMatches(matches);
+  
+        alert("✅ Your lost pet report has been submitted.");
+        this.reset();
+      } catch (err) {
+        console.error(err);
+        alert("❌ Error submitting lost pet: " + err.message);
+      }
     });
+  
+    // FOUND PET FORM SUBMISSION
+    document.getElementById("foundForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const inputs = this.querySelectorAll("input, select");
 
-    document.getElementById("foundForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const inputs = this.querySelectorAll("input, select");
+  const foundPet = {
+    type: inputs[0].value.trim(),
+    breed: inputs[1].value.trim(),
+    color: inputs[2].value.trim(),
+    location: inputs[3].value.trim(),
+    contact: inputs[4].value.trim()
+  };
 
-      const foundPet = {
-        type: inputs[0].value,
-        breed: inputs[1].value.trim(),
-        color: inputs[2].value.trim(),
-        location: inputs[3].value.trim(),
-        contact: inputs[4].value.trim()
-      };
+  try {
+    const response = await fetch('/api/foundPets', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(foundPet)
+});
 
-      foundPets.push(foundPet);
+if (!response.ok) {
+  const text = await response.text();
+  throw new Error(`Server error (${response.status}): ${text}`);
+}
 
-      alert("Your found pet report has been submitted. Thank you for helping reunite pets with their families!");
-      this.reset();
-    });
 
-    document.getElementById("matchSearch").addEventListener("input", function () {
-      const query = this.value.toLowerCase();
-      const cards = document.querySelectorAll("#matchCardsContainer .match-card");
+    const matches = await findMatchesFromFound(foundPet);
+    displayMatches(matches);
 
-      cards.forEach(card => {
-        const data = card.getAttribute("data-search");
-        if (data.includes(query)) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    });
+    alert("Your found pet report has been submitted.");
+    this.reset();
+  } catch (err) {
+    alert("Error submitting found pet: " + err.message);
+  }
+});
 
-    function openContactPopup() {
-      document.getElementById("contactPopup").style.display = "flex";
-    }
-
-    function closeContactPopup() {
-      document.getElementById("contactPopup").style.display = "none";
-    }
-
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      alert("Message sent successfully!");
-      closeContactPopup();
-    });
-
-    function createMatchCard(matchData) {
-      const card = document.createElement("div");
-      card.style.marginBottom = "1.5rem";
-      card.style.padding = "1rem";
-      card.style.background = "#fff";
-      card.style.borderRadius = "10px";
-      card.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
-      card.innerHTML = `
-      <h4>${matchData.title}</h4>
-      <div><strong>Type:</strong> ${matchData.type}</div>
-      <div><strong>Breed:</strong> ${matchData.breed}</div>
-      <div><strong>Color:</strong> ${matchData.color}</div>
-      <div><strong>Location:</strong> ${matchData.location}</div>
-      <button onclick="openContactPopup()">Contact</button>
-    `;
-      return card;
-    }
   </script>
-
+  
 </body>
 
-</html>/public/
+</html>
