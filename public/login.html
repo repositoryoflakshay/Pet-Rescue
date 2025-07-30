@@ -216,7 +216,12 @@
             return;
           }
 
-          localStorage.setItem("user", JSON.stringify(data));
+          if (data.role === "admin") {
+      localStorage.setItem("adminUsername", username);
+      localStorage.setItem("isAdminLoggedIn", "true");
+    } else {
+      localStorage.setItem("loggedInUser", username); // ✅ Homepage now sees this
+    }
 
           showLoginOverlayAndRedirect(data.role === "admin");
         } catch (err) {
