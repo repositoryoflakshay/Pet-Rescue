@@ -230,8 +230,21 @@
     loginBtn.onmouseenter = () => loginDropdownContent.style.display = "block";
     loginDropdown.onmouseleave = () => loginDropdownContent.style.display = "none";
 
-    dashboardLink.style.display = "none";
-    successLink.style.display = "none";
+    // 🔍 Check if this user is also an admin (via backend)
+    fetch(`/api/checkAdmin/${user}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.isAdmin) {
+          dashboardLink.style.display = "list-item";
+          successLink.style.display = "list-item";
+        } else {
+          dashboardLink.style.display = "none";
+          successLink.style.display = "none";
+        }
+      })
+      .catch((err) => {
+        console.error("Error checking admin status:", err);
+      });
   }
 
   // Not Logged In
