@@ -40,25 +40,25 @@ const donationSchema = new mongoose.Schema({
 });
 const Donation = mongoose.model("Donation", donationSchema);
 
-// Lost Pet Schema
-const lostPetSchema = new mongoose.Schema({
-  name: String,
-  type: String,
-  breed: String,
-  color: String,
-  location: String,
-  reportedAt: { type: Date, default: Date.now },
-});
+// // Lost Pet Schema
+// const lostPetSchema = new mongoose.Schema({
+//   name: String,
+//   type: String,
+//   breed: String,
+//   color: String,
+//   location: String,
+//   reportedAt: { type: Date, default: Date.now },
+// });
 
-// Found Pet Schema
-const foundPetSchema = new mongoose.Schema({
-  type: String,
-  breed: String,
-  color: String,
-  location: String,
-  contact: String,
-  reportedAt: { type: Date, default: Date.now },
-});
+// // Found Pet Schema
+// const foundPetSchema = new mongoose.Schema({
+//   type: String,
+//   breed: String,
+//   color: String,
+//   location: String,
+//   contact: String,
+//   reportedAt: { type: Date, default: Date.now },
+// });
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -302,6 +302,18 @@ app.post("/api/lostPets", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Fetch All Lost Pets (used for matching from found pet report)
+app.get("/api/lostPets", async (req, res) => {
+  try {
+    const lostPets = await LostPet.find();
+    res.json(lostPets);
+  } catch (err) {
+    console.error("Error fetching lost pets:", err);
+    res.status(500).json({ message: "Failed to fetch lost pets" });
+  }
+});
+
 
 // ✅ Admin check route (for frontend visibility logic)
 app.get("/api/checkAdmin/:email", async (req, res) => {
