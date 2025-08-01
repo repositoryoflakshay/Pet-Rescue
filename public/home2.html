@@ -23,6 +23,7 @@
           <li><a href="/public/success-stories.html" id="successLink" style="display: none;">Success Stories</a></li>
           <li><a href="/public/dashboard.html" id="dashboardLink" style="display: none;">Dashboard</a></li>
         </ul>
+     
       </nav>
 
       <div class="cart-icon">
@@ -230,21 +231,8 @@
     loginBtn.onmouseenter = () => loginDropdownContent.style.display = "block";
     loginDropdown.onmouseleave = () => loginDropdownContent.style.display = "none";
 
-    // 🔍 Check if this user is also an admin (via backend)
-    fetch(`/api/checkAdmin/${user}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.isAdmin) {
-          dashboardLink.style.display = "list-item";
-          successLink.style.display = "list-item";
-        } else {
-          dashboardLink.style.display = "none";
-          successLink.style.display = "none";
-        }
-      })
-      .catch((err) => {
-        console.error("Error checking admin status:", err);
-      });
+    dashboardLink.style.display = "none";
+    successLink.style.display = "none";
   }
 
   // Not Logged In
