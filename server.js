@@ -274,7 +274,7 @@ app.post('/api/newsletter', async (req, res) => {
   const { email } = req.body;
 
   try {
-    const Newsletter = mongoose.model('Newsletter', new mongoose.Schema({ email: String }));
+    const Newsletter = mongoose.model('Newsletter', new mongoose.Schema({ email: String, subscribedAt: { type: Date, default: Date.now } }));
     const existing = await Newsletter.findOne({ email });
 
     if (existing) {
@@ -353,6 +353,28 @@ app.get("/api/foundPets", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch found pets" });
   }
 });
+
+app.get("/admin/data", async (req, res) => {
+  try {
+    const donations = await Donation.find().sort({ date: -1 });
+    
+    const Newsletter = mongoose.model(
+      "Newsletter",
+      new mongoose.Schema({
+        email: String,
+        subscribedAt: { type: Date, default: Date.now }
+      })
+    );
+    
+    const subscribers = await Newsletter.find().sort({ subscribedAt: -1 });
+
+    res.json({ donations, subscribers });
+  } catch (err) {
+    console.error("Error fetching admin data:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 
 
