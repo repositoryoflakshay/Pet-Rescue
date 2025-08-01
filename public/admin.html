@@ -148,6 +148,8 @@ tr:last-child td {
 </head>
 <body>
   <h1>🐾 PawsHeart Admin Dashboard</h1>
+  <h3 id="adminWelcome" style="text-align:center; color:#555; margin-top: -10px;"></h3>
+
 
   <h2>📊 Donations</h2>
   <div class="filter">
@@ -264,7 +266,7 @@ tr:last-child td {
 
     // Auto-refresh every 10 seconds
     setInterval(() => fetchAdminData(true), 30000);
-    const isAdmin = localStorage.getItem("isAdmin") === "true";
+    const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
 const adminInfo = JSON.parse(localStorage.getItem("adminInfo") || "{}");
 
 if (isAdmin) {
