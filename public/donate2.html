@@ -486,7 +486,7 @@
           setTimeout(() => {
             document.getElementById("successOverlay").style.display = "none";
             document.getElementById("donationForm").reset();
-          }, 20000);
+          }, 10000);
         });
 
         // 💌 Handle newsletter subscription
@@ -546,17 +546,10 @@
 
       </script>
       <script>
-        const loggedInUser = JSON.parse(localStorage.getItem("user"));
-
-        if (loggedInUser && loggedInUser.email) {
-          fetch(`http://localhost:3000/api/checkAdmin/${loggedInUser.email}`)
-            .then(res => res.json())
-            .then(data => {
-              if (data.isAdmin) {
-                document.getElementById("adminLink").style.display = "inline-block";
-              }
-            });
-        }
+        const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
+      if (isAdmin) {
+        document.getElementById("adminLink").style.display = "inline";
+      }
 
       </script>
 
