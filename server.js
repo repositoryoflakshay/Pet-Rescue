@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 const multer = require("multer");
-
+const Newsletter = require('./models/Newsletter');
 const storage = multer.memoryStorage(); // or use diskStorage for real uploads
 const upload = multer({ storage });
 
@@ -67,6 +67,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "user" },
 });
 const User = mongoose.model("User", userSchema);
+
 
 const applicationSchema = new mongoose.Schema({
   name: String,
@@ -274,7 +275,6 @@ app.post('/api/newsletter', async (req, res) => {
   const { email } = req.body;
 
   try {
-    const Newsletter = mongoose.model('Newsletter', new mongoose.Schema({ email: String, subscribedAt: { type: Date, default: Date.now } }));
     const existing = await Newsletter.findOne({ email });
 
     if (existing) {
@@ -357,15 +357,6 @@ app.get("/api/foundPets", async (req, res) => {
 app.get("/admin/data", async (req, res) => {
   try {
     const donations = await Donation.find().sort({ date: -1 });
-    
-    const Newsletter = mongoose.model(
-      "Newsletter",
-      new mongoose.Schema({
-        email: String,
-        subscribedAt: { type: Date, default: Date.now }
-      })
-    );
-    
     const subscribers = await Newsletter.find().sort({ subscribedAt: -1 });
 
     res.json({ donations, subscribers });
@@ -374,7 +365,6 @@ app.get("/admin/data", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 
 
