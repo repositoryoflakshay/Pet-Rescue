@@ -237,6 +237,11 @@
 
   // Not Logged In
   else {
+
+    localStorage.removeItem("isAdminLoggedIn");
+    localStorage.removeItem("adminUsername");
+    localStorage.removeItem("loggedInUser");
+
     loginBtn.innerText = "🔒 Login";
     loginBtn.href = "login.html";
     loginDropdownContent.style.display = "none";
