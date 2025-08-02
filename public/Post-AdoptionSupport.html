@@ -221,17 +221,18 @@
 <div class="container">
   <h2>🐾 Post-Adoption Checklist</h2>
   <ul class="checklist" id="postChecklist">
-    <li><input type="checkbox"/>Schedule initial vet visit</li>
-    <li><input type="checkbox"/>Pet-proof your home</li>
-    <li><input type="checkbox"/>Buy food, bowls, bed, toys</li>
-    <li><input type="checkbox"/>Set feeding & potty schedule</li>
-    <li><input type="checkbox"/>Start bonding & training</li>
+    <li><input type="checkbox" /> Confirm pet insurance</li>
+    <li><input type="checkbox" /> Pack essentials for the visit</li>
+    <li><input type="checkbox" /> Ensure pet is well-rested</li>
+    <li><input type="checkbox" /> Double-check appointment details</li>
+    <li><input type="checkbox" /> Prepare questions for the vet/trainer</li>
   </ul>
-  <div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
-  
-
+  <div id="progressFill"></div>
+  <span id="taskProgressText"></span>
   <h2>📓 Pet Journal</h2>
-  <textarea id="journalNote" placeholder="Write about your pet’s first day, progress, or fun moments..."></textarea>
+
+  <textarea id="journalNote" placeholder="Write about your pet..."></textarea>
+
   <button class="btn" onclick="saveJournal()">Save Note</button>
 
   <h2>💡 Care Tips</h2>
@@ -244,22 +245,23 @@
   </div>
 
   <h2 class="tracker">📆 Appointment Tracker</h2>
-  <input type="date" id="apptDate" />
-  <input type="time" id="apptTime" />
-  <input type="text" id="apptNote" placeholder="Reason for Appointment: Like visit, grooming, training...etc" />
-  <button class="btn" onclick="addAppt()">Submit Appointment</button>
+  <input id="petName" placeholder="Pet name" />
+<input id="apptDate" type="date" />
+<input id="apptTime" type="time" />
+<input id="apptNote" placeholder="Reason for Appointment: Grooming, Vet, Training, General Checkup and other. Give Reason for the Appointment to be Scheduled" />
+<input id="apptEmail" placeholder="Email" />
+<input id="apptPhone" placeholder="Phone" />
+<button onclick="addAppt()">Add Appointment</button>
 
-  
-  <div id="success-overlay" class="overlay">
-    <div class="overlay-content">
-      <h2>Appointment Scheduled ✅</h2>
-      <p id="appointment-details"></p>
-      <a href="all-appointments.html" class="btn">View All Appointments</a>
-      <button onclick="closeOverlay()">Close</button>
-    </div>
+<!-- Appointment Success Overlay -->
+<div id="success-overlay" class="overlay" style="display: none;">
+  <div class="overlay-content">
+    <h2>Appointment Scheduled ✅</h2>
+    <p id="appointment-details"></p>
+    <button class="btn" onclick="downloadAppointment()">Download Appointment</button>
+    <button class="btn" onclick="closeOverlay()">Close</button>
   </div>
-  
-
+</div>
 
 <footer>
   <p>💖 Thank you for giving a pet a second chance. Stay connected with us!</p>

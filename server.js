@@ -30,17 +30,6 @@ const FoundPet = require('./models/FoundPet');
 
 // ---------------------- SCHEMAS ----------------------
 
-const mongoose = require('mongoose');
-const AppointmentSchema = new mongoose.Schema({
-  date: String,
-  time: String,
-  note: String,
-  email: String,
-  phone: String,
-  createdAt: { type: Date, default: Date.now }
-});
-
-mongoose.model('Appointment', AppointmentSchema); // Make sure to only define this once!
 
 const donationSchema = new mongoose.Schema({
   name: String,
@@ -384,16 +373,7 @@ app.get("/admin/data", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-app.post("/api/appointments", async (req, res) => {
-  try {
-    const newAppt = new Appointment(req.body);
-    await newAppt.save();
-    res.status(201).json({ message: "Appointment saved" });
-  } catch (err) {
-    console.error("Error saving appointment:", err);
-    res.status(500).json({ error: "Could not save appointment" });
-  }
-});
+
 
 
 // Redirect root to homepage
