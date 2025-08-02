@@ -134,6 +134,18 @@
     <p>Help us find the perfect match for you and your new pet</p>
     <form id="adoptionForm">
 
+      <!-- Inside the form -->
+<div id="animalDetails" style="background:#f9f9f9; border:1px solid #ccc; padding:15px; border-radius:12px; margin-bottom:20px;">
+  <h3>🐾 Selected Animal</h3>
+  <p><strong>Name:</strong> <span id="animalName"></span></p>
+  <p><strong>Species:</strong> <span id="animalSpecies"></span></p>
+  <p><strong>Breed:</strong> <span id="animalBreed"></span></p>
+  <p><strong>Age:</strong> <span id="animalAge"></span></p>
+  <p><strong>Color:</strong> <span id="animalColor"></span></p>
+  <p><strong>Description:</strong> <span id="animalDescription"></span></p>
+</div>
+
+
       <label for="name">Full Name *</label>
       <div class="input-wrapper">
         <input type="text" id="name" name="name" required>
@@ -205,6 +217,23 @@
   
     const previewBtn = document.getElementById('previewBtn');
     const resetBtn = document.getElementById('resetBtn');
+
+    const loadAnimalDetails = () => {
+  const animal = JSON.parse(localStorage.getItem("selectedAnimal"));
+  if (!animal) return;
+
+  document.getElementById("animalName").textContent = animal.name;
+  document.getElementById("animalSpecies").textContent = animal.species;
+  document.getElementById("animalBreed").textContent = animal.breed;
+  document.getElementById("animalAge").textContent = animal.age;
+  document.getElementById("animalColor").textContent = animal.color;
+  document.getElementById("animalDescription").textContent = animal.description;
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadDraft();
+  loadAnimalDetails();
+});
   
     const validateName = () => {
       const name = nameInput.value.trim();
@@ -240,6 +269,7 @@
   
     const saveDraft = () => {
       const draftData = {
+        selectedAnimal: JSON.parse(localStorage.getItem("selectedAnimal")) || {},
         name: nameInput.value,
         email: emailInput.value,
         phone: phoneInput.value,
@@ -255,6 +285,7 @@
       const draft = localStorage.getItem('draftApplication');
       if (!draft) return;
       const data = JSON.parse(draft);
+      selectedAnimal.value = JSON.parse(localStorage.getItem("selectedAnimal")) || {}; 
       nameInput.value = data.name || '';
       emailInput.value = data.email || '';
       phoneInput.value = data.phone || '';
@@ -303,7 +334,8 @@
         address: addressInput.value.trim(),
         petType: petTypeInput.value,
         experience: experienceInput.value.trim(),
-        housing: housingInput.value
+        housing: housingInput.value,
+        selectedAnimal: JSON.parse(localStorage.getItem("selectedAnimal")) || {}
       };
   
       try {

@@ -88,6 +88,14 @@ const applicationSchema = new mongoose.Schema({
   petType: String,
   experience: String,
   housing: String,
+  selectedAnimal:{
+    name: String,
+    species: String,
+    breed: String,
+    age: String,
+    color: String,
+    description: String
+  },
   submittedAt: { type: Date, default: Date.now },
 });
 const AdoptionApplication = mongoose.model(
