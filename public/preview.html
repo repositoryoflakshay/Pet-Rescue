@@ -167,23 +167,33 @@
     const container = document.getElementById("applicationData");
 
     if (data) {
-      for (const key in data) {
-        const field = document.createElement("div");
-        field.className = "data-field";
+  for (const key in data) {
+    const field = document.createElement("div");
+    field.className = "data-field";
 
-        const label = document.createElement("label");
-        label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+    const label = document.createElement("label");
+    label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
 
-        const value = document.createElement("div");
-        value.textContent = data[key] || "N/A";
+    const value = document.createElement("div");
 
-        field.appendChild(label);
-        field.appendChild(value);
-        container.appendChild(field);
-      }
+    if (typeof data[key] === 'object' && data[key] !== null) {
+      // If it's the selectedAnimal object, show its properties nicely
+      const nestedData = data[key];
+      value.innerHTML = Object.entries(nestedData)
+        .map(([subKey, subValue]) => `<strong>${subKey}:</strong> ${subValue}<br>`)
+        .join("");
     } else {
-      container.innerHTML = "<p>No application data found.</p>";
+      value.textContent = data[key] || "N/A";
     }
+
+    field.appendChild(label);
+    field.appendChild(value);
+    container.appendChild(field);
+  }
+} else {
+  container.innerHTML = "<p>No application data found.</p>";
+}
+
 
     document.getElementById("editBtn").addEventListener("click", () => {
       localStorage.setItem("editMode", "true");
