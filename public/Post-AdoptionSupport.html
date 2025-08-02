@@ -271,8 +271,8 @@
 <script>
   const checklist = document.getElementById("postChecklist");
   const progressFill = document.getElementById("progressFill");
-  const apptList = document.getElementById("apptList");
-
+  const journalTextarea = document.getElementById("journalNote");
+  
   // Update checklist progress bar
   function updateProgress() {
     const total = checklist.querySelectorAll("input[type='checkbox']").length;
@@ -281,76 +281,101 @@
     progressFill.style.width = percent + "%";
     document.getElementById("taskProgressText").textContent = `✅ ${checked} of ${total} tasks completed`;
   }
-
-  // Save checklist to localStorage
-  checklist.addEventListener("change", () => {
-    const states = [];
-    checklist.querySelectorAll("input[type='checkbox']").forEach(c => states.push(c.checked));
-    localStorage.setItem("postChecklist", JSON.stringify(states));
-    updateProgress();
-  });
-
-  // Load checklist from localStorage
-  function loadChecklist() {
-    const saved = JSON.parse(localStorage.getItem("postChecklist") || "[]");
-    checklist.querySelectorAll("input[type='checkbox']").forEach((c, i) => {
-      c.checked = saved[i] || false;
-    });
-    updateProgress();
-  }
-
-  // Save note
-  function saveJournal() {
-    const note = document.getElementById("journalNote").value;
-    localStorage.setItem("petJournal", note);
-    alert("Note saved!");
-  }
-
-  // Load note
-  function loadJournal() {
-    const note = localStorage.getItem("petJournal");
-    if (note) document.getElementById("journalNote").value = note;
-  }
-
-  // Add Appointment and show overlay
+  
+  // Add Appointment and save to DB
   function addAppt() {
+    const petName = document.getElementById("petName").value;
     const date = document.getElementById("apptDate").value;
     const time = document.getElementById("apptTime").value;
     const note = document.getElementById("apptNote").value;
-    const overlay = document.getElementById("success-overlay");
-    const details = document.getElementById("appointment-details");
-
-    if (date && time && note) {
-      const appt = `${date} at ${time} - ${note}`;
-      let appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
-      appointments.push(appt);
-      localStorage.setItem("appointments", JSON.stringify(appointments));
-
-      details.innerHTML = `📅 <strong>${date}</strong> at <strong>${time}</strong> for <strong>${note}</strong>.`;
-      overlay.style.display = "flex";
-
-      // Reset input fields after submission
+    const email = document.getElementById("apptEmail").value;
+    const phone = document.getElementById("apptPhone").value;
+    const journalNote = journalTextarea.value;
+  
+    const selectedChecklist = Array.from(checklist.querySelectorAll("input[type='checkbox']"))
+      .map((c, i) => ({ checked: c.checked, text: c.parentElement.textContent.trim() }))
+      .filter(item => item.checked)
+      .map(item => item.text);
+  
+    if (!petName || !date || !time || !note || !email || !phone) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+  
+    // Send to backend
+    fetch("/appointments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        petName,
+        date,
+        time,
+        note,
+        email,
+        phone,
+        checklist: selectedChecklist,
+        journalNote
+      })
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to save appointment.");
+      return res.json();
+    })
+    .then(data => {
+      document.getElementById("appointment-details").innerHTML = `
+        📅 <strong>${date}</strong> at <strong>${time}</strong><br>
+        🐾 Pet: <strong>${petName}</strong><br>
+        📞 Phone: ${phone}<br>
+        ✉️ Email: ${email}<br>
+        📋 Reason: ${note}
+      `;
+      document.getElementById("success-overlay").style.display = "flex";
+  
+      // Clear inputs
+      document.getElementById("petName").value = "";
       document.getElementById("apptDate").value = "";
       document.getElementById("apptTime").value = "";
       document.getElementById("apptNote").value = "";
-    } else {
-      alert("Please fill in date, time, and appointment note.");
-    }
+      document.getElementById("apptEmail").value = "";
+      document.getElementById("apptPhone").value = "";
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error saving appointment.");
+    });
   }
-
+  
   function closeOverlay() {
     document.getElementById("success-overlay").style.display = "none";
   }
-
- // DOM Ready actions
-window.addEventListener("DOMContentLoaded", () => {
-  localStorage.removeItem("postChecklist"); // Clear saved checklist state
-  updateProgress(); // Ensure progress bar resets to 0
-  loadJournal(); // Still load journal
-});
-
-</script>
-
-
+  
+  // Download as .txt
+  function downloadAppointment() {
+    const details = document.getElementById("appointment-details").innerText;
+    const journalNote = journalTextarea.value || "(No journal note)";
+    const selectedChecklist = Array.from(checklist.querySelectorAll("input[type='checkbox']"))
+      .filter(c => c.checked)
+      .map(c => `- ${c.parentElement.textContent.trim()}`)
+      .join("\n") || "(No checklist items selected)";
+  
+    const content = `🐾 Appointment Details\n\n${details}\n\n✅ Checklist:\n${selectedChecklist}\n\n📓 Journal Note:\n${journalNote}`;
+  
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "appointment_details.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  
+  // Initialize progress bar
+  window.addEventListener("DOMContentLoaded", () => {
+    updateProgress();
+  });
+  </script>
+  
 </body>
 </html>

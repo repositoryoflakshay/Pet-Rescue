@@ -10,10 +10,12 @@ const multer = require("multer");
 const Newsletter = require('./models/Newsletter');
 const storage = multer.memoryStorage(); // or use diskStorage for real uploads
 const upload = multer({ storage });
-
+const bodyParser = require("body-parser");
+require("dotenv").config();
 
 // Serve static files (HTML, CSS, JS) from "public" folder
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(bodyParser.json());
 
 // MongoDB connection
 mongoose
@@ -28,6 +30,7 @@ mongoose
 const FoundPet = require('./models/FoundPet');
 
 
+const Appointment = require("./models/Appointment");
 // ---------------------- SCHEMAS ----------------------
 
 
@@ -374,7 +377,28 @@ app.get("/admin/data", async (req, res) => {
   }
 });
 
+app.post("/appointments", async (req, res) => {
+  try {
+    const { petName, date, time, note, email, phone, checklist, journalNote } = req.body;
 
+    const newAppointment = new Appointment({
+      petName,
+      date,
+      time,
+      note,
+      email,      // Still saving in DB in case needed later
+      phone,
+      checklist,
+      journalNote
+    });
+
+    await newAppointment.save();
+    res.status(200).json({ message: "Appointment saved successfully." });
+  } catch (error) {
+    console.error("Error saving appointment:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // Redirect root to homepage
 app.get("/", (req, res) => {
