@@ -424,13 +424,113 @@
   </footer>
 
   <script>
-    function adoptPet(petName) {
-      alert(
-        `You've selected ${petName} for adoption! Please fill out the form below.`
-      );
-      window.location.href = "apply.html";
-    }
-  </script>
+  function adoptPet(petName) {
+    // Map each pet to its full details
+    const pets = {
+      "Buddy": {
+        name: "Buddy",
+        species: "Dog",
+        breed: "Golden Retriever",
+        age: "3 years",
+        color: "Golden",
+        description: "Friendly and energetic dog who loves playing fetch and long walks."
+      },
+      "Luna": {
+        name: "Luna",
+        species: "Cat",
+        breed: "Siamese",
+        age: "2 years",
+        color: "White/Brown",
+        description: "Elegant and affectionate cat who loves head scratches."
+      },
+      "Max": {
+        name: "Max",
+        species: "Dog",
+        breed: "Labrador Mix",
+        age: "5 years",
+        color: "Black",
+        description: "Calm, loyal, and house-trained. Great for families."
+      },
+      "Bella": {
+        name: "Bella",
+        species: "Dog",
+        breed: "Beagle",
+        age: "4 years",
+        color: "Tricolor",
+        description: "Playful and loves to sniff around. Great with kids."
+      },
+      "Rocky": {
+        name: "Rocky",
+        species: "Dog",
+        breed: "German Shepherd",
+        age: "3 years",
+        color: "Black/Tan",
+        description: "Loyal and intelligent. Trained for obedience."
+      },
+      "Milo": {
+        name: "Milo",
+        species: "Cat",
+        breed: "Tabby",
+        age: "1.5 years",
+        color: "Orange",
+        description: "Curious and cuddly. Loves attention and naps."
+      },
+      "Charlie": {
+        name: "Charlie",
+        species: "Dog",
+        breed: "Shih Tzu",
+        age: "2 years",
+        color: "White",
+        description: "Friendly lap dog, great for small homes."
+      },
+      "Shadow": {
+        name: "Shadow",
+        species: "Cat",
+        breed: "Persian",
+        age: "3 years",
+        color: "Black",
+        description: "Quiet and majestic. Prefers peaceful environments."
+      },
+      "Cooper": {
+        name: "Cooper",
+        species: "Dog",
+        breed: "Husky",
+        age: "4 years",
+        color: "Gray/White",
+        description: "Energetic and talkative. Needs space to run."
+      },
+      "Cleo": {
+        name: "Cleo",
+        species: "Cat",
+        breed: "Ragdoll",
+        age: "1 year",
+        color: "Cream",
+        description: "Sweet and social. Loves to be around people."
+      },
+      "Oscar": {
+        name: "Oscar",
+        species: "Dog",
+        breed: "Boxer",
+        age: "2.5 years",
+        color: "Brown",
+        description: "Playful and strong. Needs regular exercise."
+      },
+      "Misty": {
+        name: "Misty",
+        species: "Cat",
+        breed: "British Shorthair",
+        age: "2 years",
+        color: "Gray",
+        description: "Chubby cheeks, low-maintenance, affectionate cat."
+      }
+    };
+
+    const selected = pets[petName];
+    localStorage.setItem("selectedAnimal", JSON.stringify(selected));
+    window.location.href = "apply.html";
+  }
+</script>
+
   <script>
     let count = 13452;
     const mainCounter = document.getElementById("pet-counter");

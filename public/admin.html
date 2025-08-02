@@ -267,12 +267,13 @@ tr:last-child td {
     // Auto-refresh every 10 seconds
     setInterval(() => fetchAdminData(true), 30000);
     const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
-const adminInfo = JSON.parse(localStorage.getItem("adminInfo") || "{}");
+const adminUsername = localStorage.getItem("adminUsername");
 
-if (isAdmin) {
-  console.log("Logged in Admin:", adminInfo.name);
-  document.getElementById("adminWelcome").innerText = `Hello, ${adminInfo.name}`;
+if (isAdmin && adminUsername) {
+  console.log("Logged in Admin:", adminUsername);
+  document.getElementById("adminWelcome").innerText = `Hello, ${adminUsername}`;
 }
+
 
   </script>
 </body>
