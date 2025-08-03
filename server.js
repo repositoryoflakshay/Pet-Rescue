@@ -400,6 +400,35 @@ app.post("/appointments", async (req, res) => {
   }
 });
 
+// backend route
+app.get("/api/appointments", async (req, res) => {
+  try {
+    const all = await Appointment.find();
+    res.json(all); // ✅ If `checklist` and `note` are in schema, they are returned here
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch appointments" });
+  }
+});
+
+
+app.delete("/appointments/:id", async (req, res) => {
+  try {
+    await Appointment.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted" });
+  } catch {
+    res.status(500).json({ error: "Delete failed" });
+  }
+});
+
+app.put("/appointments/:id", async (req, res) => {
+  try {
+    const updated = await Appointment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch {
+    res.status(500).json({ error: "Update failed" });
+  }
+});
+
 // Redirect root to homepage
 app.get("/", (req, res) => {
   res.redirect("/public/home2.html");

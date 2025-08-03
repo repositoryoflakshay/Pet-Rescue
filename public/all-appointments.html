@@ -58,55 +58,114 @@
 </head>
 <body>
   <header>
-    <h1>🐾 PawsHeart Overview</h1>
+    <h1>🐾 PawsHeart Appointment Overview</h1>
   </header>
 
   <div class="container">
-    <h2>✅ Completed Checklist</h2>
-    <ul id="checklistDisplay"></ul>
-
-    <h2>📅 Your Appointments</h2>
-    <ul id="allApptList"></ul>
+    <h2>📅 All Appointments</h2>
+  
+    <!-- Filters -->
+    <div style="margin-bottom: 1rem;">
+      <input type="text" id="filterName" placeholder="Filter by Pet Name" />
+      <button onclick="exportCSV()">Export CSV</button>
+    </div>
+  
+    <!-- Appointments Table -->
+    <table id="apptTable" border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>Pet Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Note</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Checklist</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+      <tbody></tbody>
+    </table>
   </div>
+  
 
   <footer>
     <p>Thank you for giving a pet a second chance 🐶</p>
   </footer>
 
   <script>
-   window.addEventListener("DOMContentLoaded", () => {
-  const checklistItems = [
-    "Schedule initial vet visit",
-    "Pet-proof your home",
-    "Buy food, bowls, bed, toys",
-    "Set feeding & potty schedule",
-    "Start bonding & training"
-  ];
+    document.addEventListener("DOMContentLoaded", () => {
+      const tableBody = document.querySelector("#apptTable tbody");
+      let allAppointments = [];
 
-  const checklistState = JSON.parse(localStorage.getItem("postChecklist") || "[]");
-  const checklistDisplay = document.getElementById("checklistDisplay");
+      const fetchData = async () => {
+        const res = await fetch("/api/appointments");
+        allAppointments = await res.json();
+        displayData(allAppointments);
+      };
 
-  checklistItems.forEach((item, i) => {
-    if (checklistState[i]) {
-      const li = document.createElement("li");
-      li.textContent = item;
-      checklistDisplay.appendChild(li);
-    }
+      const displayData = (data) => {
+        tableBody.innerHTML = "";
+        data.forEach(appt => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+  <td>${appt.petName}</td>
+  <td>${appt.date}</td>
+  <td>${appt.time}</td>
+  <td>${appt.note || "—"}</td>
+  <td>${appt.phone}</td>
+  <td>${appt.email}</td>
+  <td>
+    <ul style="margin: 0; padding-left: 1rem;">
+      ${(appt.checklist || []).map(item => `<li>${item}</li>`).join("")}
+    </ul>
+  </td>
+  <td>
+    <button onclick="editAppt('${appt._id}')">Edit</button>
+    <button onclick="deleteAppt('${appt._id}')">Delete</button>
+  </td>`;
+
+          tableBody.appendChild(row);
+        });
+      };
+
+      document.getElementById("filterName").addEventListener("input", () => {
+        const val = document.getElementById("filterName").value.toLowerCase();
+        const filtered = allAppointments.filter(a => a.petName.toLowerCase().includes(val));
+        displayData(filtered);
+      });
+
+      window.deleteAppt = async (id) => {
+        if (!confirm("Delete this appointment?")) return;
+        await fetch(`/appointments/${id}`, { method: "DELETE" });
+        fetchData();
+      };
+
+      window.editAppt = (id) => {
+        const appt = allAppointments.find(a => a._id === id);
+        localStorage.setItem("editAppt", JSON.stringify(appt));
+        location.href = `/edit-appointment.html?id=${id}`;
+      };
+
+      window.exportCSV = () => {
+  let csv = "Pet Name,Date,Time,Note,Phone,Email,Checklist\n";
+  allAppointments.forEach(a => {
+    const checklist = (a.checklist || []).join(" | ");
+    csv += `${a.petName},${a.date},${a.time},"${a.note}","${a.phone}","${a.email}","${checklist}"\n`;
   });
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "appointments.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+};
 
-  const appointments = JSON.parse(localStorage.getItem("appointments") || "[]");
-  const allApptList = document.getElementById("allApptList");
 
-  appointments.forEach(appt => {
-    const li = document.createElement("li");
-    if (typeof appt === "object") {
-      li.innerHTML = `<strong>${appt.date}</strong> at <strong>${appt.time}</strong> — ${appt.note}`;
-    } else {
-      li.textContent = appt; // fallback if old format
-    }
-    allApptList.appendChild(li);
-  });
-});
+      fetchData();
+    });
   </script>
+  
 </body>
 </html>

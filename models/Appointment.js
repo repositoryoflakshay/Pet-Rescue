@@ -1,38 +1,14 @@
+// models/appointment.js
 const mongoose = require("mongoose");
 
 const appointmentSchema = new mongoose.Schema({
-  petName: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: String,
-    required: true,
-  },
-  time: {
-    type: String,
-    required: true,
-  },
-  note: {
-    type: String,
-    default: "",
-  },
-  email: {
-    type: String,
-    default: "",
-  },
-  phone: {
-    type: String,
-    default: "",
-  },
-  checklist: {
-    type: [String],
-    default: [],
-  },
-  journalNote: {
-    type: String,
-    default: "",
-  },
-}, { timestamps: true });
+  petName: String,
+  date: String,
+  time: String,
+  note: String,
+  phone: String,
+  email: String,
+  checklist: [String]  // ✅ Ensure checklist is an array
+});
 
 module.exports = mongoose.model("Appointment", appointmentSchema);

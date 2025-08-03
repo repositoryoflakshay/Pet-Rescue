@@ -3,3 +3,7 @@ stats in donate2.html also seen when the admin gets logged in only he can see th
 Show match count at the top
 
 Add sorting by location/type
+
+
+If you're rendering multiple appointments, it’s better to group checklist items by appointment, not mix all in one #checklistDisplay.
+
