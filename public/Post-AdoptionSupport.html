@@ -214,7 +214,7 @@
       <a href="/public/adopt.html">Adopt</a>
       <a href="/public/care.html">Pet Care</a>
       <a href="/public/volunteer.html">Volunteer</a>
-      <a href="/public/all-appointments.html">All Appointments</a>
+      <a href="/public/all-appointments.html" id="adminLink" style="display: none;">All Appointments</a>
     </nav>
   </header>
 
@@ -375,6 +375,25 @@
     updateProgress();
   });
   </script>
+
+ <script>
+  // Show "All Appointments" link only for admin
+  window.addEventListener("DOMContentLoaded", () => {
+    const isAdmin = localStorage.getItem("isAdminLoggedIn");
+    if (isAdmin === "true") {
+      const adminLink = document.getElementById("adminLink");
+      if (adminLink) adminLink.style.display = "inline-block";
+    }
+  });
+  function logout() {
+  localStorage.removeItem("loggedInUser");
+  localStorage.removeItem("isAdminLoggedIn");
+  localStorage.removeItem("adminUsername");
+  window.location.href = "login.html";
+}
+
+</script>
+
   
 </body>
 </html>
