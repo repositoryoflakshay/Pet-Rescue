@@ -397,158 +397,148 @@ footer {
             animals, and finding them loving homes. Thank you for making a difference!</p>
     </footer>
 
-    <script>
-        const products = [
-            { id: 1, name: "Premium Dog Food", emoji: "🥫", price: 4599, category: "food", desc: "A balanced meal full of proteins..." },
-            { id: 2, name: "Interactive Toy Set", emoji: "🎾", price: 2999, category: "toys", desc: "Includes chew ropes..." },
-            { id: 3, name: "Cozy Pet Bed", emoji: "🛏️", price: 7999, category: "health", desc: "Luxuriously soft memory foam..." },
-            { id: 1, name: "Premium Dog Food", emoji: "🥫", price: 4599, category: "food", desc: "A balanced meal full of proteins, vitamins, and minerals. Helps maintain coat shine, supports digestion, boosts immunity, and keeps your dog energized throughout the day." },
-            { id: 2, name: "Interactive Toy Set", emoji: "🎾", price: 2999, category: "toys", desc: "Includes chew ropes, squeaky toys, and textured balls that encourage active play, reduce boredom, and promote strong jaw health for dogs of all sizes." },
-            { id: 3, name: "Cozy Pet Bed", emoji: "🛏️", price: 7999, category: "health", desc: "Luxuriously soft memory foam pet bed with an orthopedic design, anti-slip base, and machine-washable cover. Keeps pets warm and supported during sleep." },
-            { id: 4, name: "Grooming Kit", emoji: "🧴", price: 5999, category: "health", desc: "Complete grooming set includes natural shampoo, coat detangler, double-sided brush, nail clipper, and ear cleaner – perfect for weekly grooming at home." },
-            { id: 5, name: "Natural Treats", emoji: "🦴", price: 1999, category: "food", desc: "Delicious grain-free and preservative-free treats made with real chicken and sweet potato – ideal for training rewards or daily snacking." },
-            { id: 6, name: "Health Care Kit", emoji: "🏥", price: 3999, category: "health", desc: "First aid essentials including antiseptic wipes, styptic powder, digital thermometer, tick remover, and safety gloves for emergencies." },
-            { id: 7, name: "Pet Carrier", emoji: "🎒", price: 4999, category: "health", desc: "Travel-friendly and airline-approved soft carrier with breathable mesh panels, safety buckle, side pockets, and a soft fleece bed inside." },
-            { id: 8, name: "Cat Scratching Post", emoji: "🪵", price: 2999, category: "toys", desc: "Durable sisal rope-wrapped post with a stable base – ideal for claw maintenance and protecting your furniture from scratch marks." },
-            { id: 9, name: "Chew Toys Pack", emoji: "🧸", price: 2499, category: "toys", desc: "Colorful chew toy bundle for teething puppies and energetic dogs – made of non-toxic rubber with varied textures for dental health." },
-            { id: 10, name: "Flea & Tick Spray", emoji: "💉", price: 999, category: "health", desc: "Safe herbal spray protects dogs and cats from fleas, ticks, and lice. Spray directly on fur and bedding to eliminate pests." },
-            { id: 11, name: "Pet Water Fountain", emoji: "🚰", price: 3499, category: "health", desc: "Automatic filtered water dispenser encourages pets to drink more. Quiet operation, LED light, and easy-to-clean design ensure hydration 24/7." },
-            { id: 12, name: "Adjustable Pet Harness", emoji: "🎽", price: 1999, category: "health", desc: "Breathable, anti-choke harness with reflective strips, secure buckle, and no-pull design. Ideal for daily walks and safety during travel." },
-            { id: 13, name: "Pet Training Pads", emoji: "🧻", price: 1799, category: "health", desc: "Leak-proof, fast-drying training pads with odor control technology. Great for housebreaking puppies or indoor dogs during rainy seasons." },
-            { id: 14, name: "Pet Raincoat", emoji: "🌧️", price: 1499, category: "health", desc: "Waterproof, lightweight, and adjustable raincoat with a hood. Keeps your furry friend dry and stylish on wet days." },
-            { id: 15, name: "Pet Cooling Mat", emoji: "❄️", price: 2799, category: "health", desc: "Pressure-activated gel mat cools your pet without refrigeration. Helps regulate body temperature in hot climates." },
-            { id: 16, name: "Cat Litter Box with Lid", emoji: "🚽", price: 3999, category: "health", desc: "Odor-controlling litter box with a swinging door, high walls, and carbon filters. Keeps your space clean and your cat happy." },
-            { id: 17, name: "Pet Dental Chews", emoji: "🪥", price: 1099, category: "food", desc: "Vet-recommended chews reduce plaque, freshen breath, and support healthy gums. Made with safe, edible ingredients." },
-            { id: 18, name: "Pet Hoodie", emoji: "🧥", price: 2299, category: "health", desc: "Warm, fleece-lined hoodie with a leash hole and fun printed designs. Keeps your pet cozy and fashionable in cooler weather." },
-            { id: 19, name: "Automatic Ball Launcher", emoji: "⚾", price: 6599, category: "toys", desc: "Electronic ball launcher for dogs – interactive playtime without human effort. Adjustable throw distances and rechargeable battery." },
-            { id: 20, name: "Cat Tunnel Toy", emoji: "🌀", price: 1899, category: "toys", desc: "Collapsible multi-way tunnel with crinkly textures and peek-holes. Stimulates cats’ hunting instincts and provides hours of entertainment." },
-            { id: 21, name: "Pet GPS Tracker", emoji: "📍", price: 7499, category: "health", desc: "Real-time GPS tracker with geofence alerts and activity monitoring. Attaches to collar and syncs with mobile app." },
-            { id: 22, name: "Dog Boots (4 pcs)", emoji: "🥾", price: 2399, category: "health", desc: "Protective dog boots with anti-slip soles and Velcro straps. Great for hot pavements, rough terrain, or winter walks." },
-            { id: 23, name: "Pet Bow Tie Collar", emoji: "👔", price: 899, category: "health", desc: "Adjustable collar with a removable bow tie – perfect for weddings, birthdays, or fancy photoshoots." },
-            { id: 24, name: "Pet Stroller", emoji: "🛒", price: 8999, category: "health", desc: "Foldable stroller with mesh windows, safety locks, and padded interior. Ideal for senior pets or injured animals on the go." },
-            { id: 25, name: "Calming Pet Spray", emoji: "🌿", price: 1199, category: "health", desc: "Lavender-infused spray reduces anxiety and stress in pets. Spray on bedding or carriers before travel or vet visits." }
-        ];
-        localStorage.setItem("allProducts", JSON.stringify(products));
+   <script>
+    const container = document.getElementById("store-container");
+    const cartIcon = document.getElementById("cart-icon");
+    const wishlistIcon = document.querySelector(".wishlist-icon");
+    const cartCount = document.getElementById("cart-count");
+    const wishlistCount = document.getElementById("wishlist-count");
 
-        const container = document.getElementById("store-container");
-        const cartIcon = document.getElementById("cart-icon");
-        const wishlistIcon = document.querySelector(".wishlist-icon");
-        const cartCount = document.getElementById("cart-count");
-        const wishlistCount = document.getElementById("wishlist-count");
-        const productsPerPage = 1000;
+    let allProducts = [];
+    let filtered = [];
+    let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
 
-        let filtered = [...products];
-        let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
-
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-            cartCount.innerText = cart.reduce((s, i) => s + i.quantity, 0);
-            renderPreview("cart");
-        }
-
-        function updateWishlistCount() {
-            wishlistCount.innerText = wishlist.length;
-            renderPreview("wishlist");
-        }
-
-        function renderPreview(type) {
-            const el = document.getElementById(type + "-items");
-            const items = type === "cart"
-                ? JSON.parse(localStorage.getItem("cartItems")) || []
-                : wishlist.map(id => products.find(p => p.id === id));
-            el.innerHTML = items.length
-                ? items.slice(-3).map(item => `<li>${item.name}${type === "cart" ? " x" + item.quantity : ""}</li>`).join("")
-                : "<li>No items</li>";
-        }
-
-        function addToCart(id) {
-            const p = products.find(x => x.id === id);
-            let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-            const e = cart.find(x => x.id === id);
-            e ? e.quantity++ : cart.push({ ...p, quantity: 1 });
-            localStorage.setItem("cartItems", JSON.stringify(cart));
+    // Async function to fetch products from the server's API
+    async function fetchProducts() {
+        try {
+            const response = await fetch('/api/products');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            allProducts = await response.json();
+            filtered = [...allProducts]; // Initialize filtered list with all products
+            renderProducts();
             updateCartCount();
-            showPopup(`${p.name} added!`);
-            bounce(cartIcon);
-        }
-
-        function toggleWishlist(id) {
-            wishlist = wishlist.includes(id)
-                ? wishlist.filter(x => x !== id)
-                : [...wishlist, id];
-            localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
             updateWishlistCount();
-            renderProducts();
-            bounce(wishlistIcon);
-
-            const p = products.find(x => x.id === id);
-            const action = wishlist.includes(id) ? "added to" : "removed from";
-            showWishlistPopup(`${p.name} ${action} wishlist`);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            container.innerHTML = '<p>Failed to load products. Please try again later.</p>';
         }
-        function showWishlistPopup(msg) {
-            const popup = document.getElementById("wishlist-popup");
-            document.getElementById("wishlist-popup-msg").innerText = msg;
-            popup.classList.add("show");
-            setTimeout(() => popup.classList.remove("show"), 3000);
-        }
+    }
 
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+        cartCount.innerText = cart.reduce((s, i) => s + i.quantity, 0);
+        renderPreview("cart");
+    }
 
-        function showPopup(msg) {
-            const pop = document.getElementById("popup");
-            document.getElementById("popup-msg").innerText = msg;
-            pop.classList.add("show");
-            setTimeout(() => pop.classList.remove("show"), 3000);
-        }
+    function updateWishlistCount() {
+        wishlistCount.innerText = wishlist.length;
+        renderPreview("wishlist");
+    }
 
-        function bounce(el) {
-            el.classList.add("bounce");
-            setTimeout(() => el.classList.remove("bounce"), 400);
-        }
+    function renderPreview(type) {
+        const el = document.getElementById(type + "-items");
+        const items = type === "cart"
+            ? JSON.parse(localStorage.getItem("cartItems")) || []
+            : wishlist.map(id => allProducts.find(p => p.id === id)).filter(Boolean);
+        
+        el.innerHTML = items.length
+            ? items.slice(-3).map(item => `<li>${item.name}${type === "cart" ? " x" + item.quantity : ""}</li>`).join("")
+            : "<li>No items</li>";
+    }
 
-        function filterByCategory(cat) {
-            filtered = cat === "all"
-                ? [...products]
-                : products.filter(x => x.category === cat);
-            renderProducts();
-        }
+    function addToCart(id) {
+        const p = allProducts.find(x => x.id === id);
+        if (!p) return;
+        let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+        const e = cart.find(x => x.id === id);
+        e ? e.quantity++ : cart.push({ ...p, quantity: 1 });
+        localStorage.setItem("cartItems", JSON.stringify(cart));
+        updateCartCount();
+        showPopup(`${p.name} added!`);
+        bounce(cartIcon);
+    }
 
-        function sortBy(val) {
-            if (val === "price-low") filtered.sort((a, b) => a.price - b.price);
-            if (val === "price-high") filtered.sort((a, b) => b.price - a.price);
-            if (val === "rating") filtered.sort(() => Math.random() - 0.5);
-            renderProducts();
-        }
+    function toggleWishlist(id) {
+        const p = allProducts.find(x => x.id === id);
+        if (!p) return;
 
-        function renderProducts() {
-            container.innerHTML = filtered.map(p => {
-                const stock = Math.random() > 0.1;
-                const rating = (Math.random() * 1 + 4).toFixed(1);
-                const best = p.id % 5 === 0;
-                const inWish = wishlist.includes(p.id);
-                return `
-        <div class="product-card">
-          <div class="product-header">${p.emoji}</div>
-          <div class="product-body">
-            <h3>${p.name}</h3>
-            <p>${p.desc}</p>
-            <p><strong>₹${p.price}</strong></p>
-            <span class="badge ${stock ? "in" : "out"}">${stock ? "In Stock" : "Out of Stock"}</span>
-            <span class="badge star">⭐ ${rating}</span>
-            ${best ? '<span class="badge best">Bestseller</span>' : ''}
-            <div class="actions">
-              <button onclick="addToCart(${p.id})"${!stock ? ' disabled' : ''}>Add to Cart</button>
-              <button onclick="toggleWishlist(${p.id})">${inWish ? "💖" : "🤍"} Wishlist</button>
-            </div>
-          </div>
-        </div>`;
-            }).join("");
-        }
+        const isAdded = wishlist.includes(id);
+        wishlist = isAdded ? wishlist.filter(x => x !== id) : [...wishlist, id];
+        
+        localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
+        updateWishlistCount();
+        renderProducts(); // Re-render to update the button icon
+        bounce(wishlistIcon);
 
-        function goToCart() { location.href = "cart2.html"; }
+        const action = isAdded ? "removed from" : "added to";
+        showWishlistPopup(`${p.name} ${action} wishlist`);
+    }
 
-        updateCartCount(); updateWishlistCount();
+    function showWishlistPopup(msg) {
+        const popup = document.getElementById("wishlist-popup");
+        document.getElementById("wishlist-popup-msg").innerText = msg;
+        popup.classList.add("show");
+        setTimeout(() => popup.classList.remove("show"), 3000);
+    }
+
+    function showPopup(msg) {
+        const pop = document.getElementById("popup");
+        document.getElementById("popup-msg").innerText = msg;
+        pop.classList.add("show");
+        setTimeout(() => pop.classList.remove("show"), 3000);
+    }
+
+    function bounce(el) {
+        el.classList.add("bounce");
+        setTimeout(() => el.classList.remove("bounce"), 400);
+    }
+
+    function filterByCategory(cat) {
+        filtered = cat === "all"
+            ? [...allProducts]
+            : allProducts.filter(x => x.category === cat);
         renderProducts();
-    </script>
+    }
+
+    function sortBy(val) {
+        if (val === "price-low") filtered.sort((a, b) => a.price - b.price);
+        if (val === "price-high") filtered.sort((a, b) => b.price - a.price);
+        if (val === "rating") filtered.sort(() => Math.random() - 0.5); // Random sort for rating placeholder
+        renderProducts();
+    }
+
+    function renderProducts() {
+        container.innerHTML = filtered.map(p => {
+            const stock = Math.random() > 0.1;
+            const rating = (Math.random() * 1 + 4).toFixed(1);
+            const best = p.id % 5 === 0;
+            const inWish = wishlist.includes(p.id);
+            return `
+                <div class="product-card">
+                    <div class="product-header">${p.emoji}</div>
+                    <div class="product-body">
+                        <h3>${p.name}</h3>
+                        <p>${p.desc}</p>
+                        <p><strong>₹${p.price}</strong></p>
+                        <span class="badge ${stock ? "in" : "out"}">${stock ? "In Stock" : "Out of Stock"}</span>
+                        <span class="badge star">⭐ ${rating}</span>
+                        ${best ? '<span class="badge best">Bestseller</span>' : ''}
+                        <div class="actions">
+                            <button onclick="addToCart(${p.id})"${!stock ? ' disabled' : ''}>Add to Cart</button>
+                            <button onclick="toggleWishlist(${p.id})">${inWish ? "💖" : "🤍"} Wishlist</button>
+                        </div>
+                    </div>
+                </div>`;
+        }).join("");
+    }
+
+    function goToCart() { location.href = "cart2.html"; }
+
+    // Initial fetch of products when the page loads
+    fetchProducts();
+</script>
 
 </body>
 
