@@ -474,7 +474,7 @@ app.post("/api/seed-products", async (req, res) => {
 
 // Redirect root to homepage
 app.get("/", (req, res) => {
-  res.redirect("/public/home2.html");
+  res.redirect("/public/index.html");
 });
 
 // app.get("/createDefaultAdmin", async (req, res) => {
