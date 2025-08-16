@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment - PawsHeart</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 10px;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4em;
+      margin-bottom: 15px;
+      color: #222;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    /* ---------- Payment Methods ---------- */
+    .payment-option {
+      background: #f9f9f9;
+      border-radius: 14px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .payment-option:hover {
+      transform: translateY(-3px);
+    }
+
+    .payment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      background: #fff;
+    }
+
+    .payment-header.active {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+    }
+
+    .payment-content {
+      display: none;
+      padding: 20px;
+      background: #fafafa;
+      animation: slideDown 0.4s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .payment-content input,
+    .payment-content select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    .payment-content input:focus {
+      border-color: #2575fc;
+      outline: none;
+      box-shadow: 0 0 6px rgba(37, 117, 252, 0.3);
+    }
+
+    /* ---------- Buttons ---------- */
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pay-btn,
+    .back-btn {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .pay-btn {
+      background: linear-gradient(135deg, #00c853, #009688);
+      color: white;
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #ff6f61, #d84315);
+      color: white;
+    }
+
+    .pay-btn:hover,
+    .back-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 18px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff9800, #ff6f00);
+      color: white;
+      font-weight: bold;
+      font-size: 1.05em;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Payment Options</h1>
+    <p class="subtitle">Choose your preferred payment method</p>
+
+    <!-- Debit / Credit Card -->
+    <div class="payment-option">
+      <div class="payment-header" onclick="togglePayment(this)">
+        💳 Debit / Credit Card
+      </div>
+      <div class="payment-content">
+        <input type="text" placeholder="Cardholder Name" required />
+        <input type="text" placeholder="Card Number" maxlength="16" required />
+        <div style="display:flex; gap:12px;">
+          <input type="text" placeholder="MM/YY" maxlength="5" required />
+          <input type="password" placeholder="CVV" maxlength="3" required />
+        </div>
+      </div>
+    </div>
+
+    <!-- UPI -->
+    <div class="payment-option">
+      <div class="payment-header" onclick="togglePayment(this)">
+        📱 UPI Payment
+      </div>
+      <div class="payment-content">
+        <input type="text" placeholder="Enter UPI ID (e.g. name@upi)" required />
+      </div>
+    </div>
+
+    <!-- Net Banking -->
+    <div class="payment-option">
+      <div class="payment-header" onclick="togglePayment(this)">
+        🏦 Net Banking
+      </div>
+      <div class="payment-content">
+        <select>
+          <option>Select Bank</option>
+          <option>SBI</option>
+          <option>HDFC</option>
+          <option>ICICI</option>
+          <option>Axis Bank</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Cash on Delivery -->
+    <div class="payment-option">
+      <div class="payment-header" onclick="togglePayment(this)">
+        🚚 Cash on Delivery
+      </div>
+      <div class="payment-content">
+        <p>Pay with cash upon delivery of your order.</p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <button class="back-btn" onclick="window.location.href='checkout.html'">⬅ Back to Checkout</button>
+      <button class="pay-btn" onclick="confirmPayment()">✅ Confirm & Pay</button>
+    </div>
+
+    <div class="footer">
+      💝 Secure Payments Powered by PawsHeart | 100% Safe & Encrypted
+    </div>
+  </div>
+
+  <script>
+    function togglePayment(header) {
+      const allHeaders = document.querySelectorAll(".payment-header");
+      const allContents = document.querySelectorAll(".payment-content");
+
+      allHeaders.forEach(h => h.classList.remove("active"));
+      allContents.forEach(c => c.style.display = "none");
+
+      header.classList.add("active");
+      const content = header.nextElementSibling;
+      content.style.display = "block";
+    }
+
+    function confirmPayment() {
+      alert("🎉 Payment Successful! Thank you for shopping with PawsHeart 🐾");
+      localStorage.removeItem("cartItems");
+      window.location.href = "store.html";
+    }
+  </script>
+</body>
+
+</html>
