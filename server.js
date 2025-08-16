@@ -117,6 +117,18 @@ const volunteerSchema = new mongoose.Schema({
 
 const Volunteer = mongoose.model("Volunteer", volunteerSchema);
 
+// Product Schema
+const productSchema = new mongoose.Schema({
+    id: { type: Number, required: true, unique: true },
+    name: { type: String, required: true },
+    emoji: String,
+    price: { type: Number, required: true },
+    category: String,
+    desc: String
+});
+
+const Product = mongoose.model("Product", productSchema);
+
 
 // ---------------------- ROUTES ----------------------
 
@@ -429,9 +441,40 @@ app.put("/appointments/:id", async (req, res) => {
   }
 });
 
+// --- Product Store Routes ---
+
+// GET all products
+// This endpoint will return all products from the database
+app.get("/api/products", async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (err) {
+        console.error("Error retrieving products:", err);
+        res.status(500).json({ message: "Error retrieving products", error: err });
+    }
+});
+
+// POST endpoint to seed the database with initial product data
+// You'll use this once to populate your database from your HTML's product array.
+app.post("/api/seed-products", async (req, res) => {
+    const productsToSeed = req.body;
+    if (!productsToSeed || !Array.isArray(productsToSeed)) {
+        return res.status(400).json({ message: "Request body must be an array of products" });
+    }
+    try {
+        await Product.deleteMany({}); // Optional: clears existing products
+        const result = await Product.insertMany(productsToSeed);
+        res.status(201).json({ message: "Products seeded successfully", count: result.length });
+    } catch (err) {
+        console.error("Error seeding products:", err);
+        res.status(500).json({ message: "Error seeding products", error: err });
+    }
+});
+
 // Redirect root to homepage
 app.get("/", (req, res) => {
-  res.redirect("/public/home2.html");
+  res.redirect("/public/index.html");
 });
 
 // app.get("/createDefaultAdmin", async (req, res) => {
