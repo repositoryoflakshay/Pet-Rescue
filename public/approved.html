@@ -73,16 +73,13 @@
     <script>
       const container = document.getElementById("approvedContainer");
 
-      // Fetch approved stories from backend
       fetch("/approvedStories")
         .then((res) => res.json())
         .then((approvedStories) => {
-          // Sort by latest
           approvedStories.sort(
             (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
           );
 
-          // Render stories
           if (approvedStories.length === 0) {
             container.innerHTML =
               '<p style="text-align:center">No approved stories yet.</p>';
@@ -127,10 +124,9 @@
             '<p style="text-align:center">Failed to load stories.</p>';
         });
 
-      // Handle rating click
       function setRating(key, value) {
         localStorage.setItem(key, value);
-        location.reload(); // Re-render to reflect updated stars
+        location.reload(); 
       }
     </script>
   </body>

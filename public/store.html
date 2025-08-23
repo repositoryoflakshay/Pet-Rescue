@@ -6,327 +6,346 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PawsHeart Store</title>
     <style>
-       * {
-    box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #eef3f9;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #eef3f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 
-header {
-    background: #ffffff;
-    padding: 20px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
-}
+        header {
+            background: #ffffff;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+        }
 
-.logo {
-    font-size: 1.8rem;
-    color: #7b4db3;
-    font-weight: bold;
-}
+        .logo {
+            font-size: 1.8rem;
+            color: #7b4db3;
+            font-weight: bold;
+        }
 
-nav {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
 
-nav a {
-    text-decoration: none;
-    color: #00796b;
-    font-weight: bold;
-    position: relative;
-    font-size: 18px;
-    transition: color 0.3s ease;
-}
+        nav a {
+            text-decoration: none;
+            color: #00796b;
+            font-weight: bold;
+            position: relative;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
 
-nav a:hover {
-    color: #004d40;
-}
+        nav a:hover {
+            color: #004d40;
+        }
 
-.cart-icon, .wishlist-icon {
-    position: relative;
-    cursor: pointer;
-}
+        .cart-icon,
+        .wishlist-icon {
+            position: relative;
+            cursor: pointer;
+        }
 
-#cart-count, #wishlist-count {
-    position: absolute;
-    top: -8px;
-    right: -12px;
-    background-color: #d32f2f;
-    color: white;
-    font-size: 12px;
-    border-radius: 50%;
-    padding: 2px 6px;
-}
+        #cart-count,
+        #wishlist-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background-color: #d32f2f;
+            color: white;
+            font-size: 12px;
+            border-radius: 50%;
+            padding: 2px 6px;
+        }
 
-.preview-dropdown {
-    display: none;
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background: #fff;
-    border: 1px solid #ccc;
-    width: 220px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 10px;
-    z-index: 1000;
-}
+        .preview-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            width: 220px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 1000;
+        }
 
-.cart-icon:hover .preview-dropdown,
-.wishlist-icon:hover .preview-dropdown {
-    display: block;
-}
+        .cart-icon:hover .preview-dropdown,
+        .wishlist-icon:hover .preview-dropdown {
+            display: block;
+        }
 
-.preview-dropdown ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+        .preview-dropdown ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
 
-.preview-dropdown li {
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-}
+        .preview-dropdown li {
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+        }
 
-.preview-dropdown li:last-child {
-    border: none;
-}
+        .preview-dropdown li:last-child {
+            border: none;
+        }
 
-.hero {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(to right, #fceabb, #f8b500);
-    color: #333;
-}
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to right, #fceabb, #f8b500);
+            color: #333;
+        }
 
-.hero h2 {
-    font-size: 36px;
-    color: #333;
-}
+        .hero h2 {
+            font-size: 36px;
+            color: #333;
+        }
 
-.hero p {
-    margin-top: 10px;
-    font-size: 18px;
-    color: #555;
-}
+        .hero p {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
 
-.filters {
-    text-align: center;
-    margin: 30px 0;
-}
+        .filters {
+            text-align: center;
+            margin: 30px 0;
+        }
 
-.filters select,
-.filters button {
-    padding: 10px 15px;
-    font-size: 15px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #ffffff;
-    color: #444;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
+        .filters select,
+        .filters button {
+            padding: 10px 15px;
+            font-size: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+            color: #444;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
 
-.filters button:hover {
-    background-color: #c8e6c9;
-}
+        .filters button:hover {
+            background-color: #c8e6c9;
+        }
 
-#store-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 0 40px 40px;
-    max-width: 1300px;
-    margin: 0 auto;
-}
+        #store-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 40px 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
 
-.product-card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+        .product-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-.product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
 
-.product-header {
-    font-size: 50px;
-    text-align: center;
-    margin-bottom: 10px;
-}
+        .product-header {
+            font-size: 50px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-.product-body h3 {
-    margin: 10px 0 5px;
-    font-size: 20px;
-    color: #222;
-}
+        .product-body h3 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+            color: #222;
+        }
 
-.product-body p {
-    color: #666;
-    font-size: 14px;
-    line-height: 1.6;
-}
+        .product-body p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
 
-.badge {
-    display: inline-block;
-    margin: 5px 5px 5px 0;
-    padding: 4px 10px;
-    font-size: 12px;
-    border-radius: 5px;
-}
+        .badge {
+            display: inline-block;
+            margin: 5px 5px 5px 0;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+        }
 
-.badge.in {
-    background: #d0f0c0;
-    color: #2e7d32;
-}
+        .badge.in {
+            background: #d0f0c0;
+            color: #2e7d32;
+        }
 
-.badge.out {
-    background: #ffe0e0;
-    color: #c62828;
-}
+        .badge.out {
+            background: #ffe0e0;
+            color: #c62828;
+        }
 
-.badge.star {
-    background: #fff9c4;
-    color: #f57f17;
-}
+        .badge.star {
+            background: #fff9c4;
+            color: #f57f17;
+        }
 
-.badge.best {
-    background: #ff9800;
-    color: white;
-}
+        .badge.best {
+            background: #ff9800;
+            color: white;
+        }
 
-.actions {
-    margin-top: 12px;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
+        .actions {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
 
-.actions button {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
+        .actions button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
 
-.actions button:first-child {
-    background: linear-gradient(to right, #26c6da, #00acc1);
-    color: #fff;
-}
+        .actions button:first-child {
+            background: linear-gradient(to right, #26c6da, #00acc1);
+            color: #fff;
+        }
 
-.actions button:last-child {
-    background: #fff;
-    border: 1px solid #bbb;
-    color: #444;
-}
+        .actions button:last-child {
+            background: #fff;
+            border: 1px solid #bbb;
+            color: #444;
+        }
 
-.actions button:hover {
-    transform: scale(1.03);
-}
+        .actions button:hover {
+            transform: scale(1.03);
+        }
 
-footer {
-    background-color: #00332e;
-    color: white;
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 50px;
-    font-size: 15px;
-}
+        footer {
+            background-color: #00332e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            font-size: 15px;
+        }
 
-.popup {
-    position: absolute;
-    top: 85px;
-    right: 30px;
-    background: #333;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    display: none;
-    z-index: 999;
-}
+        .popup {
+            position: absolute;
+            top: 85px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 999;
+        }
 
-.popup.show {
-    display: block;
-}
+        .popup.show {
+            display: block;
+        }
 
-#wishlist-popup {
-    position: absolute;
-    top: 85px;
-    right: 100px;
-    background: #7b4db3;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    display: none;
-    z-index: 999;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
+        #wishlist-popup {
+            position: absolute;
+            top: 85px;
+            right: 100px;
+            background: #7b4db3;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 999;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
 
-#wishlist-popup.show {
-    display: block;
-    animation: fadeWishlist 3s ease forwards;
-}
+        #wishlist-popup.show {
+            display: block;
+            animation: fadeWishlist 3s ease forwards;
+        }
 
-@keyframes fadeWishlist {
-    0%, 100% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    10%, 90% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        @keyframes fadeWishlist {
 
-@keyframes bounce {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.3); }
-    50% { transform: scale(0.9); }
-    75% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
 
-.bounce {
-    animation: bounce 0.4s;
-}
+            10%,
+            90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-@media (max-width: 1000px) {
-    #store-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+        @keyframes bounce {
+            0% {
+                transform: scale(1);
+            }
 
-@media (max-width: 700px) {
-    #store-container {
-        grid-template-columns: 1fr;
-    }
-}
+            25% {
+                transform: scale(1.3);
+            }
 
+            50% {
+                transform: scale(0.9);
+            }
+
+            75% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .bounce {
+            animation: bounce 0.4s;
+        }
+
+        @media (max-width: 1000px) {
+            #store-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            #store-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -397,125 +416,124 @@ footer {
             animals, and finding them loving homes. Thank you for making a difference!</p>
     </footer>
 
-   <script>
-    const container = document.getElementById("store-container");
-    const cartIcon = document.getElementById("cart-icon");
-    const wishlistIcon = document.querySelector(".wishlist-icon");
-    const cartCount = document.getElementById("cart-count");
-    const wishlistCount = document.getElementById("wishlist-count");
+    <script>
+        const container = document.getElementById("store-container");
+        const cartIcon = document.getElementById("cart-icon");
+        const wishlistIcon = document.querySelector(".wishlist-icon");
+        const cartCount = document.getElementById("cart-count");
+        const wishlistCount = document.getElementById("wishlist-count");
 
-    let allProducts = [];
-    let filtered = [];
-    let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+        let allProducts = [];
+        let filtered = [];
+        let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
 
-    // Async function to fetch products from the server's API
-    async function fetchProducts() {
-        try {
-            const response = await fetch('/api/products');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        async function fetchProducts() {
+            try {
+                const response = await fetch('/api/products');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                allProducts = await response.json();
+                filtered = [...allProducts];
+                renderProducts();
+                updateCartCount();
+                updateWishlistCount();
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                container.innerHTML = '<p>Failed to load products. Please try again later.</p>';
             }
-            allProducts = await response.json();
-            filtered = [...allProducts]; // Initialize filtered list with all products
-            renderProducts();
-            updateCartCount();
-            updateWishlistCount();
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            container.innerHTML = '<p>Failed to load products. Please try again later.</p>';
         }
-    }
 
-    function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-        cartCount.innerText = cart.reduce((s, i) => s + i.quantity, 0);
-        renderPreview("cart");
-    }
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+            cartCount.innerText = cart.reduce((s, i) => s + i.quantity, 0);
+            renderPreview("cart");
+        }
 
-    function updateWishlistCount() {
-        wishlistCount.innerText = wishlist.length;
-        renderPreview("wishlist");
-    }
+        function updateWishlistCount() {
+            wishlistCount.innerText = wishlist.length;
+            renderPreview("wishlist");
+        }
 
-    function renderPreview(type) {
-        const el = document.getElementById(type + "-items");
-        const items = type === "cart"
-            ? JSON.parse(localStorage.getItem("cartItems")) || []
-            : wishlist.map(id => allProducts.find(p => p.id === id)).filter(Boolean);
-        
-        el.innerHTML = items.length
-            ? items.slice(-3).map(item => `<li>${item.name}${type === "cart" ? " x" + item.quantity : ""}</li>`).join("")
-            : "<li>No items</li>";
-    }
+        function renderPreview(type) {
+            const el = document.getElementById(type + "-items");
+            const items = type === "cart"
+                ? JSON.parse(localStorage.getItem("cartItems")) || []
+                : wishlist.map(id => allProducts.find(p => p.id === id)).filter(Boolean);
 
-    function addToCart(id) {
-        const p = allProducts.find(x => x.id === id);
-        if (!p) return;
-        let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-        const e = cart.find(x => x.id === id);
-        e ? e.quantity++ : cart.push({ ...p, quantity: 1 });
-        localStorage.setItem("cartItems", JSON.stringify(cart));
-        updateCartCount();
-        showPopup(`${p.name} added!`);
-        bounce(cartIcon);
-    }
+            el.innerHTML = items.length
+                ? items.slice(-3).map(item => `<li>${item.name}${type === "cart" ? " x" + item.quantity : ""}</li>`).join("")
+                : "<li>No items</li>";
+        }
 
-    function toggleWishlist(id) {
-        const p = allProducts.find(x => x.id === id);
-        if (!p) return;
+        function addToCart(id) {
+            const p = allProducts.find(x => x.id === id);
+            if (!p) return;
+            let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+            const e = cart.find(x => x.id === id);
+            e ? e.quantity++ : cart.push({ ...p, quantity: 1 });
+            localStorage.setItem("cartItems", JSON.stringify(cart));
+            updateCartCount();
+            showPopup(`${p.name} added!`);
+            bounce(cartIcon);
+        }
 
-        const isAdded = wishlist.includes(id);
-        wishlist = isAdded ? wishlist.filter(x => x !== id) : [...wishlist, id];
-        
-        localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
-        updateWishlistCount();
-        renderProducts(); // Re-render to update the button icon
-        bounce(wishlistIcon);
+        function toggleWishlist(id) {
+            const p = allProducts.find(x => x.id === id);
+            if (!p) return;
 
-        const action = isAdded ? "removed from" : "added to";
-        showWishlistPopup(`${p.name} ${action} wishlist`);
-    }
+            const isAdded = wishlist.includes(id);
+            wishlist = isAdded ? wishlist.filter(x => x !== id) : [...wishlist, id];
 
-    function showWishlistPopup(msg) {
-        const popup = document.getElementById("wishlist-popup");
-        document.getElementById("wishlist-popup-msg").innerText = msg;
-        popup.classList.add("show");
-        setTimeout(() => popup.classList.remove("show"), 3000);
-    }
+            localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
+            updateWishlistCount();
+            renderProducts();
+            bounce(wishlistIcon);
 
-    function showPopup(msg) {
-        const pop = document.getElementById("popup");
-        document.getElementById("popup-msg").innerText = msg;
-        pop.classList.add("show");
-        setTimeout(() => pop.classList.remove("show"), 3000);
-    }
+            const action = isAdded ? "removed from" : "added to";
+            showWishlistPopup(`${p.name} ${action} wishlist`);
+        }
 
-    function bounce(el) {
-        el.classList.add("bounce");
-        setTimeout(() => el.classList.remove("bounce"), 400);
-    }
+        function showWishlistPopup(msg) {
+            const popup = document.getElementById("wishlist-popup");
+            document.getElementById("wishlist-popup-msg").innerText = msg;
+            popup.classList.add("show");
+            setTimeout(() => popup.classList.remove("show"), 3000);
+        }
 
-    function filterByCategory(cat) {
-        filtered = cat === "all"
-            ? [...allProducts]
-            : allProducts.filter(x => x.category === cat);
-        renderProducts();
-    }
+        function showPopup(msg) {
+            const pop = document.getElementById("popup");
+            document.getElementById("popup-msg").innerText = msg;
+            pop.classList.add("show");
+            setTimeout(() => pop.classList.remove("show"), 3000);
+        }
 
-    function sortBy(val) {
-        if (val === "price-low") filtered.sort((a, b) => a.price - b.price);
-        if (val === "price-high") filtered.sort((a, b) => b.price - a.price);
-        if (val === "rating") filtered.sort(() => Math.random() - 0.5); // Random sort for rating placeholder
-        renderProducts();
-    }
+        function bounce(el) {
+            el.classList.add("bounce");
+            setTimeout(() => el.classList.remove("bounce"), 400);
+        }
 
-    function renderProducts() {
-        container.innerHTML = filtered.map(p => {
-            const stock = Math.random() > 0.1;
-            const rating = (Math.random() * 1 + 4).toFixed(1);
-            const best = p.id % 5 === 0;
-            const inWish = wishlist.includes(p.id);
-            return `
+        function filterByCategory(cat) {
+            filtered = cat === "all"
+                ? [...allProducts]
+                : allProducts.filter(x => x.category === cat);
+            renderProducts();
+        }
+
+        function sortBy(val) {
+            if (val === "price-low") filtered.sort((a, b) => a.price - b.price);
+            if (val === "price-high") filtered.sort((a, b) => b.price - a.price);
+            if (val === "rating") filtered.sort(() => Math.random() - 0.5);
+            renderProducts();
+        }
+
+        function renderProducts() {
+            container.innerHTML = filtered.map(p => {
+                const stock = Math.random() > 0.1;
+                const rating = (Math.random() * 1 + 4).toFixed(1);
+                const best = p.id % 5 === 0;
+                const inWish = wishlist.includes(p.id);
+                return `
                 <div class="product-card">
                     <div class="product-header">${p.emoji}</div>
                     <div class="product-body">
@@ -531,14 +549,13 @@ footer {
                         </div>
                     </div>
                 </div>`;
-        }).join("");
-    }
+            }).join("");
+        }
 
-    function goToCart() { location.href = "cart2.html"; }
+        function goToCart() { location.href = "cart2.html"; }
 
-    // Initial fetch of products when the page loads
-    fetchProducts();
-</script>
+        fetchProducts();
+    </script>
 
 </body>
 

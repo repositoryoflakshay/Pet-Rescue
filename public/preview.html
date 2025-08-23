@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,7 +100,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       display: flex;
       align-items: center;
@@ -111,31 +112,42 @@
       transition: opacity 0.5s ease;
       pointer-events: none;
     }
+
     .overlay-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.elephant {
-  font-size: 80px;
-  animation: trunkLift 0.8s infinite ease-in-out;
-  margin-bottom: 20px;
-}
+    .elephant {
+      font-size: 80px;
+      animation: trunkLift 0.8s infinite ease-in-out;
+      margin-bottom: 20px;
+    }
 
-.success-text {
-  font-size: 1.8em;
-  font-weight: bold;
-}
+    .success-text {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
 
-@keyframes trunkLift {
-  0% { transform: rotate(0deg) translateY(0); }
-  30% { transform: rotate(-10deg) translateY(-10px); }
-  60% { transform: rotate(10deg) translateY(-5px); }
-  100% { transform: rotate(0deg) translateY(0); }
-}
+    @keyframes trunkLift {
+      0% {
+        transform: rotate(0deg) translateY(0);
+      }
 
+      30% {
+        transform: rotate(-10deg) translateY(-10px);
+      }
+
+      60% {
+        transform: rotate(10deg) translateY(-5px);
+      }
+
+      100% {
+        transform: rotate(0deg) translateY(0);
+      }
+    }
   </style>
 </head>
 
@@ -154,12 +166,15 @@
   </div>
 
   <div id="successOverlay">
-  <div class="overlay-content">
-    <div class="elephant"><p style="display: inline-block; transform: scaleX(-1);">🐾</p>🐾 <p style="display: inline-block; transform: scaleX(-1);">🐾</p><p>🐾</p></div>
-    <!-- <div class="elephant"><p style="display: inline-block; transform: scaleX(-1);">🐾</p>🐾 <p style="display: inline-block; transform: scaleX(-1);">🐾</p><p>🐾</p></div> -->
-    <div class="success-text">🌸 Application submitted successfully!</div>
+    <div class="overlay-content">
+      <div class="elephant">
+        <p style="display: inline-block; transform: scaleX(-1);">🐾</p>🐾 <p
+          style="display: inline-block; transform: scaleX(-1);">🐾</p>
+        <p>🐾</p>
+      </div>
+      <div class="success-text">🌸 Application submitted successfully!</div>
+    </div>
   </div>
-</div>
 
 
   <script>
@@ -167,32 +182,31 @@
     const container = document.getElementById("applicationData");
 
     if (data) {
-  for (const key in data) {
-    const field = document.createElement("div");
-    field.className = "data-field";
+      for (const key in data) {
+        const field = document.createElement("div");
+        field.className = "data-field";
 
-    const label = document.createElement("label");
-    label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+        const label = document.createElement("label");
+        label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
 
-    const value = document.createElement("div");
+        const value = document.createElement("div");
 
-    if (typeof data[key] === 'object' && data[key] !== null) {
-      // If it's the selectedAnimal object, show its properties nicely
-      const nestedData = data[key];
-      value.innerHTML = Object.entries(nestedData)
-        .map(([subKey, subValue]) => `<strong>${subKey}:</strong> ${subValue}<br>`)
-        .join("");
+        if (typeof data[key] === 'object' && data[key] !== null) {
+          const nestedData = data[key];
+          value.innerHTML = Object.entries(nestedData)
+            .map(([subKey, subValue]) => `<strong>${subKey}:</strong> ${subValue}<br>`)
+            .join("");
+        } else {
+          value.textContent = data[key] || "N/A";
+        }
+
+        field.appendChild(label);
+        field.appendChild(value);
+        container.appendChild(field);
+      }
     } else {
-      value.textContent = data[key] || "N/A";
+      container.innerHTML = "<p>No application data found.</p>";
     }
-
-    field.appendChild(label);
-    field.appendChild(value);
-    container.appendChild(field);
-  }
-} else {
-  container.innerHTML = "<p>No application data found.</p>";
-}
 
 
     document.getElementById("editBtn").addEventListener("click", () => {
@@ -236,4 +250,5 @@
     });
   </script>
 </body>
+
 </html>

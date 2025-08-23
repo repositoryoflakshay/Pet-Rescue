@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Appointment = require("./models/Appointment.js"); // Adjust path as needed
+const Appointment = require("./models/Appointment.js"); 
 
 mongoose.connect("mongodb://localhost:27017/pawsheart", {
   useNewUrlParser: true,

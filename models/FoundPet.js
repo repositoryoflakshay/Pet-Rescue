@@ -1,4 +1,4 @@
-// models/FoundPet.js
+
 const mongoose = require("mongoose");
 
 const foundPetSchema = new mongoose.Schema({

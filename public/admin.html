@@ -1,151 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>PawsHeart Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-   * {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-body {
-  margin: 0;
-  padding: 20px;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  color: #333;
-  animation: fadeIn 0.5s ease-in;
-}
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      color: #333;
+      animation: fadeIn 0.5s ease-in;
+    }
 
-h1, h2 {
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
-  animation: slideDown 0.6s ease-in-out;
-}
+    h1,
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 20px;
+      animation: slideDown 0.6s ease-in-out;
+    }
 
-.filter {
-  margin: 30px auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  animation: fadeInUp 0.8s ease;
-}
+    .filter {
+      margin: 30px auto;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease;
+    }
 
-.filter input,
-.filter select,
-.filter button {
-  padding: 10px 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  transition: 0.3s ease;
-}
+    .filter input,
+    .filter select,
+    .filter button {
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s ease;
+    }
 
-.filter input:hover,
-.filter select:hover,
-.filter button:hover {
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  transform: translateY(-2px);
-}
+    .filter input:hover,
+    .filter select:hover,
+    .filter button:hover {
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
 
-.filter button {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+    .filter button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-.filter button:hover {
-  background-color: #2980b9;
-}
+    .filter button:hover {
+      background-color: #2980b9;
+    }
 
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-top: 20px;
-  animation: fadeInUp 1s ease;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 20px;
+      animation: fadeInUp 1s ease;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
 
-th, td {
-  padding: 14px 18px;
-  text-align: left;
-  border-bottom: 1px solid #ecf0f1;
-}
+    th,
+    td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid #ecf0f1;
+    }
 
-th {
-  background-color: #2ecc71;
-  color: white;
-  font-weight: 600;
-}
+    th {
+      background-color: #2ecc71;
+      color: white;
+      font-weight: 600;
+    }
 
-tr:last-child td {
-  border-bottom: none;
-}
+    tr:last-child td {
+      border-bottom: none;
+    }
 
-#toast {
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: #27ae60;
-  color: white;
-  padding: 16px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  z-index: 9999;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  animation: slideInRight 0.5s ease forwards;
-}
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #27ae60;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      z-index: 9999;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      animation: slideInRight 0.5s ease forwards;
+    }
 
-/* Animations */
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  } to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+      to {
+        opacity: 1;
+      }
+    }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-</style>
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <h1>🐾 PawsHeart Admin Dashboard</h1>
   <h3 id="adminWelcome" style="text-align:center; color:#555; margin-top: -10px;"></h3>
@@ -163,7 +175,7 @@ tr:last-child td {
     </select>
     <button onclick="filterDonations()">Apply Filter</button>
   </div>
-  
+
   <table id="donationTable">
     <thead>
       <tr>
@@ -175,7 +187,6 @@ tr:last-child td {
       </tr>
     </thead>
     <tbody>
-      <!-- Populated dynamically -->
     </tbody>
   </table>
 
@@ -188,11 +199,9 @@ tr:last-child td {
       </tr>
     </thead>
     <tbody>
-      <!-- Populated dynamically -->
     </tbody>
   </table>
 
-  <!-- ✅ Toast Notification -->
   <div id="toast">✅ New donation received!</div>
 
   <script>
@@ -243,15 +252,15 @@ tr:last-child td {
     }
 
     function filterDonations() {
-  const purpose = document.getElementById("purposeFilter").value.trim();
+      const purpose = document.getElementById("purposeFilter").value.trim();
 
-  const filtered = allDonations.filter(d => {
-    const purposeMatch = purpose ? d.purpose === purpose : true;
-    return purposeMatch;
-  });
+      const filtered = allDonations.filter(d => {
+        const purposeMatch = purpose ? d.purpose === purpose : true;
+        return purposeMatch;
+      });
 
-  renderDonations(filtered);
-}
+      renderDonations(filtered);
+    }
 
 
     function showToast(message) {
@@ -261,20 +270,19 @@ tr:last-child td {
       setTimeout(() => toast.style.display = "none", 5000);
     }
 
-    // Initial load
     fetchAdminData();
 
-    // Auto-refresh every 10 seconds
     setInterval(() => fetchAdminData(true), 30000);
     const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
-const adminUsername = localStorage.getItem("adminUsername");
+    const adminUsername = localStorage.getItem("adminUsername");
 
-if (isAdmin && adminUsername) {
-  console.log("Logged in Admin:", adminUsername);
-  document.getElementById("adminWelcome").innerText = `Hello, ${adminUsername}`;
-}
+    if (isAdmin && adminUsername) {
+      console.log("Logged in Admin:", adminUsername);
+      document.getElementById("adminWelcome").innerText = `Hello, ${adminUsername}`;
+    }
 
 
   </script>
 </body>
+
 </html>

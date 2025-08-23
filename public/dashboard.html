@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Volunteer Dashboard – PawsHeart</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -21,7 +22,7 @@
       text-align: center;
       font-size: 1.8em;
       letter-spacing: 1px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     }
 
     nav {
@@ -49,14 +50,21 @@
       background: #ffffff;
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
       animation: fadeIn 1s ease;
       overflow-x: auto;
     }
 
     @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h2 {
@@ -71,7 +79,8 @@
       margin-top: 20px;
     }
 
-    th, td {
+    th,
+    td {
       padding: 12px 15px;
       border: 1px solid #ccc;
       text-align: left;
@@ -109,54 +118,54 @@
     }
   </style>
 </head>
+
 <body>
 
-<header>🐾 Volunteer Dashboard</header>
+  <header>🐾 Volunteer Dashboard</header>
 
-<nav>
-  <a href="/public/index.html">Home</a>
-  <a href="/public/adopt.html">Adopt</a>
-  <a href="/public/donate2.html">Donate</a>
-  <a href="/public/store.html">Store</a>
-  <a href="/public/volunteer.html">Volunteer</a>
-</nav>
+  <nav>
+    <a href="/public/index.html">Home</a>
+    <a href="/public/adopt.html">Adopt</a>
+    <a href="/public/donate2.html">Donate</a>
+    <a href="/public/store.html">Store</a>
+    <a href="/public/volunteer.html">Volunteer</a>
+  </nav>
 
-<div class="container">
-  <h2>Volunteer Submissions</h2>
-  <button class="btn-export" onclick="exportToCSV()">📥 Export as CSV</button>
-  <table id="volunteerTable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone No.</th>
-        <th>Roles</th>
-        <th>Message</th>
-        <th>Uploaded File</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Populated by JS -->
-    </tbody>
-  </table>
-</div>
+  <div class="container">
+    <h2>Volunteer Submissions</h2>
+    <button class="btn-export" onclick="exportToCSV()">📥 Export as CSV</button>
+    <table id="volunteerTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone No.</th>
+          <th>Roles</th>
+          <th>Message</th>
+          <th>Uploaded File</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 
-<footer>
-  💝 Dedicated Volunteers Make This Possible – Thank you from PawsHeart!
-</footer>
+  <footer>
+    💝 Dedicated Volunteers Make This Possible – Thank you from PawsHeart!
+  </footer>
 
-<script>
-  async function loadVolunteers() {
-    try {
-      const res = await fetch("http://localhost:3000/getVolunteers"); // Update to your backend URL if deployed
-      const submissions = await res.json();
+  <script>
+    async function loadVolunteers() {
+      try {
+        const res = await fetch("http://localhost:3000/getVolunteers");
+        const submissions = await res.json();
 
-      const tbody = document.querySelector("#volunteerTable tbody");
-      tbody.innerHTML = ""; // Clear old rows
+        const tbody = document.querySelector("#volunteerTable tbody");
+        tbody.innerHTML = "";
 
-      submissions.forEach(entry => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+        submissions.forEach(entry => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
           <td>${entry.name}</td>
           <td>${entry.email}</td>
           <td>${entry.phone}</td>
@@ -164,44 +173,45 @@
           <td>${entry.message || "—"}</td>
           <td>${entry.fileName || "—"}</td>
         `;
-        tbody.appendChild(tr);
-      });
+          tbody.appendChild(tr);
+        });
 
-      window.currentSubmissions = submissions; // For export
-    } catch (err) {
-      console.error("Failed to load volunteers:", err);
+        window.currentSubmissions = submissions;
+      } catch (err) {
+        console.error("Failed to load volunteers:", err);
+      }
     }
-  }
 
-  function exportToCSV() {
-    const submissions = window.currentSubmissions || [];
-    if (submissions.length === 0) return alert("No data to export!");
+    function exportToCSV() {
+      const submissions = window.currentSubmissions || [];
+      if (submissions.length === 0) return alert("No data to export!");
 
-    const headers = ["Name", "Email", "Phone", "Roles", "Message", "Uploaded File"];
-    const rows = submissions.map(entry => [
-      `"${entry.name}"`,
-      `"${entry.email}"`,
-      `"${entry.phone}"`,
-      `"${Array.isArray(entry.roles) ? entry.roles.join(', ') : entry.roles}"`,
-      `"${entry.message || ''}"`,
-      `"${entry.fileName || ''}"`
-    ]);
+      const headers = ["Name", "Email", "Phone", "Roles", "Message", "Uploaded File"];
+      const rows = submissions.map(entry => [
+        `"${entry.name}"`,
+        `"${entry.email}"`,
+        `"${entry.phone}"`,
+        `"${Array.isArray(entry.roles) ? entry.roles.join(', ') : entry.roles}"`,
+        `"${entry.message || ''}"`,
+        `"${entry.fileName || ''}"`
+      ]);
 
-    const csvContent = [headers, ...rows].map(row => row.join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+      const csvContent = [headers, ...rows].map(row => row.join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
 
-    link.setAttribute("href", url);
-    link.setAttribute("download", "volunteers.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+      link.setAttribute("href", url);
+      link.setAttribute("download", "volunteers.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
-  loadVolunteers();
-</script>
+    loadVolunteers();
+  </script>
 
 
 </body>
+
 </html>

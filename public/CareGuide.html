@@ -168,7 +168,7 @@ nav a:hover::after {
 
 .media-item {
   flex: 1 1 45%;
-  aspect-ratio: 16 / 9; /* Keeps both elements proportional */
+  aspect-ratio: 16 / 9; 
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -371,11 +371,9 @@ nav a:hover::after {
     <p>© 2025 PawsHeart. All rights reserved.</p>
   </footer>
 
-  <!-- html2pdf.js library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <script>
-    // Checklist Load and Save
     document.addEventListener("DOMContentLoaded", function () {
       const checklist = document.getElementById("checklist");
       const saved = JSON.parse(localStorage.getItem("petChecklist")) || [];
@@ -404,7 +402,6 @@ nav a:hover::after {
     localStorage.setItem("petChecklist", JSON.stringify(listItems));
   }
 
-  // Load checklist state on DOM ready
   document.addEventListener("DOMContentLoaded", function () {
     const saved = JSON.parse(localStorage.getItem("petChecklist")) || [];
     const checklist = document.getElementById("checklist");
@@ -418,7 +415,6 @@ nav a:hover::after {
     updateCount();
   });
 
-  // Create a new checklist <li> item
   function createChecklistItem(text, isChecked = false) {
     const li = document.createElement("li");
     const input = document.createElement("input");
@@ -448,7 +444,6 @@ nav a:hover::after {
     return li;
   }
 
-  // Add new checklist item
   function addChecklistItem() {
     const input = document.getElementById("newItem");
     const value = input.value.trim();
@@ -461,7 +456,6 @@ nav a:hover::after {
     updateCount();
   }
 
-  // Delete checklist item
   function deleteChecklistItem(btn) {
     const li = btn.parentElement;
     li.remove();
@@ -469,17 +463,12 @@ nav a:hover::after {
     updateCount();
   }
 
-  // Count completed and total items
   function updateCount() {
     const allItems = document.querySelectorAll("#checklist li");
     const completed = document.querySelectorAll("#checklist li input:checked").length;
     const counter = document.getElementById("counter");
     counter.textContent = `✅ ${completed} of ${allItems.length} tasks completed`;
 
-    // Optional: celebrate when all tasks done
-    // if (allItems.length > 0 && completed === allItems.length) {
-    //   alert("🎉 All tasks completed! You're an awesome pet parent!");
-    // }
   }
   </script>
 </body>

@@ -1,6 +1,6 @@
-<!-- checklist-overview.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Post-Adoption Overview | PawsHeart</title>
@@ -31,7 +31,7 @@
       background: white;
       padding: 2rem;
       border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     ul {
@@ -56,6 +56,7 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>🐾 PawsHeart Appointment Overview</h1>
@@ -63,31 +64,29 @@
 
   <div class="container">
     <h2>📅 All Appointments</h2>
-  
-    <!-- Filters -->
+
     <div style="margin-bottom: 1rem;">
       <input type="text" id="filterName" placeholder="Filter by Pet Name" />
       <button onclick="exportCSV()">Export CSV</button>
     </div>
-  
-    <!-- Appointments Table -->
+
     <table id="apptTable" border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th>Pet Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Note</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Checklist</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      <thead>
+        <tr>
+          <th>Pet Name</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Note</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Checklist</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
       <tbody></tbody>
     </table>
   </div>
-  
+
 
   <footer>
     <p>Thank you for giving a pet a second chance 🐶</p>
@@ -148,24 +147,25 @@
       };
 
       window.exportCSV = () => {
-  let csv = "Pet Name,Date,Time,Note,Phone,Email,Checklist\n";
-  allAppointments.forEach(a => {
-    const checklist = (a.checklist || []).join(" | ");
-    csv += `${a.petName},${a.date},${a.time},"${a.note}","${a.phone}","${a.email}","${checklist}"\n`;
-  });
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "appointments.csv";
-  a.click();
-  URL.revokeObjectURL(url);
-};
+        let csv = "Pet Name,Date,Time,Note,Phone,Email,Checklist\n";
+        allAppointments.forEach(a => {
+          const checklist = (a.checklist || []).join(" | ");
+          csv += `${a.petName},${a.date},${a.time},"${a.note}","${a.phone}","${a.email}","${checklist}"\n`;
+        });
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "appointments.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+      };
 
 
       fetchData();
     });
   </script>
-  
+
 </body>
+
 </html>

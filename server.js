@@ -8,16 +8,14 @@ app.use(express.json());
 app.use(cors());
 const multer = require("multer");
 const Newsletter = require('./models/Newsletter');
-const storage = multer.memoryStorage(); // or use diskStorage for real uploads
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-// Serve static files (HTML, CSS, JS) from "public" folder
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 
-// MongoDB connection
 mongoose
   .connect("mongodb://127.0.0.1:27017/pawsheart", {
     useNewUrlParser: true,
@@ -26,12 +24,11 @@ mongoose
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-  const LostPet = require('./models/lostPet');
+const LostPet = require('./models/lostPet');
 const FoundPet = require('./models/FoundPet');
 
 
 const Appointment = require("./models/Appointment");
-// ---------------------- SCHEMAS ----------------------
 
 
 const donationSchema = new mongoose.Schema({
@@ -80,7 +77,7 @@ const applicationSchema = new mongoose.Schema({
   petType: String,
   experience: String,
   housing: String,
-  selectedAnimal:{
+  selectedAnimal: {
     name: String,
     species: String,
     breed: String,
@@ -119,18 +116,16 @@ const Volunteer = mongoose.model("Volunteer", volunteerSchema);
 
 // Product Schema
 const productSchema = new mongoose.Schema({
-    id: { type: Number, required: true, unique: true },
-    name: { type: String, required: true },
-    emoji: String,
-    price: { type: Number, required: true },
-    category: String,
-    desc: String
+  id: { type: Number, required: true, unique: true },
+  name: { type: String, required: true },
+  emoji: String,
+  price: { type: Number, required: true },
+  category: String,
+  desc: String
 });
 
 const Product = mongoose.model("Product", productSchema);
 
-
-// ---------------------- ROUTES ----------------------
 
 app.post("/submitStory", async (req, res) => {
   try {
@@ -193,7 +188,7 @@ app.post("/submitVolunteer", upload.single("file"), async (req, res) => {
       name,
       email,
       phone,
-      roles: Array.isArray(roles) ? roles : [roles], // in case it's a single value
+      roles: Array.isArray(roles) ? roles : [roles],
       message,
       fileName: req.file?.originalname || "N/A",
     });
@@ -216,8 +211,6 @@ app.get("/getVolunteers", async (req, res) => {
   }
 });
 
-
-// Signup
 app.post("/signup", async (req, res) => {
   const { username, password, email, role } = req.body;
   const existing = await User.findOne({ username });
@@ -229,7 +222,6 @@ app.post("/signup", async (req, res) => {
   res.status(201).json({ message: "Signup successful" });
 });
 
-//login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
@@ -246,7 +238,6 @@ app.post("/login", async (req, res) => {
     email: user.email
   });
 });
-// Submit Adoption Application
 app.post("/submitApplication", async (req, res) => {
   try {
     const appData = new AdoptionApplication(req.body);
@@ -258,7 +249,6 @@ app.post("/submitApplication", async (req, res) => {
   }
 });
 
-// Get all applications (admin only)
 app.get("/applications", async (req, res) => {
   const { username } = req.query;
 
@@ -314,7 +304,6 @@ app.post('/api/newsletter', async (req, res) => {
   }
 });
 
-// Submit Lost Pet
 app.post("/api/lostPets", async (req, res) => {
   try {
     const newLostPet = new LostPet(req.body);
@@ -326,7 +315,6 @@ app.post("/api/lostPets", async (req, res) => {
   }
 });
 
-// Fetch All Lost Pets (used for matching from found pet report)
 app.get("/api/lostPets", async (req, res) => {
   try {
     const lostPets = await LostPet.find();
@@ -337,8 +325,6 @@ app.get("/api/lostPets", async (req, res) => {
   }
 });
 
-
-// ✅ Admin check route (for frontend visibility logic)
 app.get("/api/checkAdmin/:email", async (req, res) => {
   const email = req.params.email;
 
@@ -355,8 +341,6 @@ app.get("/api/checkAdmin/:email", async (req, res) => {
   }
 });
 
-// Submit Found Pet
-
 app.post("/api/foundPets", async (req, res) => {
   try {
     const foundPet = new FoundPet(req.body);
@@ -367,7 +351,7 @@ app.post("/api/foundPets", async (req, res) => {
     res.status(500).json({ message: "Failed to report found pet" });
   }
 });
-// Fetch All Found Pets (used for matching)
+
 app.get("/api/foundPets", async (req, res) => {
   try {
     const foundPets = await FoundPet.find();
@@ -398,7 +382,7 @@ app.post("/appointments", async (req, res) => {
       date,
       time,
       note,
-      email,      // Still saving in DB in case needed later
+      email,
       phone,
       checklist,
       journalNote
@@ -412,11 +396,10 @@ app.post("/appointments", async (req, res) => {
   }
 });
 
-// backend route
 app.get("/api/appointments", async (req, res) => {
   try {
     const all = await Appointment.find();
-    res.json(all); // ✅ If `checklist` and `note` are in schema, they are returned here
+    res.json(all);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch appointments" });
   }
@@ -441,38 +424,32 @@ app.put("/appointments/:id", async (req, res) => {
   }
 });
 
-// --- Product Store Routes ---
 
-// GET all products
-// This endpoint will return all products from the database
 app.get("/api/products", async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.json(products);
-    } catch (err) {
-        console.error("Error retrieving products:", err);
-        res.status(500).json({ message: "Error retrieving products", error: err });
-    }
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    console.error("Error retrieving products:", err);
+    res.status(500).json({ message: "Error retrieving products", error: err });
+  }
 });
 
-// POST endpoint to seed the database with initial product data
-// You'll use this once to populate your database from your HTML's product array.
 app.post("/api/seed-products", async (req, res) => {
-    const productsToSeed = req.body;
-    if (!productsToSeed || !Array.isArray(productsToSeed)) {
-        return res.status(400).json({ message: "Request body must be an array of products" });
-    }
-    try {
-        await Product.deleteMany({}); // Optional: clears existing products
-        const result = await Product.insertMany(productsToSeed);
-        res.status(201).json({ message: "Products seeded successfully", count: result.length });
-    } catch (err) {
-        console.error("Error seeding products:", err);
-        res.status(500).json({ message: "Error seeding products", error: err });
-    }
+  const productsToSeed = req.body;
+  if (!productsToSeed || !Array.isArray(productsToSeed)) {
+    return res.status(400).json({ message: "Request body must be an array of products" });
+  }
+  try {
+    await Product.deleteMany({});
+    const result = await Product.insertMany(productsToSeed);
+    res.status(201).json({ message: "Products seeded successfully", count: result.length });
+  } catch (err) {
+    console.error("Error seeding products:", err);
+    res.status(500).json({ message: "Error seeding products", error: err });
+  }
 });
 
-// Redirect root to homepage
 app.get("/", (req, res) => {
   res.redirect("/public/index.html");
 });

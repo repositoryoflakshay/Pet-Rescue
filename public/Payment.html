@@ -34,6 +34,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -53,7 +54,6 @@
       margin-bottom: 30px;
     }
 
-    /* ---------- Payment Methods ---------- */
     .payment-option {
       background: #f9f9f9;
       border-radius: 14px;
@@ -91,8 +91,15 @@
     }
 
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .payment-content input,
@@ -111,7 +118,6 @@
       box-shadow: 0 0 6px rgba(37, 117, 252, 0.3);
     }
 
-    /* ---------- Buttons ---------- */
     .buttons {
       margin-top: 30px;
       display: flex;
@@ -148,7 +154,6 @@
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     }
 
-    /* ---------- Footer ---------- */
     .footer {
       text-align: center;
       margin-top: 30px;
@@ -168,7 +173,6 @@
     <h1>Payment Options</h1>
     <p class="subtitle">Choose your preferred payment method</p>
 
-    <!-- Debit / Credit Card -->
     <div class="payment-option">
       <div class="payment-header" onclick="togglePayment(this)">
         💳 Debit / Credit Card
@@ -183,7 +187,6 @@
       </div>
     </div>
 
-    <!-- UPI -->
     <div class="payment-option">
       <div class="payment-header" onclick="togglePayment(this)">
         📱 UPI Payment
@@ -193,7 +196,6 @@
       </div>
     </div>
 
-    <!-- Net Banking -->
     <div class="payment-option">
       <div class="payment-header" onclick="togglePayment(this)">
         🏦 Net Banking
@@ -209,7 +211,6 @@
       </div>
     </div>
 
-    <!-- Cash on Delivery -->
     <div class="payment-option">
       <div class="payment-header" onclick="togglePayment(this)">
         🚚 Cash on Delivery
@@ -219,7 +220,6 @@
       </div>
     </div>
 
-    <!-- Buttons -->
     <div class="buttons">
       <button class="back-btn" onclick="window.location.href='checkout.html'">⬅ Back to Checkout</button>
       <button class="pay-btn" onclick="confirmPayment()">✅ Confirm & Pay</button>

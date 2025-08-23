@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PawsHeart | Post-Adoption Care</title>
   <style>
     :root {
@@ -20,7 +21,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       position: sticky;
       top: 0;
       z-index: 999;
@@ -28,8 +29,15 @@
     }
 
     @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     header h1.logo {
@@ -73,7 +81,7 @@
       margin: 2rem auto;
       background: var(--white);
       border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       padding: 2rem;
       animation: fadeIn 0.8s ease;
     }
@@ -103,7 +111,8 @@
       transform: scale(1.4);
     }
 
-    .journal, .tracker {
+    .journal,
+    .tracker {
       margin-top: 2rem;
     }
 
@@ -144,7 +153,7 @@
       background: var(--light);
       padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     .progress-bar {
@@ -160,7 +169,8 @@
       width: 0%;
       transition: width 0.4s ease;
     }
-    #apptNote{
+
+    #apptNote {
       width: 95%;
       padding: 1rem;
       border: 1px solid #ccc;
@@ -180,8 +190,10 @@
 
     .overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: rgba(0, 0, 0, 0.6);
       display: none;
       justify-content: center;
@@ -193,18 +205,24 @@
       background: var(--white);
       padding: 2rem;
       border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
       text-align: center;
       max-width: 400px;
       animation: fadeIn 0.5s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -218,182 +236,176 @@
     </nav>
   </header>
 
-<div class="container">
-  <h2>🐾 Post-Adoption Checklist</h2>
-  <ul class="checklist" id="postChecklist">
-    <li><input type="checkbox" /> Confirm pet insurance</li>
-    <li><input type="checkbox" /> Pack essentials for the visit</li>
-    <li><input type="checkbox" /> Ensure pet is well-rested</li>
-    <li><input type="checkbox" /> Double-check appointment details</li>
-    <li><input type="checkbox" /> Prepare questions for the vet/trainer</li>
-  </ul>
-  <div id="progressFill"></div>
-  <h2>📓 Pet Journal</h2>
+  <div class="container">
+    <h2>🐾 Post-Adoption Checklist</h2>
+    <ul class="checklist" id="postChecklist">
+      <li><input type="checkbox" /> Confirm pet insurance</li>
+      <li><input type="checkbox" /> Pack essentials for the visit</li>
+      <li><input type="checkbox" /> Ensure pet is well-rested</li>
+      <li><input type="checkbox" /> Double-check appointment details</li>
+      <li><input type="checkbox" /> Prepare questions for the vet/trainer</li>
+    </ul>
+    <div id="progressFill"></div>
+    <h2>📓 Pet Journal</h2>
 
-  <textarea id="journalNote" placeholder="Write about your pet..."></textarea>
+    <textarea id="journalNote" placeholder="Write about your pet..."></textarea>
 
-  <button class="btn" onclick="saveJournal()">Save Note</button>
+    <button class="btn" onclick="saveJournal()">Save Note</button>
 
-  <h2>💡 Care Tips</h2>
-  <div class="carousel">
-    <div>🐶 Establish routines early.</div>
-    <div>🛏 Give your pet space to relax.</div>
-    <div>📞 Keep vet contacts saved.</div>
-    <div>🦴 Use positive reinforcement.</div>
-    <div>🧽 Keep up grooming habits.</div>
-  </div>
+    <h2>💡 Care Tips</h2>
+    <div class="carousel">
+      <div>🐶 Establish routines early.</div>
+      <div>🛏 Give your pet space to relax.</div>
+      <div>📞 Keep vet contacts saved.</div>
+      <div>🦴 Use positive reinforcement.</div>
+      <div>🧽 Keep up grooming habits.</div>
+    </div>
 
-  <h2 class="tracker">📆 Appointment Tracker</h2>
-  <input id="petName" placeholder="Pet name" />
-<input id="apptDate" type="date" />
-<input id="apptTime" type="time" />
-<input id="apptNote" placeholder="Reason for Appointment: Grooming, Vet, Training, General Checkup and other. Give Reason for the Appointment to be Scheduled" />
-<input id="apptEmail" placeholder="Email" />
-<input id="apptPhone" placeholder="Phone" />
-<button onclick="addAppt()">Add Appointment</button>
+    <h2 class="tracker">📆 Appointment Tracker</h2>
+    <input id="petName" placeholder="Pet name" />
+    <input id="apptDate" type="date" />
+    <input id="apptTime" type="time" />
+    <input id="apptNote"
+      placeholder="Reason for Appointment: Grooming, Vet, Training, General Checkup and other. Give Reason for the Appointment to be Scheduled" />
+    <input id="apptEmail" placeholder="Email" />
+    <input id="apptPhone" placeholder="Phone" />
+    <button onclick="addAppt()">Add Appointment</button>
 
-<!-- Appointment Success Overlay -->
-<div id="success-overlay" class="overlay" style="display: none;">
-  <div class="overlay-content">
-    <h2>Appointment Scheduled ✅</h2>
-    <p id="appointment-details"></p>
-    <button class="btn" onclick="downloadAppointment()">Download Appointment</button>
-    <button class="btn" onclick="closeOverlay()">Close</button>
-  </div>
-</div>
+    <div id="success-overlay" class="overlay" style="display: none;">
+      <div class="overlay-content">
+        <h2>Appointment Scheduled ✅</h2>
+        <p id="appointment-details"></p>
+        <button class="btn" onclick="downloadAppointment()">Download Appointment</button>
+        <button class="btn" onclick="closeOverlay()">Close</button>
+      </div>
+    </div>
 
-<footer>
-  <p>💖 Thank you for giving a pet a second chance. Stay connected with us!</p>
-  <p>PawsHeart.org | Support | Contact | Privacy Policy</p>
-</footer>
+    <footer>
+      <p>💖 Thank you for giving a pet a second chance. Stay connected with us!</p>
+      <p>PawsHeart.org | Support | Contact | Privacy Policy</p>
+    </footer>
 
-<script>
-  const checklist = document.getElementById("postChecklist");
-  const progressFill = document.getElementById("progressFill");
-  const journalTextarea = document.getElementById("journalNote");
-  
-  // Update checklist progress bar
-  function updateProgress() {
-    const total = checklist.querySelectorAll("input[type='checkbox']").length;
-    const checked = checklist.querySelectorAll("input[type='checkbox']:checked").length;
-    const percent = total === 0 ? 0 : Math.floor((checked / total) * 100);
-    progressFill.style.width = percent + "%";
-    document.getElementById("taskProgressText").textContent = `✅ ${checked} of ${total} tasks completed`;
-  }
-  
-  // Add Appointment and save to DB
-  function addAppt() {
-    const petName = document.getElementById("petName").value;
-    const date = document.getElementById("apptDate").value;
-    const time = document.getElementById("apptTime").value;
-    const note = document.getElementById("apptNote").value;
-    const email = document.getElementById("apptEmail").value;
-    const phone = document.getElementById("apptPhone").value;
-    const journalNote = journalTextarea.value;
-  
-    const selectedChecklist = Array.from(checklist.querySelectorAll("input[type='checkbox']"))
-      .map((c, i) => ({ checked: c.checked, text: c.parentElement.textContent.trim() }))
-      .filter(item => item.checked)
-      .map(item => item.text);
-  
-    if (!petName || !date || !time || !note || !email || !phone) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-  
-    // Send to backend
-    fetch("/appointments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        petName,
-        date,
-        time,
-        note,
-        email,
-        phone,
-        checklist: selectedChecklist,
-        journalNote
-      })
-    })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to save appointment.");
-      return res.json();
-    })
-    .then(data => {
-      document.getElementById("appointment-details").innerHTML = `
+    <script>
+      const checklist = document.getElementById("postChecklist");
+      const progressFill = document.getElementById("progressFill");
+      const journalTextarea = document.getElementById("journalNote");
+
+      function updateProgress() {
+        const total = checklist.querySelectorAll("input[type='checkbox']").length;
+        const checked = checklist.querySelectorAll("input[type='checkbox']:checked").length;
+        const percent = total === 0 ? 0 : Math.floor((checked / total) * 100);
+        progressFill.style.width = percent + "%";
+        document.getElementById("taskProgressText").textContent = `✅ ${checked} of ${total} tasks completed`;
+      }
+
+      function addAppt() {
+        const petName = document.getElementById("petName").value;
+        const date = document.getElementById("apptDate").value;
+        const time = document.getElementById("apptTime").value;
+        const note = document.getElementById("apptNote").value;
+        const email = document.getElementById("apptEmail").value;
+        const phone = document.getElementById("apptPhone").value;
+        const journalNote = journalTextarea.value;
+
+        const selectedChecklist = Array.from(checklist.querySelectorAll("input[type='checkbox']"))
+          .map((c, i) => ({ checked: c.checked, text: c.parentElement.textContent.trim() }))
+          .filter(item => item.checked)
+          .map(item => item.text);
+
+        if (!petName || !date || !time || !note || !email || !phone) {
+          alert("Please fill in all required fields.");
+          return;
+        }
+
+        fetch("/appointments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            petName,
+            date,
+            time,
+            note,
+            email,
+            phone,
+            checklist: selectedChecklist,
+            journalNote
+          })
+        })
+          .then(res => {
+            if (!res.ok) throw new Error("Failed to save appointment.");
+            return res.json();
+          })
+          .then(data => {
+            document.getElementById("appointment-details").innerHTML = `
         📅 <strong>${date}</strong> at <strong>${time}</strong><br>
         🐾 Pet: <strong>${petName}</strong><br>
         📞 Phone: ${phone}<br>
         ✉️ Email: ${email}<br>
         📋 Reason: ${note}
       `;
-      document.getElementById("success-overlay").style.display = "flex";
-  
-      // Clear inputs
-      document.getElementById("petName").value = "";
-      document.getElementById("apptDate").value = "";
-      document.getElementById("apptTime").value = "";
-      document.getElementById("apptNote").value = "";
-      document.getElementById("apptEmail").value = "";
-      document.getElementById("apptPhone").value = "";
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Error saving appointment.");
-    });
-  }
-  
-  function closeOverlay() {
-    document.getElementById("success-overlay").style.display = "none";
-  }
-  
-  // Download as .txt
-  function downloadAppointment() {
-    const details = document.getElementById("appointment-details").innerText;
-    const journalNote = journalTextarea.value || "(No journal note)";
-    const selectedChecklist = Array.from(checklist.querySelectorAll("input[type='checkbox']"))
-      .filter(c => c.checked)
-      .map(c => `- ${c.parentElement.textContent.trim()}`)
-      .join("\n") || "(No checklist items selected)";
-  
-    const content = `🐾 Appointment Details\n\n${details}\n\n✅ Checklist:\n${selectedChecklist}\n\n📓 Journal Note:\n${journalNote}`;
-  
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "appointment_details.txt";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-  
-  // Initialize progress bar
-  window.addEventListener("DOMContentLoaded", () => {
-    updateProgress();
-  });
-  </script>
+            document.getElementById("success-overlay").style.display = "flex";
 
- <script>
-  // Show "All Appointments" link only for admin
-  window.addEventListener("DOMContentLoaded", () => {
-    const isAdmin = localStorage.getItem("isAdminLoggedIn");
-    if (isAdmin === "true") {
-      const adminLink = document.getElementById("adminLink");
-      if (adminLink) adminLink.style.display = "inline-block";
-    }
-  });
-  function logout() {
-  localStorage.removeItem("loggedInUser");
-  localStorage.removeItem("isAdminLoggedIn");
-  localStorage.removeItem("adminUsername");
-  window.location.href = "login.html";
-}
+            document.getElementById("petName").value = "";
+            document.getElementById("apptDate").value = "";
+            document.getElementById("apptTime").value = "";
+            document.getElementById("apptNote").value = "";
+            document.getElementById("apptEmail").value = "";
+            document.getElementById("apptPhone").value = "";
+          })
+          .catch(err => {
+            console.error(err);
+            alert("Error saving appointment.");
+          });
+      }
 
-</script>
+      function closeOverlay() {
+        document.getElementById("success-overlay").style.display = "none";
+      }
 
-  
+      function downloadAppointment() {
+        const details = document.getElementById("appointment-details").innerText;
+        const journalNote = journalTextarea.value || "(No journal note)";
+        const selectedChecklist = Array.from(checklist.querySelectorAll("input[type='checkbox']"))
+          .filter(c => c.checked)
+          .map(c => `- ${c.parentElement.textContent.trim()}`)
+          .join("\n") || "(No checklist items selected)";
+
+        const content = `🐾 Appointment Details\n\n${details}\n\n✅ Checklist:\n${selectedChecklist}\n\n📓 Journal Note:\n${journalNote}`;
+
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "appointment_details.txt";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        updateProgress();
+      });
+    </script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const isAdmin = localStorage.getItem("isAdminLoggedIn");
+        if (isAdmin === "true") {
+          const adminLink = document.getElementById("adminLink");
+          if (adminLink) adminLink.style.display = "inline-block";
+        }
+      });
+      function logout() {
+        localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("isAdminLoggedIn");
+        localStorage.removeItem("adminUsername");
+        window.location.href = "login.html";
+      }
+
+    </script>
+
+
 </body>
+
 </html>

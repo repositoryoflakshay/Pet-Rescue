@@ -1,4 +1,4 @@
-// models/appointment.js
+
 const mongoose = require("mongoose");
 
 const appointmentSchema = new mongoose.Schema({
@@ -8,7 +8,7 @@ const appointmentSchema = new mongoose.Schema({
   note: String,
   phone: String,
   email: String,
-  checklist: [String]  // ✅ Ensure checklist is an array
+  checklist: [String]  
 });
 
 module.exports = mongoose.model("Appointment", appointmentSchema);

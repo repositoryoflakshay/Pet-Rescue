@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout - PawsHeart</title>
   <style>
-    /* ---------- Global ---------- */
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -34,6 +33,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -49,8 +49,15 @@
     }
 
     @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     .subtitle {
@@ -60,7 +67,6 @@
       animation: fadeIn 1s ease;
     }
 
-    /* ---------- Checkout Items ---------- */
     .checkout-item {
       display: flex;
       justify-content: space-between;
@@ -74,8 +80,15 @@
     }
 
     @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .checkout-details h3 {
@@ -90,7 +103,6 @@
       color: #2e7d32;
     }
 
-    /* ---------- Summary ---------- */
     .summary {
       background: linear-gradient(135deg, #e0f7fa, #e3f2fd);
       padding: 25px;
@@ -121,7 +133,6 @@
       color: #000;
     }
 
-    /* ---------- Buttons ---------- */
     .buttons {
       margin-top: 35px;
       display: flex;
@@ -161,12 +172,21 @@
     }
 
     @keyframes bounceIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      60% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      60% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
-    /* ---------- Footer ---------- */
     .footer {
       text-align: center;
       background: linear-gradient(135deg, #ff9800, #ff6f00);
@@ -224,7 +244,7 @@
 
         const itemDiv = document.createElement("div");
         itemDiv.className = "checkout-item";
-        itemDiv.style.animationDelay = `${index * 0.15}s`; // staggered animation
+        itemDiv.style.animationDelay = `${index * 0.15}s`;
         itemDiv.innerHTML = `
           <div class="checkout-details">
             <h3>${item.name} × ${item.quantity}</h3>

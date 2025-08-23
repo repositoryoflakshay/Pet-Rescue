@@ -17,7 +17,6 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      /* background: linear-gradient(to right, #e3f2fd, #f0f4f8); */
       background-image: radial-gradient(circle farthest-corner at 3.7% 49.8%, rgba(143, 232, 255, 1) 21.9%, rgba(209, 243, 251, 1) 52.9%);
 
       margin: 0;
@@ -80,7 +79,6 @@
       padding: 2px 6px;
     }
 
-    /* FORMS */
     .lost-found-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -324,7 +322,7 @@
       <form id="lostForm">
         <label>Pet Name</label>
         <input name="name" type="text" required placeholder="Enter pet name" />
-      
+
         <label>Pet Type</label>
         <select name="type" required>
           <option disabled selected>Select type</option>
@@ -333,19 +331,19 @@
           <option>Bird</option>
           <option>Other</option>
         </select>
-      
+
         <label>Breed</label>
         <input name="breed" type="text" placeholder="Enter breed" />
-      
+
         <label>Color</label>
         <input name="color" type="text" placeholder="Enter color" />
-      
+
         <label>Last Seen Location</label>
         <input name="location" type="text" required placeholder="Enter last seen location" />
-      
+
         <button type="submit">Report Lost Pet</button>
       </form>
-      
+
     </div>
 
     <div class="lost-found-section">
@@ -359,22 +357,22 @@
           <option>Bird</option>
           <option>Other</option>
         </select>
-      
+
         <label>Breed (if known)</label>
         <input name="breed" type="text" placeholder="Enter breed" />
-      
+
         <label>Color</label>
         <input name="color" type="text" placeholder="Enter color" />
-      
+
         <label>Found Location</label>
         <input name="location" type="text" required placeholder="Enter found location" />
-      
+
         <label>Your Contact</label>
         <input name="contact" type="text" required placeholder="Enter your contact" />
-      
+
         <button type="submit">Report Found Pet</button>
       </form>
-      
+
     </div>
   </div>
 
@@ -382,7 +380,7 @@
     <h3>🔍 Possible Matches:</h3>
     <div id="matchCardsContainer"></div>
   </div>
-  
+
   <div id="contactPopup" class="popup-overlay" style="display: none;">
     <div class="popup-content">
       <span class="close-btn" onclick="closeContactPopup()">&times;</span>
@@ -405,11 +403,10 @@
   </footer>
 
   <script>
-    // Fetch and match lost pets with a new found pet
     async function findMatchesFromFound(foundPet) {
       const response = await fetch('/api/lostPets');
       const lostPets = await response.json();
-  
+
       const matches = lostPets.filter(lp => {
         let count = 0;
         if (lp.type.toLowerCase() === foundPet.type.toLowerCase()) count++;
@@ -417,15 +414,14 @@
         if (lp.color.toLowerCase() === foundPet.color.toLowerCase()) count++;
         return count >= 3;
       });
-  
+
       return matches.map(lost => ({ lost, found: foundPet }));
     }
-  
-    // Fetch and match found pets with a new lost pet
+
     async function findMatchesFromLost(lostPet) {
       const response = await fetch('/api/foundPets');
       const foundPets = await response.json();
-  
+
       const matches = foundPets.filter(fp => {
         let count = 0;
         if (fp.type.toLowerCase() === lostPet.type.toLowerCase()) count++;
@@ -433,20 +429,19 @@
         if (fp.color.toLowerCase() === lostPet.color.toLowerCase()) count++;
         return count >= 3;
       });
-  
+
       return matches.map(found => ({ lost: lostPet, found }));
     }
-  
-    // Display matched pet pairs
+
     function displayMatches(matches) {
       const container = document.getElementById("matchResults");
       const cardContainer = document.getElementById("matchCardsContainer");
-  
+
       container.style.display = "block";
       cardContainer.innerHTML = matches.length === 0
         ? "<p>No close matches found yet.</p>"
         : "";
-  
+
       matches.forEach(pair => {
         const card = document.createElement("div");
         card.className = "match-card";
@@ -457,7 +452,7 @@
           box-shadow: 0 0 10px rgba(0,0,0,0.1);
           margin-bottom: 1.5rem;
         `;
-  
+
         card.innerHTML = `
           <h4>🐾 Lost Pet Info:</h4>
           <strong>Name:</strong> ${pair.lost.name || "N/A"}<br>
@@ -475,18 +470,17 @@
   
           <button onclick="alert('Contact ${pair.found.contact} to coordinate reunion.')">Contact Finder</button>
         `;
-  
+
         cardContainer.appendChild(card);
       });
-  
+
       container.scrollIntoView({ behavior: "smooth" });
     }
-  
-    // LOST PET FORM SUBMISSION
+
     document.getElementById("lostForm")?.addEventListener("submit", async function (e) {
       e.preventDefault();
       const inputs = this.querySelectorAll("input, select");
-  
+
       const lostPet = {
         name: inputs[0].value.trim(),
         type: inputs[1].value.trim(),
@@ -494,17 +488,17 @@
         color: inputs[3].value.trim(),
         location: inputs[4].value.trim()
       };
-  
+
       try {
         await fetch('/api/lostPets', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(lostPet)
         });
-  
+
         const matches = await findMatchesFromLost(lostPet);
         displayMatches(matches);
-  
+
         alert("✅ Your lost pet report has been submitted.");
         this.reset();
       } catch (err) {
@@ -512,45 +506,44 @@
         alert("❌ Error submitting lost pet: " + err.message);
       }
     });
-  
-    // FOUND PET FORM SUBMISSION
+
     document.getElementById("foundForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const inputs = this.querySelectorAll("input, select");
+      e.preventDefault();
+      const inputs = this.querySelectorAll("input, select");
 
-  const foundPet = {
-    type: inputs[0].value.trim(),
-    breed: inputs[1].value.trim(),
-    color: inputs[2].value.trim(),
-    location: inputs[3].value.trim(),
-    contact: inputs[4].value.trim()
-  };
+      const foundPet = {
+        type: inputs[0].value.trim(),
+        breed: inputs[1].value.trim(),
+        color: inputs[2].value.trim(),
+        location: inputs[3].value.trim(),
+        contact: inputs[4].value.trim()
+      };
 
-  try {
-    const response = await fetch('/api/foundPets', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(foundPet)
-});
+      try {
+        const response = await fetch('/api/foundPets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(foundPet)
+        });
 
-if (!response.ok) {
-  const text = await response.text();
-  throw new Error(`Server error (${response.status}): ${text}`);
-}
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`Server error (${response.status}): ${text}`);
+        }
 
 
-    const matches = await findMatchesFromFound(foundPet);
-    displayMatches(matches);
+        const matches = await findMatchesFromFound(foundPet);
+        displayMatches(matches);
 
-    alert("Your found pet report has been submitted.");
-    this.reset();
-  } catch (err) {
-    alert("Error submitting found pet: " + err.message);
-  }
-});
+        alert("Your found pet report has been submitted.");
+        this.reset();
+      } catch (err) {
+        alert("Error submitting found pet: " + err.message);
+      }
+    });
 
   </script>
-  
+
 </body>
 
 </html>

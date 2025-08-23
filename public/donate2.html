@@ -9,12 +9,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
-    /* 🌤️ Global Background Gradient */
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       background: linear-gradient(to right, #e0f7fa, #fffde7);
-      /* Soft Sky & Cream */
       color: #2c3e50;
       scroll-behavior: smooth;
     }
@@ -22,7 +20,6 @@
     header,
     footer {
       background-color: #00acc1;
-      /* turquoise accent */
       color: white;
       padding: 1rem 2rem;
       text-align: center;
@@ -81,7 +78,6 @@
     .donate-nav a:hover,
     .donate-nav a.active {
       color: black;
-      /* font-weight: bold; */
     }
 
     .donate-nav a::after {
@@ -241,7 +237,6 @@
       font-size: 0.9rem;
     }
 
-    /* ✅ Thank You Overlay */
     .success-overlay {
       position: fixed;
       top: 0;
@@ -282,7 +277,6 @@
       }
     }
 
-    /* Animations */
     @keyframes slideUp {
       from {
         transform: translateY(40px);
@@ -351,7 +345,6 @@
       <button onclick="fillAmount(1000)">Donate ₹1000</button>
     </div>
   </section>
-  <!-- ✅ SUCCESS OVERLAY -->
   <div id="successOverlay"
     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); justify-content: center; align-items: center; z-index: 1000;">
     <div class="success-message" style="text-align: center; padding: 30px;">
@@ -361,9 +354,6 @@
         style="margin-top: 16px; padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 6px; cursor: pointer;">
         🎓 Download Donation Certificate
       </button>
-
-
-      <!-- ✅ Newsletter message + form embedded here -->
       <p style="margin-top: 20px; font-weight: bold;">Subscribe to see the progress of your donation</p>
       <div id="newsletterContainer">
         <form id="newsletterForm" style="margin-top: 10px;">
@@ -437,18 +427,14 @@
           Us</a>
       </p>
 
-
-
-
       <script>
-        let latestDonation = {}; // Used for certificate generation
+        let latestDonation = {};
 
         function fillAmount(value) {
           document.getElementById("amount").value = value;
           document.getElementById("amount").scrollIntoView({ behavior: "smooth" });
         }
 
-        // 📤 Handle donation submission
         document.getElementById("donationForm").addEventListener("submit", function (e) {
           e.preventDefault();
 
@@ -461,12 +447,10 @@
           const donation = { amount, name, email, purpose, date };
           latestDonation = donation;
 
-          // 🧠 Store locally
           let allDonations = JSON.parse(localStorage.getItem("donations")) || [];
           allDonations.push(donation);
           localStorage.setItem("donations", JSON.stringify(allDonations));
 
-          // 🔥 Send to backend
           fetch("http://localhost:3000/api/donations", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -480,7 +464,6 @@
               console.error("❌ Backend donation error:", err);
             });
 
-          // 🎉 Show overlay
           document.getElementById("successOverlay").style.display = "flex";
 
           setTimeout(() => {
@@ -489,7 +472,6 @@
           }, 10000);
         });
 
-        // 💌 Handle newsletter subscription
         document.getElementById("newsletterForm").addEventListener("submit", async function (e) {
           e.preventDefault();
 
@@ -519,188 +501,154 @@
           }
         });
 
+        function downloadCertificate() {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4',
+          });
 
-        // 📄 Generate Certificate PDF
-       function downloadCertificate() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    orientation: 'landscape',
-    unit: 'mm',
-    format: 'a4',
-  });
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
 
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const pageHeight = doc.internal.pageSize.getHeight();
+          doc.setFillColor(252, 248, 240);
+          doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-  // Classic cream background
-  doc.setFillColor(252, 248, 240); // Cream/ivory
-  doc.rect(0, 0, pageWidth, pageHeight, 'F');
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(3);
+          doc.rect(8, 8, pageWidth - 16, pageHeight - 16);
 
-  // Outer ornate border - thick
-  doc.setDrawColor(0, 0, 0); // Pure black
-  doc.setLineWidth(3);
-  doc.rect(8, 8, pageWidth - 16, pageHeight - 16);
+          doc.setLineWidth(1.5);
+          doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
 
-  // Inner decorative border - medium
-  doc.setLineWidth(1.5);
-  doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
+          doc.setLineWidth(0.5);
+          doc.rect(16, 16, pageWidth - 32, pageHeight - 32);
 
-  // Fine inner border
-  doc.setLineWidth(0.5);
-  doc.rect(16, 16, pageWidth - 32, pageHeight - 32);
+          doc.setLineWidth(1);
 
-  // Ornate corner flourishes (simulated with lines and curves)
-  doc.setLineWidth(1);
-  
-  // Top left ornate corner
-  doc.line(20, 20, 35, 20);
-  doc.line(20, 20, 20, 35);
-  doc.line(20, 25, 30, 25);
-  doc.line(25, 20, 25, 30);
-  
-  // Top right ornate corner
-  doc.line(pageWidth - 20, 20, pageWidth - 35, 20);
-  doc.line(pageWidth - 20, 20, pageWidth - 20, 35);
-  doc.line(pageWidth - 20, 25, pageWidth - 30, 25);
-  doc.line(pageWidth - 25, 20, pageWidth - 25, 30);
-  
-  // Bottom left ornate corner
-  doc.line(20, pageHeight - 20, 35, pageHeight - 20);
-  doc.line(20, pageHeight - 20, 20, pageHeight - 35);
-  doc.line(20, pageHeight - 25, 30, pageHeight - 25);
-  doc.line(25, pageHeight - 20, 25, pageHeight - 30);
-  
-  // Bottom right ornate corner
-  doc.line(pageWidth - 20, pageHeight - 20, pageWidth - 35, pageHeight - 20);
-  doc.line(pageWidth - 20, pageHeight - 20, pageWidth - 20, pageHeight - 35);
-  doc.line(pageWidth - 20, pageHeight - 25, pageWidth - 30, pageHeight - 25);
-  doc.line(pageWidth - 25, pageHeight - 20, pageWidth - 25, pageHeight - 30);
+          doc.line(20, 20, 35, 20);
+          doc.line(20, 20, 20, 35);
+          doc.line(20, 25, 30, 25);
+          doc.line(25, 20, 25, 30);
 
-  // Decorative header line with ornaments
-  doc.setLineWidth(2);
-  doc.line(40, 35, pageWidth - 40, 35);
-  
-  // Small decorative elements on the line
-  doc.setFillColor(0, 0, 0);
-  doc.circle(pageWidth / 2, 35, 2, 'F');
-  doc.circle(pageWidth / 2 - 30, 35, 1, 'F');
-  doc.circle(pageWidth / 2 + 30, 35, 1, 'F');
+          doc.line(pageWidth - 20, 20, pageWidth - 35, 20);
+          doc.line(pageWidth - 20, 20, pageWidth - 20, 35);
+          doc.line(pageWidth - 20, 25, pageWidth - 30, 25);
+          doc.line(pageWidth - 25, 20, pageWidth - 25, 30);
 
-  // Main title in classic serif italic
-  doc.setTextColor(0, 0, 0);
-  doc.setFont('times', 'bolditalic');
-  doc.setFontSize(28);
-  doc.text("Certificate of Benevolent Contribution", pageWidth / 2, 50, { align: 'center' });
+          doc.line(20, pageHeight - 20, 35, pageHeight - 20);
+          doc.line(20, pageHeight - 20, 20, pageHeight - 35);
+          doc.line(20, pageHeight - 25, 30, pageHeight - 25);
+          doc.line(25, pageHeight - 20, 25, pageHeight - 30);
 
-  // Subtitle in elegant script style
-  doc.setFont('times', 'italic');
-  doc.setFontSize(16);
-  doc.text("In Recognition of Charitable Endowment", pageWidth / 2, 65, { align: 'center' });
+          doc.line(pageWidth - 20, pageHeight - 20, pageWidth - 35, pageHeight - 20);
+          doc.line(pageWidth - 20, pageHeight - 20, pageWidth - 20, pageHeight - 35);
+          doc.line(pageWidth - 20, pageHeight - 25, pageWidth - 30, pageHeight - 25);
+          doc.line(pageWidth - 25, pageHeight - 20, pageWidth - 25, pageHeight - 30);
 
-  // Organization name in formal style
-  doc.setFont('times', 'bold');
-  doc.setFontSize(18);
-  doc.text("The PawsHeart Benevolent Society", pageWidth / 2, 80, { align: 'center' });
+          doc.setLineWidth(2);
+          doc.line(40, 35, pageWidth - 40, 35);
 
-  // Decorative line under organization
-  doc.setLineWidth(1);
-  doc.line(pageWidth / 2 - 80, 85, pageWidth / 2 + 80, 85);
+          doc.setFillColor(0, 0, 0);
+          doc.circle(pageWidth / 2, 35, 2, 'F');
+          doc.circle(pageWidth / 2 - 30, 35, 1, 'F');
+          doc.circle(pageWidth / 2 + 30, 35, 1, 'F');
 
-  // Classic "Be it known" opening
-  doc.setFont('times', 'italic');
-  doc.setFontSize(14);
-  doc.text("Be it known that", pageWidth / 2, 105, { align: 'center' });
+          doc.setTextColor(0, 0, 0);
+          doc.setFont('times', 'bolditalic');
+          doc.setFontSize(28);
+          doc.text("Certificate of Benevolent Contribution", pageWidth / 2, 50, { align: 'center' });
 
-  // Ornate name presentation with underline
-  doc.setFont('times', 'bolditalic');
-  doc.setFontSize(24);
-  doc.text(`${latestDonation.name}`, pageWidth / 2, 125, { align: 'center' });
-  
-  // Decorative underline for name
-  doc.setLineWidth(1.5);
-  const nameWidth = doc.getTextWidth(`${latestDonation.name}`);
-  doc.line(pageWidth / 2 - nameWidth / 2 - 10, 130, pageWidth / 2 + nameWidth / 2 + 10, 130);
+          doc.setFont('times', 'italic');
+          doc.setFontSize(16);
+          doc.text("In Recognition of Charitable Endowment", pageWidth / 2, 65, { align: 'center' });
 
-  // Classical donation description
-  doc.setFont('times', 'italic');
-  doc.setFontSize(14);
-  doc.text("hath bestowed upon this Institution the sum of", pageWidth / 2, 145, { align: 'center' });
+          doc.setFont('times', 'bold');
+          doc.setFontSize(18);
+          doc.text("The PawsHeart Benevolent Society", pageWidth / 2, 80, { align: 'center' });
 
-  // Amount in elegant presentation
-  doc.setFont('times', 'bold');
-  doc.setFontSize(20);
-  doc.text(`Rupees ${latestDonation.amount}/-`, pageWidth / 2, 160, { align: 'center' });
+          doc.setLineWidth(1);
+          doc.line(pageWidth / 2 - 80, 85, pageWidth / 2 + 80, 85);
 
-  // Purpose in classic language
-  doc.setFont('times', 'italic');
-  doc.setFontSize(14);
-  doc.text(`for the noble cause of ${latestDonation.purpose}`, pageWidth / 2, 175, { align: 'center' });
-  doc.text(`this ${latestDonation.date}`, pageWidth / 2, 190, { align: 'center' });
+          doc.setFont('times', 'italic');
+          doc.setFontSize(14);
+          doc.text("Be it known that", pageWidth / 2, 105, { align: 'center' });
 
-  // Gratitude in period language
-  doc.setFont('times', 'italic');
-  doc.setFontSize(12);
-  doc.text("In grateful acknowledgment of this most generous contribution", pageWidth / 2, 205, { align: 'center' });
-  doc.text("towards the welfare and protection of God's creatures", pageWidth / 2, 218, { align: 'center' });
+          doc.setFont('times', 'bolditalic');
+          doc.setFontSize(24);
+          doc.text(`${latestDonation.name}`, pageWidth / 2, 125, { align: 'center' });
 
-  // Formal closing
-  doc.setFont('times', 'italic');
-  doc.setFontSize(10);
-  doc.text("Given under our hand and seal", pageWidth / 2, 235, { align: 'center' });
+          doc.setLineWidth(1.5);
+          const nameWidth = doc.getTextWidth(`${latestDonation.name}`);
+          doc.line(pageWidth / 2 - nameWidth / 2 - 10, 130, pageWidth / 2 + nameWidth / 2 + 10, 130);
 
-  // Signature section with formal layout
-  doc.setFont('times', 'italic');
-  doc.setFontSize(12);
-  
-  // Left side - Date
-  doc.text("Date:", 50, pageHeight - 40);
-  doc.setLineWidth(0.5);
-  doc.line(65, pageHeight - 38, 120, pageHeight - 38);
-  doc.setFont('times', 'normal');
-  doc.setFontSize(10);
-  doc.text(new Date().toLocaleDateString(), 70, pageHeight - 35);
+          doc.setFont('times', 'italic');
+          doc.setFontSize(14);
+          doc.text("hath bestowed upon this Institution the sum of", pageWidth / 2, 145, { align: 'center' });
 
-  // Right side - Signature
-  doc.setFont('times', 'italic');
-  doc.setFontSize(12);
-  doc.text("Signature:", pageWidth - 130, pageHeight - 40);
-  doc.line(pageWidth - 90, pageHeight - 38, pageWidth - 30, pageHeight - 38);
-  
-  // Title under signature
-  doc.setFont('times', 'italic');
-  doc.setFontSize(10);
-  doc.text("President & Director", pageWidth - 90, pageHeight - 30);
-  doc.text("PawsHeart Benevolent Society", pageWidth - 110, pageHeight - 25);
+          doc.setFont('times', 'bold');
+          doc.setFontSize(20);
+          doc.text(`Rupees ${latestDonation.amount}/-`, pageWidth / 2, 160, { align: 'center' });
 
-  // Certificate number in small print
-  const certId = Math.random().toString(36).substr(2, 9).toUpperCase();
-  doc.setFont('times', 'normal');
-  doc.setFontSize(8);
-  doc.text(`Certificate No: PBS-${certId}`, 25, pageHeight - 15);
+          doc.setFont('times', 'italic');
+          doc.setFontSize(14);
+          doc.text(`for the noble cause of ${latestDonation.purpose}`, pageWidth / 2, 175, { align: 'center' });
+          doc.text(`this ${latestDonation.date}`, pageWidth / 2, 190, { align: 'center' });
 
-  // Seal placeholder
-  doc.setDrawColor(0, 0, 0);
-  doc.setLineWidth(2);
-  doc.circle(70, pageHeight - 55, 15);
-  doc.setFont('times', 'bold');
-  doc.setFontSize(8);
-  doc.text("OFFICIAL", 70, pageHeight - 58, { align: 'center' });
-  doc.text("SEAL", 70, pageHeight - 52, { align: 'center' });
+          doc.setFont('times', 'italic');
+          doc.setFontSize(12);
+          doc.text("In grateful acknowledgment of this most generous contribution", pageWidth / 2, 205, { align: 'center' });
+          doc.text("towards the welfare and protection of God's creatures", pageWidth / 2, 218, { align: 'center' });
 
-  // Final decorative footer line
-  doc.setLineWidth(1);
-  doc.line(40, pageHeight - 20, pageWidth - 40, pageHeight - 20);
+          doc.setFont('times', 'italic');
+          doc.setFontSize(10);
+          doc.text("Given under our hand and seal", pageWidth / 2, 235, { align: 'center' });
 
-  // Save with formal naming
-  doc.save(`PawsHeart_Certificate_of_Contribution_${latestDonation.name}.pdf`);
-}
+          doc.setFont('times', 'italic');
+          doc.setFontSize(12);
 
+          doc.text("Date:", 50, pageHeight - 40);
+          doc.setLineWidth(0.5);
+          doc.line(65, pageHeight - 38, 120, pageHeight - 38);
+          doc.setFont('times', 'normal');
+          doc.setFontSize(10);
+          doc.text(new Date().toLocaleDateString(), 70, pageHeight - 35);
+
+          doc.setFont('times', 'italic');
+          doc.setFontSize(12);
+          doc.text("Signature:", pageWidth - 130, pageHeight - 40);
+          doc.line(pageWidth - 90, pageHeight - 38, pageWidth - 30, pageHeight - 38);
+
+          doc.setFont('times', 'italic');
+          doc.setFontSize(10);
+          doc.text("President & Director", pageWidth - 90, pageHeight - 30);
+          doc.text("PawsHeart Benevolent Society", pageWidth - 110, pageHeight - 25);
+
+          const certId = Math.random().toString(36).substr(2, 9).toUpperCase();
+          doc.setFont('times', 'normal');
+          doc.setFontSize(8);
+          doc.text(`Certificate No: PBS-${certId}`, 25, pageHeight - 15);
+
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(2);
+          doc.circle(70, pageHeight - 55, 15);
+          doc.setFont('times', 'bold');
+          doc.setFontSize(8);
+          doc.text("OFFICIAL", 70, pageHeight - 58, { align: 'center' });
+          doc.text("SEAL", 70, pageHeight - 52, { align: 'center' });
+
+          doc.setLineWidth(1);
+          doc.line(40, pageHeight - 20, pageWidth - 40, pageHeight - 20);
+
+          doc.save(`PawsHeart_Certificate_of_Contribution_${latestDonation.name}.pdf`);
+        }
       </script>
       <script>
         const isAdmin = localStorage.getItem("isAdminLoggedIn") === "true";
-      if (isAdmin) {
-        document.getElementById("adminLink").style.display = "inline";
-      }
+        if (isAdmin) {
+          document.getElementById("adminLink").style.display = "inline";
+        }
 
       </script>
 
